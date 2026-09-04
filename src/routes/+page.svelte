@@ -2,6 +2,16 @@
 	import PlanDrawing from './PlanDrawing.svelte';
 	import SectionDrawing from './SectionDrawing.svelte';
 	import { FACTS, formatKr, ORDER_NOTES, quantities } from './math';
+
+	const SECTIONS = [
+		{ id: 'bakgrund', label: 'Bakgrund' },
+		{ id: 'ritning', label: 'Ritning' },
+		{ id: 'materialatgang', label: 'Materialåtgång' },
+		{ id: 'kostnad', label: 'Kostnad' },
+		{ id: 'uppbyggnad', label: 'Så byggs plattytan upp' },
+		{ id: 'bygge', label: 'Så bygger ni' },
+		{ id: 'bestallning', label: 'Innan ni beställer' }
+	];
 </script>
 
 <svelte:head>
@@ -13,65 +23,30 @@
 		<h1>Fastighetsnära insamling för BRF Skiftesgatan 4</h1>
 	</header>
 
-	<section>
+	<nav class="toc" aria-label="Innehåll">
+		{#each SECTIONS as s (s.id)}
+			<a href="#{s.id}">{s.label}</a>
+		{/each}
+	</nav>
+
+	<section id="bakgrund">
 		<h2>Bakgrund</h2>
 		<p>
-			Göteborgs nya krav på förpackningssortering för flerbostadshus träder i kraft 2027-01-01.
+			Göteborgs nya krav på förpackningssortering för flerbostadshus träder i kraft 2027‑01‑01.
 			Föreningen sorterar i dag bara restavfall och matavfall och behöver införa fastighetsnära
 			sortering för plast, papper, metall och glas. De nuvarande återvinningsstationerna blir
 			därefter LIP (lättillgängliga insamlingsplatser), för skrymmande förpackningar och
-			returpapper.
+			returpapper. Det innebär fem nya kärl: 370 l för papper och 370 l för plast, samt 140 l
+			vardera för färgat glas, ofärgat glas och metall.
 		</p>
-	</section>
 
-	<section>
-		<h2>Nya kärl</h2>
-		<table>
-			<thead>
-				<tr>
-					<th>Innehåll</th>
-					<th>Storlek</th>
-					<th class="n">Antal</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>Papper</td>
-					<td>370 l</td>
-					<td class="n">1</td>
-				</tr>
-				<tr>
-					<td>Plast</td>
-					<td>370 l</td>
-					<td class="n">1</td>
-				</tr>
-				<tr>
-					<td>Glas, färgat</td>
-					<td>140 l</td>
-					<td class="n">1</td>
-				</tr>
-				<tr>
-					<td>Glas, ofärgat</td>
-					<td>140 l</td>
-					<td class="n">1</td>
-				</tr>
-				<tr>
-					<td>Metall</td>
-					<td>140 l</td>
-					<td class="n">1</td>
-				</tr>
-			</tbody>
-		</table>
-	</section>
-
-	<section>
-		<h2>Krav och rekommendation från Göteborgs stad</h2>
+		<h3>Krav</h3>
 		<ul class="check">
 			<li>Inhägnad rekommenderas.</li>
 			<li>Lätt för boende att sortera rätt: sätt upp informationsskyltar.</li>
 			<li>Får inte orsaka lukt, buller eller sanitär olägenhet.</li>
 			<li>
-				Dragväg: max 25 m (bekräftat OK vid platsbesöket 2026-08-19), minst 1,2 m bred, 1,35 m bred
+				Dragväg: max 25 m (bekräftat OK vid platsbesöket 2026‑08‑19), minst 1,2 m bred, 1,35 m bred
 				i svängen.
 			</li>
 			<li>Ytan kärlen dras över ska vara hårdgjord och jämn — inte grus, gräs eller makadam.</li>
@@ -84,10 +59,8 @@
 			l-kärlens bredd) + 2 × 76 cm (370 l-kärlets bredd) = 3,38 m. Kärlen är cirka 1,1 m höga, så
 			höjden på inhägnaden är satt till 1,5 m.
 		</p>
-	</section>
 
-	<section>
-		<h2>Placering</h2>
+		<h3>Placering</h3>
 		<p>Tilltänkt placering är i innergården, öster om cykelskjulet. Skjulet har fyra sidor:</p>
 		<ul class="check">
 			<li>
@@ -108,19 +81,23 @@
 		</p>
 	</section>
 
-	<section>
+	<section id="ritning">
 		<h2>Ritning</h2>
 		<PlanDrawing />
 	</section>
 
-	<section>
-		<h2>Materialåtgång och kostnad</h2>
+	<section id="materialatgang">
+		<h2>Materialåtgång</h2>
 		<dl class="facts">
 			{#each FACTS as fact (fact.term)}
 				<dt>{fact.term}</dt>
 				<dd>{fact.description}</dd>
 			{/each}
 		</dl>
+	</section>
+
+	<section id="kostnad">
+		<h2>Kostnad</h2>
 		<p>
 			Priser från hornbach.se (varuhuset i Göteborg) september 2026, inkl. moms, exkl. frakt.
 			Plattorna är räknade exakt plus några i reserv, övriga mängder innehåller 5–10 % spill. Rader
@@ -128,44 +105,46 @@
 			stenmjöl köps i stället som storsäck på pall hos stenbolaget.se (prisexempel september 2026, inkl.
 			leverans och pallar), med en hyrd pallyftare för lossning.
 		</p>
-		<table>
-			<thead>
-				<tr>
-					<th>Artikel</th>
-					<th class="n">Antal</th>
-					<th class="n">À-pris</th>
-					<th class="n">Kostnad</th>
-				</tr>
-			</thead>
-			<tbody>
-				{#each quantities.bomGroups as group (group.label)}
-					<tr class="group">
-						<td colspan="4">{group.label}</td>
+		<div class="table-wrap">
+			<table>
+				<thead>
+					<tr>
+						<th>Artikel</th>
+						<th class="n">Antal</th>
+						<th class="n">À-pris</th>
+						<th class="n">Kostnad</th>
 					</tr>
-					{#each group.rows as row (row.label)}
-						<tr>
-							<td
-								>{row.label}{#if row.estimated}<span class="est"> uppsk.</span>{/if}</td
-							>
-							<td class="n">{row.quantity}</td>
-							<td class="n">{formatKr(row.unitPrice)}</td>
-							<td class="n">{formatKr(row.cost)}</td>
+				</thead>
+				<tbody>
+					{#each quantities.bomGroups as group (group.label)}
+						<tr class="group">
+							<td colspan="4">{group.label}</td>
+						</tr>
+						{#each group.rows as row (row.label)}
+							<tr>
+								<td
+									>{row.label}{#if row.estimated}<span class="est"> uppsk.</span>{/if}</td
+								>
+								<td class="n">{row.quantity}</td>
+								<td class="n">{formatKr(row.unitPrice)}</td>
+								<td class="n">{formatKr(row.cost)}</td>
+							</tr>
+						{/each}
+						<tr class="sum">
+							<td colspan="3">Summa {group.label.split(',')[0]}</td>
+							<td class="n">{formatKr(group.sum)}</td>
 						</tr>
 					{/each}
 					<tr class="sum">
-						<td colspan="3">Summa {group.label.split(',')[0]}</td>
-						<td class="n">{formatKr(group.sum)}</td>
+						<td colspan="3">Totalt material</td>
+						<td class="n">{formatKr(quantities.total)}</td>
 					</tr>
-				{/each}
-				<tr class="sum">
-					<td colspan="3">Totalt material</td>
-					<td class="n">{formatKr(quantities.total)}</td>
-				</tr>
-			</tbody>
-		</table>
+				</tbody>
+			</table>
+		</div>
 	</section>
 
-	<section>
+	<section id="uppbyggnad">
 		<h2>Så byggs plattytan upp</h2>
 		<p>
 			Ni börjar på gräsmatta, och gräs och matjord går inte att bygga på: det är löst och sjunker
@@ -203,7 +182,7 @@
 		</div>
 	</section>
 
-	<section>
+	<section id="bygge">
 		<h2>Så bygger ni</h2>
 		<ol class="steps">
 			<li>
@@ -254,7 +233,7 @@
 		</ol>
 	</section>
 
-	<section>
+	<section id="bestallning">
 		<h2>Innan ni beställer</h2>
 		<ul class="check">
 			<li>
@@ -317,8 +296,13 @@
 		margin: 0 auto;
 		padding: 2.5rem 1.5rem 4rem;
 	}
+	h1,
+	h2,
+	h3 {
+		text-wrap: balance;
+	}
 	h1 {
-		font-size: 1.875rem;
+		font-size: 2.125rem;
 		line-height: 1.15;
 		letter-spacing: -0.01em;
 		margin: 0 0 0.5rem;
@@ -326,18 +310,61 @@
 	}
 	h2 {
 		font-size: 1.3125rem;
-		margin: 0 0 0.25rem;
+		margin: 0 0 0.375rem;
 		font-weight: 700;
+	}
+	h3 {
+		font-size: 1rem;
+		margin: 1.125rem 0 0.375rem;
+		font-weight: 700;
+	}
+	p,
+	ul.check li,
+	ol.steps li,
+	.layers dd,
+	footer {
+		text-wrap: pretty;
 	}
 	p {
 		margin: 0 0 0.75rem;
-		max-width: 72ch;
+		max-width: 76ch;
 	}
 	p:last-of-type {
 		margin-bottom: 0;
 	}
+	.toc {
+		position: sticky;
+		top: 0;
+		z-index: 10;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.25rem 1.125rem;
+		background: var(--paper);
+		border-bottom: 1px solid var(--rule);
+		padding: 0.625rem 0;
+		margin: 0 0 0.25rem;
+		font-size: 0.8125rem;
+	}
+	.toc a {
+		color: var(--ink);
+		text-decoration: underline;
+		text-underline-offset: 0.15em;
+		white-space: nowrap;
+	}
+	.toc a:hover,
+	.toc a:focus-visible {
+		color: var(--muted);
+	}
 	section {
 		padding: 1.25rem 0;
+		scroll-margin-top: 3.25rem;
+	}
+	section + section {
+		border-top: 1px solid var(--rule);
+	}
+	.table-wrap {
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
 	}
 	.facts {
 		font-size: 0.875rem;
@@ -404,10 +431,16 @@
 		font-weight: 700;
 		border-bottom: 2px solid var(--ink);
 	}
+	tr.sum:last-child td {
+		padding-top: 1.5rem;
+	}
 	tr.group td {
 		font-weight: 700;
-		padding-top: 1rem;
+		padding: 1.75rem 0.625rem 0.5rem 0;
 		border-bottom: 1px solid var(--ink);
+	}
+	tr.group:first-child td {
+		padding-top: 0.625rem;
 	}
 	.est {
 		color: var(--muted);
@@ -437,6 +470,9 @@
 	@media print {
 		main {
 			padding: 0;
+		}
+		.toc {
+			display: none;
 		}
 		section {
 			padding: 1.125rem 0;
