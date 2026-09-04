@@ -1,27 +1,22 @@
 <script lang="ts">
+	import { BIN_SIZES, BINS } from './bins';
+	import { FENCE, GAP, GATE, POSTS, TILE_PITCH } from './dimensions';
 	import {
 		ASPHALT,
-		BIN_SIZES,
-		BINS,
 		EXISTING_FENCE,
-		FENCE,
-		GAP,
-		GATE,
 		NEW_FENCE,
 		PLAN_DIMENSIONS,
 		PLAN_SCALE,
 		PLAN_VIEWBOX,
 		planX,
 		planY,
-		POSTS,
 		SHED,
 		SHED_FRONT_GUIDE,
 		SHED_LABEL_AT,
 		STRIP_CORNER_GUIDE,
 		TILE_FIELDS,
-		TILE_PITCH,
 		type Dimension
-	} from './math';
+	} from './plan-view';
 
 	function horizontalDimension(dim: Extract<Dimension, { orientation: 'horizontal' }>) {
 		const y = planY(dim.at);

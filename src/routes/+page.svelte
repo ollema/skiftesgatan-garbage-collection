@@ -1,16 +1,14 @@
 <script lang="ts">
 	import PlanDrawing from './PlanDrawing.svelte';
-	import SectionDrawing from './SectionDrawing.svelte';
-	import { FACTS, formatKr, ORDER_NOTES, quantities } from './math';
+	import { formatKg, formatKr, formatNumber1 } from './format';
+	import { FACTS, quantities } from './materials';
 
 	const SECTIONS = [
 		{ id: 'bakgrund', label: 'Bakgrund' },
 		{ id: 'ritning', label: 'Ritning' },
 		{ id: 'materialatgang', label: 'Materialåtgång' },
 		{ id: 'kostnad', label: 'Kostnad' },
-		{ id: 'uppbyggnad', label: 'Så byggs plattytan upp' },
-		{ id: 'bygge', label: 'Så bygger ni' },
-		{ id: 'bestallning', label: 'Innan ni beställer' }
+		{ id: 'instruktioner', label: 'Instruktioner' }
 	];
 </script>
 
@@ -130,91 +128,100 @@
 		</div>
 	</section>
 
-	<section id="uppbyggnad">
-		<h2>Så byggs plattytan upp</h2>
+	<section id="instruktioner">
+		<h2>Instruktioner</h2>
 		<p>
 			Ni börjar på gräsmatta, och gräs och matjord går inte att bygga på: det är löst och sjunker
 			ihop, så plattorna blir ojämna inom ett år. Därför gräver ni bort hela det mörka jordlagret
 			ner till fastare mark och ersätter det med lager som bär.
 		</p>
-		<div class="section-wrap">
-			<SectionDrawing />
-			<dl class="layers">
-				<dt>Bärlager</dt>
-				<dd>
-					Krossad sten i blandade storlekar, från damm upp till 32 mm ("0–32", säljs även som
-					"bergskross 0–32"). När lagret vibreras ihop med en markvibrator ("packas") låser bitarna
-					i varandra och blir ett hårt, dränerande underlag som fördelar lasten. Det är det här
-					lagret som gör att plattorna inte sätter sig. Köps som storsäck på pall.
-				</dd>
-				<dt>Stenmjöl</dt>
-				<dd>
-					Samma bergart men bara det finaste, här 0–8 mm (något grövre än de 0–4 mm som annars är
-					vanligast, men fungerar för det här), ungefär som grov sand. Läggs 3 cm tjockt ovanpå
-					bärlagret och dras av jämnt med en rak bräda. Det är stenmjölet som gör ytan plan,
-					plattorna knackas ner i det. Köps som storsäck på pall, tillsammans med bärlagret.
-				</dd>
-				<dt>Fiberduk</dt>
-				<dd>
-					En tunn geotextil mellan jorden och bärlagret så att stenen inte blandas ner i jorden med
-					tiden.
-				</dd>
-				<dt>Plattor och fogsand</dt>
-				<dd>
-					Betongplattor 35 × 35 × 5 cm med 3 mm fog. Fogsanden sopas ner i mellanrummen och låser
-					plattorna.
-				</dd>
-			</dl>
-		</div>
-	</section>
-
-	<section id="bygge">
-		<h2>Så bygger ni</h2>
 		<ol class="steps">
+			<li>
+				<strong>Beställ material.</strong> Det ni hämtar på Hornbach väger sammanlagt runt
+				{formatKg(quantities.weightTotal)}, i huvudsak plattorna ({formatKg(quantities.weightPlattor)}).
+				En vanlig skåpbil lastar 1–1,4 ton, så räkna med två vändor eller be Hornbach leverera plattorna
+				på pall. Bärlager och stenmjöl beställs som storsäck hos stenbolaget.se:
+				{quantities.bergskrossSacks} × 1 000 kg bergskross och {quantities.stenmjolSacks} × 500 kg
+				stenmjöl, på {quantities.pallets} EUR-pallar, ca {formatKg(quantities.palletKg)} totalt. Hyr en
+				pallyftare för att lossa och köra pallarna fram till platsen, en dag räcker. Beräknat
+				stenmjölsbehov är ca {formatKg(Math.round(quantities.stenmjolKg))}, så en 500 kg-storsäck ger en
+				knapp marginal — räcker det inte hela vägen ut i remsan, komplettera med en 20 kg-säck stenmjöl
+				från Hornbach.
+			</li>
 			<li>
 				<strong>Märk ut.</strong> Snöra upp inhägnaden med skjulväggen och det befintliga staketet som
 				två av sidorna: 10 × 7 plattor = 3,53 × 2,47 m invändigt. Remsan är 4 plattor (1,41 m) bred och
 				5 rader (1,76 m) lång, från grindöppningen rakt söderut. Lägg plattorna i ett sammanhängande rutnät
 				med start i hörnet mellan skjulväggen och staketet, då går rutnätet obrutet genom grindöppningen
-				ut i remsan.
+				ut i remsan. Mät samtidigt hur bred asfalten är framför skjulet: remsan når 1,35 m förbi skjulets
+				framkant och ska gå minst lika långt söderut som asfalten, annars blir hörnet i svängen gräs. Är
+				asfalten bredare, lägg en rad plattor till i remsan. Vill ni kunna ställa ett kärl till senare,
+				oavsett storlek, ökar ni bredden till 12 plattor (4,24 m) istället för 10 — djupet behöver inte
+				ändras.
 			</li>
 			<li>
 				<strong>Gräv.</strong> Ta bort gräset och all matjord, det mörka lösa lagret, ner till fastare
 				mark. Det brukar vara 15–25 cm. Räkna sedan från färdig plattyta: platta 5 cm + stenmjöl 3 cm
-				+ bärlager 10 cm = 18 cm, se snittet ovan. Är matjorden djupare än så, fyll upp skillnaden med
-				mer bärlager.
+				+ bärlager 10 cm = 18 cm. Är matjorden djupare än så, fyll upp skillnaden med mer bärlager. Räkna
+				med ca {formatNumber1(quantities.digM3)} m³ schaktmassor att köra bort, mer om matjorden är djup
+				— storsäck eller släpkärra brukar räcka.
 			</li>
 			<li>
 				<strong>Plintar.</strong> Gräv ner 4 betongplintar (Benders 4" × 700 mm med fast stolpjärn) med
 				överkanten i nivå med färdig plattyta: en mitt på östra sidan, en i sydöstra hörnet, en mitt på
 				södra sidan och en grindstolpe. Alla plintar står precis utanför plattornas kant, så ingen platta
-				behöver kapas. Bakre änden av östra sidan får ingen stolpe alls, den fästs i det befintliga staketet.
-				Packa väl runt plintarna och sätt dem innan plattorna.
+				behöver kapas. Bakre änden av östra sidan får ingen stolpe alls, den fästs i det befintliga
+				staketet — kontrollera i förväg att staketet har en frisk stolpe just där. Sitter närmaste stolpe
+				en bit bort, fäst plankan i den och låt reglarna gå dit, eller sätt en egen stolpe ändå (en plint
+				till, ca 160 kr). Packa väl runt plintarna och sätt dem innan plattorna.
 			</li>
 			<li>
-				<strong>Lager.</strong> Lägg fiberduk, sedan bärlagret i två omgångar som vardera packas med markvibrator.
-				Dra av 3 cm stenmjöl jämnt, lägg plattorna med 3 mm fog och sopa i fogsand. Ge ytan ca 1 cm fall
-				per meter bort från väggen. Sätt yttersta plattraden vid grinden och längs remsan i jordfuktig
-				betong eller mot kantstöd så kanten inte vandrar.
+				<strong>Fiberduk.</strong> Lägg en tunn geotextil mellan jorden och bärlagret, det håller stenen
+				från att blandas ner i jorden med tiden.
 			</li>
 			<li>
-				<strong>Stolpar och staket.</strong> Stolpar 95 × 95 mm skruvas i stolpjärnen. Där östra sidan
-				möter det befintliga staketet skruvas en regel 45 × 95 mm stående i staketets stolpe (genomgående
-				bult eller franska träskruv, inte bara i brädorna) och de tre reglarna fästs i den. Tre reglar
-				45 × 95 mm per fack, stående trall 28 × 120 mm med 10 mm mellanrum, rostfri trallskruv. Nedersta
-				brädan 3–5 cm ovanför plattorna.
+				<strong>Bärlager.</strong> Krossad sten i blandade storlekar, från damm upp till 32 mm ("0–32",
+				säljs även som "bergskross 0–32"). Lägg det i två omgångar som vardera packas med markvibrator:
+				vibrationen låser bitarna i varandra och blir ett hårt, dränerande underlag som fördelar lasten
+				— det är det här lagret som gör att plattorna inte sätter sig.
+			</li>
+			<li>
+				<strong>Stenmjöl.</strong> Samma bergart men bara det finaste, här 0–8 mm (något grövre än de
+				0–4 mm som annars är vanligast, men fungerar för det här), ungefär som grov sand. Dra av 3 cm
+				tjockt jämnt ovanpå bärlagret med en rak bräda — det är stenmjölet som gör ytan plan, plattorna
+				knackas ner i det.
+			</li>
+			<li>
+				<strong>Plattor och fogsand.</strong> Betongplattor 35 × 35 × 5 cm med 3 mm fog. Ge ytan ca 1 cm
+				fall per meter bort från väggen och sätt yttersta plattraden vid grinden och längs remsan i
+				jordfuktig betong eller mot kantstöd så kanten inte vandrar. Sopa till sist ner fogsand i
+				mellanrummen, den låser plattorna.
+			</li>
+			<li>
+				<strong>Stolpar.</strong> Stolpar 95 × 95 mm skruvas i stolpjärnen. Där östra sidan möter det
+				befintliga staketet finns ingen egen stolpe: skruva istället en regel 45 × 95 mm stående i
+				staketets stolpe (genomgående bult eller franska träskruv, inte bara i brädorna), den blir
+				fästpunkt för de tre reglarna på den sidan.
+			</li>
+			<li>
+				<strong>Reglar och trall.</strong> Tre reglar 45 × 95 mm per fack, stående trall 28 × 120 mm med
+				10 mm mellanrum, rostfri trallskruv. Nedersta brädan 3–5 cm ovanför plattorna.
 			</li>
 			<li>
 				<strong>Grind.</strong> Öppningen är 4 plattor = 1,41 m fri bredd, så grindstolpen hamnar utanför
-				plattorna och remsan är lika bred som öppningen. Grindbladet blir 1,37 m brett: ram av 45 × 95
-				mm med diagonalsträva, samma brädor som staketet. Gångjärnen sätts i skjulets östra vägg: skruva
-				först en regel 45 × 95 mm i väggens stomme som gångjärnsplanka. Grinden slår inåt och fälls upp
-				mot skjulväggen, där en krok håller den öppen under tömning. Klinka som går att öppna från båda
-				håll mot grindstolpen, som i övrigt är en vanlig staketstolpe.
+				plattorna och remsan är lika bred som öppningen. Grindbladet blir 1,37 m brett och väger runt
+				30 kg: ram av 45 × 95 mm med diagonalsträva, samma brädor som staketet. Gångjärnen sätts i
+				skjulets östra vägg: skruva först en regel 45 × 95 mm i väggens stomme som gångjärnsplanka, den
+				ska sitta i väggens regelverk och inte bara i panelen — det förutsätter att sidoväggen är hel
+				ända fram till skjulets framkant. Grinden slår inåt och fälls upp mot skjulväggen, där en krok
+				håller den öppen under tömning. Klinka som går att öppna från båda håll mot grindstolpen, som i
+				övrigt är en vanlig staketstolpe.
 			</li>
 			<li>
 				<strong>Skyltar och provkörning.</strong> Sätt upp sorteringsskyltarna från Kretslopp och vatten.
-				Rulla varje kärl ut genom grinden, runt hörnet och ut på asfalten innan ni kallar det klart.
+				Rulla varje kärl ut genom grinden, runt hörnet och ut på asfalten innan ni kallar det klart. Håll
+				sedan remsan och asfalten fria från cyklar och skotta dem på vintern, det är dragvägen kärlen
+				dras över.
 			</li>
 		</ol>
 	</section>
@@ -250,9 +257,7 @@
 	}
 	p,
 	ul.check li,
-	ol.steps li,
-	.layers dd,
-	footer {
+	ol.steps li {
 		text-wrap: pretty;
 	}
 	p {
@@ -306,29 +311,6 @@
 	}
 	.facts dd {
 		margin: 0;
-	}
-	.section-wrap {
-		display: grid;
-		grid-template-columns: minmax(0, 32.5rem) 1fr;
-		gap: 1.75rem;
-		align-items: start;
-		margin-top: 0.75rem;
-	}
-	.layers {
-		font-size: 0.875rem;
-		max-width: 60ch;
-	}
-	.layers dt {
-		font-weight: 600;
-		margin-top: 0.625rem;
-	}
-	.layers dd {
-		margin: 0.125rem 0 0;
-	}
-	@media (max-width: 51.25rem) {
-		.section-wrap {
-			grid-template-columns: 1fr;
-		}
 	}
 	table {
 		border-collapse: collapse;
@@ -386,13 +368,6 @@
 	}
 	ul.check li {
 		margin-bottom: 0.375rem;
-	}
-	footer {
-		font-size: 0.78125rem;
-		color: var(--muted);
-		border-top: 1px solid var(--rule);
-		padding-top: 1rem;
-		margin-top: 1.5rem;
 	}
 	@media print {
 		main {
