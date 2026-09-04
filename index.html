@@ -17,26 +17,17 @@
   .lead{font-size:16px; color:var(--muted); max-width:76ch}
   section{padding:32px 0; border-top:1px solid var(--rule)}
   section:first-of-type{border-top:0}
-  .controls{display:flex; flex-wrap:wrap; gap:14px 28px; align-items:flex-end; margin:20px 0 4px}
-  .controls label{display:flex; flex-direction:column; gap:4px; font-size:13px; color:var(--muted)}
-  .controls input,.controls select{ font:inherit; font-size:15px; color:var(--ink); padding:6px 8px;
-        border:1px solid #b9c0bb; border-radius:4px; background:#fff; min-width:120px }
-  .controls input:focus,.controls select:focus{outline:2px solid var(--accent); outline-offset:1px}
   .hint{font-size:13px; color:var(--muted); margin-top:8px}
-  .plan{display:grid; grid-template-columns:minmax(0,1fr) 260px; gap:24px; align-items:start; margin-top:12px}
-  .plan svg{width:100%; height:auto; display:block}
-  .legend{font-size:12.5px; color:var(--muted); margin-top:6px}
-  .facts{font-size:14px}
-  .facts dl{margin:0; display:grid; grid-template-columns:auto 1fr; gap:4px 12px}
+  #svg svg{width:100%; height:auto; display:block; margin-top:12px}
+  .facts{font-size:14px; margin:0; display:grid; grid-template-columns:auto 1fr; gap:4px 12px; max-width:64ch}
   .facts dt{color:var(--muted)}
   .facts dd{margin:0; font-weight:600}
-  .facts p{margin-top:12px; font-size:13.5px; color:var(--muted)}
   .section-wrap{display:grid; grid-template-columns:minmax(0,520px) 1fr; gap:28px; align-items:start; margin-top:12px}
   .section-wrap svg{width:100%; height:auto; display:block}
   .layers{font-size:14px; max-width:60ch}
   .layers dt{font-weight:600; margin-top:10px}
   .layers dd{margin:2px 0 0}
-  @media (max-width:820px){.plan,.section-wrap{grid-template-columns:1fr}}
+  @media (max-width:820px){.section-wrap{grid-template-columns:1fr}}
   table{border-collapse:collapse; width:100%; font-size:14px; margin-top:8px}
   th,td{text-align:left; padding:7px 10px 7px 0; vertical-align:top; border-bottom:1px solid var(--rule)}
   th{font-weight:600; color:var(--muted); font-size:13px}
@@ -49,7 +40,7 @@
   ul.check{padding-left:20px; max-width:76ch}
   ul.check li{margin-bottom:6px}
   footer{font-size:12.5px; color:var(--muted); border-top:1px solid var(--rule); padding-top:16px; margin-top:24px}
-  @media print{ body{font-size:12px} main{padding:0} section{padding:18px 0; break-inside:avoid} .controls{display:none} }
+  @media print{ body{font-size:12px} main{padding:0} section{padding:18px 0; break-inside:avoid} }
 </style>
 </head>
 <body>
@@ -57,32 +48,64 @@
 
 <header>
   <h1>Inhägnad för förpackningskärl, Brf Skiftesgatan 4</h1>
-  <p class="lead">Skalenlig skiss för de kärl som stämts av med Kretslopp och vatten: 3 × 140 l (färgat glas, ofärgat glas, metall) och 2 × 370 l (papper, plast). Inhägnaden ligger öster om cykelskjulet, med det befintliga höga staketet (skjulets bakvägg) som norrsida och skjulets sidovägg som västsida. Grinden hängs på skjulväggen i sydvästra hörnet. Dragvägen går söderut längs skjulets östra vägg och sedan västerut på en plattlagd remsa ut till asfalten. Ändra måtten nedan så uppdateras ritning, mängder och kostnad.</p>
-
-  <div class="controls">
-    <label>A – skjulets bredd öster om asfalten (m)
-      <input id="inA" type="number" min="0.5" max="8" step="0.1" value="1.5"></label>
-    <label>B – skjulets djup (m)
-      <input id="inB" type="number" min="2.0" max="5" step="0.05" value="3.25"></label>
-    <label>Inhägnadens djup (m)
-      <input id="inD" type="number" min="2.4" max="5" step="0.1" value="2.4"></label>
-    <label>Invändig bredd (m)
-      <input id="inW" type="number" min="3.4" max="6" step="0.1" value="3.5"></label>
-    <label>Bärlager (krossad sten under plattorna)
-      <select id="inT"><option value="0.10">10 cm – gräsmatta eller lera (rekommenderat här)</option><option value="0.05">5 cm – marken är redan fast och grusig</option><option value="0">Inget – ytan är redan hårdgjord</option></select></label>
-  </div>
-  <p class="hint">Inbyggda regler: 6 cm mellan kärl och mot staket, minst 1,5 m fri gång framför kärlen (Gör rum för miljön), dragväg minst 1,2 m bred och 1,35 m där den svänger, grind med 1,2 m fri bredd, hårdgjord och jämn yta. Kärlmått: 140 l = 50 × 55 cm, 370 l = 76 × 80 cm (bredd med hjul × djup). Staket 1,5 m högt i tryckimpregnerat virke på betongplintar.</p>
+  <p class="lead">Bakgrund, krav och tilltänkt plats för den nya inhägnaden öster om cykelskjulet, med en skalenlig ritning, bygganvisning och kostnad.</p>
 </header>
 
 <section>
+  <h2>Bakgrund</h2>
+  <p>Göteborgs nya krav på förpackningssortering för flerbostadshus träder i kraft 2027-01-01. Föreningen sorterar i dag bara restavfall och matavfall och behöver införa fastighetsnära sortering för plast, papper, metall och glas.</p>
+  <p>Brf Skiftesgatan 4 har 32 lägenheter. Nuvarande kärl är 2 × 370 l restavfall (tömning 2 ggr/vecka, det ena kärlet återrapporteras ofta tomt) och 1 × 140 l matavfall. Renova AB, som kör kommunalt avfall på Hisingen åt Kretslopp och vatten, startar hämtning av de nya förpackningskärlen februari–mars 2027. De nuvarande återvinningsstationerna blir därefter LIP (lättillgängliga insamlingsplatser), för skrymmande förpackningar och returpapper.</p>
+</section>
+
+<section>
+  <h2>Nya kärl</h2>
+  <table>
+    <tr><th>Innehåll</th><th>Storlek</th><th class="n">Antal</th></tr>
+    <tr><td>Papper</td><td>370 l</td><td class="n">1</td></tr>
+    <tr><td>Plast</td><td>370 l</td><td class="n">1</td></tr>
+    <tr><td>Glas, färgat</td><td>140 l</td><td class="n">1</td></tr>
+    <tr><td>Glas, ofärgat</td><td>140 l</td><td class="n">1</td></tr>
+    <tr><td>Metall</td><td>140 l</td><td class="n">1</td></tr>
+  </table>
+  <p class="hint">Kärlens mått (bredd × djup, inkl. hjul): 140 l = 50 × 55 cm, 370 l = 76 × 80 cm. Kärlen beställs direkt från en godkänd entreprenör i Göteborg, inte från Kretslopp och vatten — de flesta hämtningar av förpackningar är gratis, finansierat via den kommunala avfallstaxan.</p>
+</section>
+
+<section>
+  <h2>Krav på platsen</h2>
+  <ul class="check">
+    <li>Inhägnad rekommenderas.</li>
+    <li>Lätt för boende att sortera rätt: sätt upp informationsskyltar.</li>
+    <li>Får inte orsaka lukt, buller eller sanitär olägenhet.</li>
+    <li>Dragväg: max 25 m (bekräftat OK vid platsbesöket 2026-08-19), minst 1,2 m bred, 1,35 m bred i svängen.</li>
+    <li>Ytan kärlen dras över ska vara hårdgjord och jämn — inte grus, gräs eller makadam.</li>
+    <li>Om inhägnaden har dörr: 1,2 m fri bredd i öppningen.</li>
+    <li>Dokumentet "Gör rum för miljön" anger dessutom minst 1,5 m fri gång framför kärlen.</li>
+  </ul>
+  <p>Det ger ett minsta djup på inhägnaden: 6 cm mellanrum + 80 cm (370 l-kärlets djup) + 150 cm (fri gång) = 2,36 m. Det ger också en minsta bredd: 6 × 6 cm mellanrum + 3 × 50 cm (140 l-kärlens bredd) + 2 × 76 cm (370 l-kärlens bredd) = 3,38 m. Kärlen är cirka 1,1 m höga, så höjden på inhägnaden är satt till 1,5 m.</p>
+</section>
+
+<section>
+  <h2>Placering</h2>
+  <p>Tilltänkt placering är i innergården, öster om cykelskjulet. Skjulet har fyra sidor:</p>
+  <ul class="check">
+    <li>Bakre väggen är det befintliga höga staketet, som fortsätter österut som inhägnadens norra sida.</li>
+    <li>Sidoväggen i öster blir inhägnadens västra sida, där grinden hängs. Den slår inåt, fälls upp mot väggen och hålls öppen med en krok under tömning, vilket håller dragvägen helt fri och gör att vi slipper en stolpmonterad gångjärnslösning. Skjulets djup är cirka 2,67 m.</li>
+    <li>Framsidan är öppen mot asfalten som leder till cykelskjulet.</li>
+    <li>Sidoväggen i väster är inte relevant för inhägnadens placering.</li>
+  </ul>
+  <p>Att bygga inhägnaden här ger två av fyra sidor gratis (staketet och skjulväggen), och dragvägen är redan bekräftad som godkänd.</p>
+</section>
+
+<section>
   <h2>Ritning</h2>
-  <div class="plan">
-    <div>
-      <div id="svg"></div>
-      <p class="legend">Orange = nytt staket och grind, bruna rutor = stolpar på betongplint. Blått = det befintliga höga staketet som också är skjulets bakvägg. Mörkbrunt = skjulets sidovägg, som grinden hängs på. Grön pil = dragväg för sophämtaren. Skjulets bredd västerut och det som ligger öster om det nya staketet är okänt och visas avklippt.</p>
-    </div>
-    <div class="facts" id="facts"></div>
-  </div>
+  <div id="svg"></div>
+</section>
+
+<section>
+  <h2>Materialåtgång och kostnad</h2>
+  <dl class="facts" id="quant"></dl>
+  <p>Priser från hornbach.se (varuhuset i Göteborg) september 2026, inkl. moms, exkl. frakt. Plattorna är räknade exakt plus några i reserv, övriga mängder innehåller 5–10 % spill. Rader märkta <span class="est">uppsk.</span> är mina uppskattningar, inte verkliga priser. Bärlager och stenmjöl köps i stället som storsäck på pall hos stenbolaget.se (prisexempel september 2026, inkl. leverans och pallar), med en hyrd pallyftare för lossning.</p>
+  <table id="bom"></table>
 </section>
 
 <section>
@@ -91,10 +114,10 @@
   <div class="section-wrap">
     <div id="svgSection"></div>
     <dl class="layers">
-      <dt>Bärlager</dt><dd>Krossad sten i blandade storlekar, från damm upp till 32 mm ("0–32"). När lagret vibreras ihop med en markvibrator ("packas") låser bitarna i varandra och blir ett hårt, dränerande underlag som fördelar lasten. Det är det här lagret som gör att plattorna inte sätter sig, och det ni beställer från en grusleverantör.</dd>
-      <dt>Stenmjöl</dt><dd>Samma bergart men bara det finaste, 0–4 mm, ungefär som grov sand. Läggs 3 cm tjockt ovanpå bärlagret och dras av jämnt med en rak bräda. Det är stenmjölet som gör ytan plan, plattorna knackas ner i det. Säljs i 20 kg-säckar på Hornbach.</dd>
+      <dt>Bärlager</dt><dd>Krossad sten i blandade storlekar, från damm upp till 32 mm ("0–32", säljs även som "bergskross 0–32"). När lagret vibreras ihop med en markvibrator ("packas") låser bitarna i varandra och blir ett hårt, dränerande underlag som fördelar lasten. Det är det här lagret som gör att plattorna inte sätter sig. Köps som storsäck på pall.</dd>
+      <dt>Stenmjöl</dt><dd>Samma bergart men bara det finaste, här 0–8 mm (något grövre än de 0–4 mm som annars är vanligast, men fungerar för det här), ungefär som grov sand. Läggs 3 cm tjockt ovanpå bärlagret och dras av jämnt med en rak bräda. Det är stenmjölet som gör ytan plan, plattorna knackas ner i det. Köps som storsäck på pall, tillsammans med bärlagret.</dd>
       <dt>Fiberduk</dt><dd>En tunn geotextil mellan jorden och bärlagret så att stenen inte blandas ner i jorden med tiden.</dd>
-      <dt>Plattor och fogsand</dt><dd>Betongplattor 35 × 35 × 5 cm med 2–3 mm mellanrum. Fogsanden sopas ner i mellanrummen och låser plattorna.</dd>
+      <dt>Plattor och fogsand</dt><dd>Betongplattor 35 × 35 × 5 cm med 3 mm fog. Fogsanden sopas ner i mellanrummen och låser plattorna.</dd>
     </dl>
   </div>
 </section>
@@ -102,32 +125,27 @@
 <section>
   <h2>Så bygger ni</h2>
   <ol class="steps">
-    <li><strong>Märk ut.</strong> Snöra upp inhägnaden och remsan. Remsan ska vara 1,35 m bred hela vägen från grinden till asfalten, även i svängen under skjulet.</li>
-    <li><strong>Gräv.</strong> Ta bort gräset och all matjord, det mörka lösa lagret, ner till fastare mark. Det brukar vara 15–25 cm. Räkna sedan från färdig plattyta: platta 5 cm + stenmjöl 3 cm + bärlager, se snittet ovan. Är matjorden djupare än så, fyll upp skillnaden med mer bärlager.</li>
-    <li><strong>Plintar.</strong> Gräv ner betongplintar (Benders 4" × 700 mm med fast stolpjärn) med överkanten i nivå med färdig plattyta, max 1,8 m mellan stolparna. Packa väl runt dem. Sätt plintarna innan plattorna så att plattorna kan läggas tätt intill.</li>
-    <li><strong>Lager.</strong> Lägg fiberduk, sedan bärlagret i två omgångar som vardera packas med markvibrator. Dra av 3 cm stenmjöl jämnt, lägg plattorna med 2–3 mm fog och sopa i fogsand. Ge ytan ca 1 cm fall per meter bort från väggen. Sätt yttersta plattraden vid grinden och längs remsan i jordfuktig betong eller mot kantstöd så kanten inte vandrar.</li>
-    <li><strong>Stolpar och staket.</strong> Stolpar 95 × 95 mm skruvas i stolpjärnen. Tre reglar 45 × 95 mm per fack, stående trall 28 × 120 mm med 10 mm mellanrum, rostfri trallskruv. Nedersta brädan 3–5 cm ovanför plattorna.</li>
-    <li><strong>Grind.</strong> Ram av 45 × 95 mm med diagonalsträva, samma brädor som staketet. Gångjärnen sätts i skjulets östra vägg: skruva först en regel 45 × 95 mm i väggens stomme som gångjärnsplanka. Grinden slår inåt och fälls upp mot skjulväggen, där en krok håller den öppen under tömning. Klinka som går att öppna från båda håll mot stolpen på andra sidan, som då bara är en vanlig staketstolpe.</li>
+    <li><strong>Märk ut.</strong> Snöra upp inhägnaden med skjulväggen och det befintliga staketet som två av sidorna: 10 × 7 plattor = 3,53 × 2,47 m invändigt. Remsan är 4 plattor (1,41 m) bred och 5 rader (1,76 m) lång, från grindöppningen rakt söderut. Lägg plattorna i ett sammanhängande rutnät med start i hörnet mellan skjulväggen och staketet, då går rutnätet obrutet genom grindöppningen ut i remsan.</li>
+    <li><strong>Gräv.</strong> Ta bort gräset och all matjord, det mörka lösa lagret, ner till fastare mark. Det brukar vara 15–25 cm. Räkna sedan från färdig plattyta: platta 5 cm + stenmjöl 3 cm + bärlager 10 cm = 18 cm, se snittet ovan. Är matjorden djupare än så, fyll upp skillnaden med mer bärlager.</li>
+    <li><strong>Plintar.</strong> Gräv ner 4 betongplintar (Benders 4" × 700 mm med fast stolpjärn) med överkanten i nivå med färdig plattyta: en mitt på östra sidan, en i sydöstra hörnet, en mitt på södra sidan och en grindstolpe. Alla plintar står precis utanför plattornas kant, så ingen platta behöver kapas. Bakre änden av östra sidan får ingen stolpe alls, den fästs i det befintliga staketet. Packa väl runt plintarna och sätt dem innan plattorna.</li>
+    <li><strong>Lager.</strong> Lägg fiberduk, sedan bärlagret i två omgångar som vardera packas med markvibrator. Dra av 3 cm stenmjöl jämnt, lägg plattorna med 3 mm fog och sopa i fogsand. Ge ytan ca 1 cm fall per meter bort från väggen. Sätt yttersta plattraden vid grinden och längs remsan i jordfuktig betong eller mot kantstöd så kanten inte vandrar.</li>
+    <li><strong>Stolpar och staket.</strong> Stolpar 95 × 95 mm skruvas i stolpjärnen. Där östra sidan möter det befintliga staketet skruvas en regel 45 × 95 mm stående i staketets stolpe (genomgående bult eller franska träskruv, inte bara i brädorna) och de tre reglarna fästs i den. Tre reglar 45 × 95 mm per fack, stående trall 28 × 120 mm med 10 mm mellanrum, rostfri trallskruv. Nedersta brädan 3–5 cm ovanför plattorna.</li>
+    <li><strong>Grind.</strong> Öppningen är 4 plattor = 1,41 m fri bredd, så grindstolpen hamnar utanför plattorna och remsan är lika bred som öppningen. Grindbladet blir 1,37 m brett: ram av 45 × 95 mm med diagonalsträva, samma brädor som staketet. Gångjärnen sätts i skjulets östra vägg: skruva först en regel 45 × 95 mm i väggens stomme som gångjärnsplanka. Grinden slår inåt och fälls upp mot skjulväggen, där en krok håller den öppen under tömning. Klinka som går att öppna från båda håll mot grindstolpen, som i övrigt är en vanlig staketstolpe.</li>
     <li><strong>Skyltar och provkörning.</strong> Sätt upp sorteringsskyltarna från Kretslopp och vatten. Rulla varje kärl ut genom grinden, runt hörnet och ut på asfalten innan ni kallar det klart.</li>
   </ol>
 </section>
 
 <section>
-  <h2>Material och kostnad</h2>
-  <p>Priser från hornbach.se (varuhuset i Göteborg) september 2026, inkl. moms, exkl. frakt. Mängderna innehåller 5–10 % spill. Rader märkta <span class="est">uppsk.</span> är mina uppskattningar, inte Hornbach-priser. Bärlagret beställs från en grusleverantör och ligger utanför Hornbach-listan.</p>
-  <table id="bom"></table>
-  <p class="hint" id="bomNote"></p>
-</section>
-
-<section>
   <h2>Innan ni beställer</h2>
   <ul class="check">
-    <li><strong>Vikt.</strong> Det ni hämtar på Hornbach väger sammanlagt runt <span id="wTot"></span>, varav plattorna <span id="wPl"></span> och stenmjölet <span id="wSm"></span>. En vanlig skåpbil lastar 1–1,4 ton, så räkna med två till tre vändor eller be Hornbach leverera plattorna på pall och ta resten i bilen.</li>
-    <li><strong>Stenmjöl i säck.</strong> <span id="nSm"></span> säckar à 20 kg är många lyft. Grusleverantören som kör bärlagret kan oftast lägga till stenmjölet på samma bil, fråga när ni tar in offert.</li>
-    <li><strong>Bärlager.</strong> Med 10 cm behövs ca <span id="tBl"></span> ton. Totalen räknar med ca 900 kr per ton levererat, ta en offert. Beställ hellre lite för mycket, matjorden är ofta djupare än man tror.</li>
+    <li><strong>Vikt från Hornbach.</strong> Det ni hämtar där väger sammanlagt runt <span id="wTot"></span>, i huvudsak plattorna <span id="wPl"></span>. En vanlig skåpbil lastar 1–1,4 ton, så räkna med två vändor eller be Hornbach leverera plattorna på pall.</li>
+    <li><strong>Bärlager och stenmjöl på pall.</strong> Beställs som storsäck hos stenbolaget.se: <span id="bergN"></span> × 1 000 kg bergskross och <span id="stenN"></span> × 500 kg stenmjöl, på <span id="pallN"></span> EUR-pallar, ca <span id="palletKg"></span> totalt. Hyr en pallyftare för att lossa och köra pallarna fram till platsen, en dag räcker.</li>
+    <li><strong>Stenmjölets marginal.</strong> Beräknat behov är ca <span id="stenNeed"></span>, så en 500 kg-storsäck ger en knapp marginal. Räcker det inte hela vägen ut i remsan, komplettera med en 20 kg-säck stenmjöl från Hornbach.</li>
     <li><strong>Schaktmassor.</strong> Ca <span id="dig"></span> m³ jord att köra bort, mer om matjorden är djup. Räkna med storsäck eller släpkärra.</li>
-    <li><strong>Grinden på skjulväggen.</strong> Det förutsätter att sidoväggen är hel ända ner till skjulets framkant. I din skiss slutar det svarta strecket ungefär halvvägs. Slutar väggen där måste grinden hänga på en stolpe i stället, och då bör den stolpen få en 700-plint och stagas mot nästa stolpe.</li>
-    <li><strong>Marginal för fler kärl.</strong> 3,5 m invändig bredd ger 12 cm över. Vill ni ha plats för ett kärl till, öka bredden till 4,1 m (ett 140 l) eller 4,4 m (ett 370 l) i fältet ovan, djupet behöver inte ändras.</li>
+    <li><strong>Fästet i det befintliga staketet.</strong> Kontrollera att staketet har en frisk stolpe där inhägnadens östra sida möter det. Sitter närmaste stolpe en bit bort, fäst plankan i den och låt reglarna gå dit, eller sätt en egen stolpe ändå (en plint till, ca 160 kr).</li>
+    <li><strong>Grinden på skjulväggen.</strong> Bladet är 1,37 m brett och väger runt 30 kg, så gångjärnsplankan ska sitta i väggens regelverk, inte bara i panelen. Det förutsätter att sidoväggen är hel ända fram till skjulets framkant.</li>
+    <li><strong>Asfaltens bredd.</strong> Remsan når 1,35 m förbi skjulets framkant. Mät hur bred asfalten är framför skjulet: remsan ska gå minst lika långt söderut som asfalten, annars blir hörnet i svängen gräs. Är asfalten bredare, lägg en rad till (4 plattor).</li>
+    <li><strong>Marginal för fler kärl.</strong> 10 plattor (3,53 m) ger 15 cm över. Ett kärl till, oavsett om det är 140 l eller 370 l, ryms om bredden ökas till 12 plattor (4,24 m), djupet behöver inte ändras.</li>
     <li><strong>Dragvägen</strong> är godkänd av Kretslopp och vatten (max 25 m). Håll remsan och asfalten fria från cyklar och skottade på vintern.</li>
   </ul>
 </section>
@@ -139,19 +157,28 @@
 <script>
 (function(){
   const S = 100;
-  const G = 0.06, STRIP = 1.35, GATE = 1.2, ASPH = 1.4, POST = 0.095, H = 1.5;
-  const GEND = GATE + POST;
+  const G = 0.06, PITCH = 0.353, POST = 0.095;
+  const B = 2.67;                       // skjulets djup
+  const NW = 10, ND = 7;                // inhägnaden, plattor
+  const STRIPN = 4, ROWS = 5;           // remsan, plattor
+  const T = 0.10;                       // bärlager
+  const W = NW*PITCH, D = ND*PITCH;
+  const STRIP = STRIPN*PITCH, STRIPLEN = ROWS*PITCH;
+  const GATE = STRIP, GATELEAF = GATE - 0.04;
   const BIN = { S:{w:0.50, d:0.55, l:'140 l'}, L:{w:0.76, d:0.80, l:'370 l'} };
   const P = {   // kr, hornbach.se Göteborg sept 2026 om inte uppsk.
     post48:316.56, rail48:143.76, trall45:85.28, plint:159.00,
-    screws:450, gateHw:720, gateHolder:100, platta:24.00, plattaFew:26.90,
-    stenmjol20:59.90, bulkPerTon:900,
-    fiberduk:300, fogsand:75, kantstod:400, vibrator:700, schakt:2000
+    screws:450, gateHw:720, gateHolder:100, platta:24.00, plattaFew:26.90, rail24:72,
+    fiberduk:300, fogsand:75, kantstod:400, vibrator:700, schakt:2000,
+    bergskross1000:993.65, stenmjol500:601.30, returpall:279.00, pallyftare:200,   // stenbolaget.se, storsäck på pall
+    leverans:2615.00,   // stenbolaget.se, hemleverans av pallarna
   };
-  const KG = { platta:14, stenmjol:20, plint:45, trall45:9, rail48:12, post48:26 };
+  const KG = { platta:14, plint:45, trall45:9, rail48:12, post48:26 };
+  const BERGSKROSS_SACKS = 2, STENMJOL_SACKS = 1;   // 2 × 1000 kg + 1 × 500 kg, se Materialåtgång
   const fmt = n => Math.round(n).toLocaleString('sv-SE') + ' kr';
   const m = n => n.toFixed(2).replace('.', ',') + ' m';
   const m1 = n => n.toFixed(1).replace('.', ',');
+  const kg = n => (n >= 1000 ? (n/1000).toFixed(1).replace('.',',')+' ton' : Math.round(n)+' kg');
 
   const bins = [
     {t:'S', x:G,      name:['Färgat','glas']},
@@ -160,85 +187,89 @@
     {t:'L', x:1.74,   name:['Papper','']},
     {t:'L', x:1.74+BIN.L.w+G, name:['Plast','']},
   ];
+  // östra sidan: bakre änden fästs i befintligt staket, resten mellanstolpar + hörnstolpe
+  const nE = Math.ceil((D+POST)/1.8);
+  // södra sidan: grindstolpe, mellanstolpar, hörnstolpe
+  const nS = Math.ceil((W-GATE)/1.8)+1;
 
-  function quantities(A, B, D, W, t){
-    const nE = Math.ceil(D/1.8)+1, nS = Math.ceil((W-GEND)/1.8)+1;
+  function quantities(){
     const posts = nE + nS - 1;
-    const run = D + (W-GEND);
-    const boards = Math.ceil(run/0.13*1.05) + Math.ceil(1.15/0.13);
+    const run = (D+POST) + (W-GATE);
+    const boards = Math.ceil(run/0.13*1.05) + Math.ceil(GATELEAF/0.13);
     const trallLen = Math.ceil(boards/3);
-    const railLen = Math.ceil((3*run*1.1 + 6.5)/4.8);
+    const railLen = Math.ceil((3*run*1.1 + 2*GATELEAF + 2*1.4 + 2.0)/4.8);
     const postLen = Math.ceil(posts/3);
-    const areaEnc = W*D, areaV = STRIP*Math.max(0, B-D), areaH = (A+STRIP)*STRIP;
-    const area = areaEnc + areaV + areaH;
-    const plattor = Math.ceil(area*8.2*1.05);
+    const nEnc = NW*ND, nStrip = STRIPN*ROWS, nTiles = nEnc + nStrip;
+    const spare = Math.ceil(nTiles*0.05);
+    const plattor = nTiles + spare;
+    const area = nTiles*PITCH*PITCH;
     const plattaPrice = plattor >= 90 ? P.platta : P.plattaFew;
-    const stenmjolBags = Math.ceil(area*0.03*1600*1.05/20);
-    const barlagerT = area*t*1.8;
+    const stenmjolKg = area*0.03*1600*1.05;
+    const barlagerT = area*T*1.8;
     const fogsand = Math.max(1, Math.ceil(area*2.5/20));
-    const digM3 = area*(t+0.08);
-    const rows = [
-      ['group','Staket och grind'],
-      ['Betongplint Benders 4" × 700 mm med fast stolpjärn', posts, P.plint, posts*P.plint],
-      ['Stolpe 95×95 mm NTR A, 4,8 m (3 stolpar per längd)', postLen, P.post48, postLen*P.post48],
-      ['Regel 45×95 mm NTR AB, 4,8 m (staket + grindram)', railLen, P.rail48, railLen*P.rail48],
-      ['Trall 28×120 mm NTR AB, 4,5 m (3 brädor per längd)', trallLen, P.trall45, trallLen*P.trall45],
-      ['Grindbeslag: 2 hakgångjärn + klinka', 1, P.gateHw, P.gateHw],
-      ['Regel 45×95 mm, 2,4 m, gångjärnsplanka på skjulväggen', 1, 72, 72],
-      ['Krok som håller grinden uppfälld mot väggen', 1, P.gateHolder, P.gateHolder, 'est'],
-      ['Trallskruv + konstruktionsskruv, rostfri', 1, P.screws, P.screws, 'est'],
-      ['group', 'Plattläggning, '+m1(area)+' m² ('+m1(areaEnc)+' inhägnad + '+m1(areaV+areaH)+' remsa)'],
-      ['Markplatta Benders Siena 35×35×5 cm grå', plattor, plattaPrice, plattor*plattaPrice],
-      ['Stenmjöl Finja 0–4 mm, säck 20 kg', stenmjolBags, P.stenmjol20, stenmjolBags*P.stenmjol20],
-      ['Fiberduk under bärlagret', 1, P.fiberduk, P.fiberduk, 'est'],
-      ['Fogsand 20 kg', fogsand, P.fogsand, fogsand*P.fogsand, 'est'],
-      ['Kantstöd eller betong till ytterkanterna', 1, P.kantstod, P.kantstod, 'est'],
-      ['group','Övrigt'],
-      ['Hyra markvibrator, 1 dag', 1, P.vibrator, P.vibrator, 'est'],
-      ['Bortforsling av schaktmassor, ca '+m1(digM3)+' m³', 1, P.schakt, P.schakt, 'est'],
+    const digM3 = area*(T+0.08);
+    const pallets = BERGSKROSS_SACKS + STENMJOL_SACKS;
+    const palletKg = BERGSKROSS_SACKS*1000 + STENMJOL_SACKS*500;
+    const bomGroups = [
+      { label: 'Schaktning', rows: [
+        ['Bortforsling av schaktmassor, ca '+m1(digM3)+' m³', 1, P.schakt, P.schakt, 'est'],
+      ]},
+      { label: 'Plattläggning, '+m1(area)+' m² ('+nEnc+' plattor inhägnad + '+nStrip+' remsa + '+spare+' reserv)', rows: [
+        ['Markplatta Benders Siena 35×35×5 cm grå (Hornbach)', plattor, plattaPrice, plattor*plattaPrice],
+        ['Fiberduk under bärlagret (Hornbach)', 1, P.fiberduk, P.fiberduk, 'est'],
+        ['Fogsand 20 kg (Hornbach)', fogsand, P.fogsand, fogsand*P.fogsand, 'est'],
+        ['Kantstöd eller betong till ytterkanterna (Hornbach)', 1, P.kantstod, P.kantstod, 'est'],
+        ['Bergskross 0–32, storsäck 1 000 kg (stenbolaget.se)', BERGSKROSS_SACKS, P.bergskross1000, BERGSKROSS_SACKS*P.bergskross1000],
+        ['Stenmjöl 0–8, storsäck 500 kg (stenbolaget.se)', STENMJOL_SACKS, P.stenmjol500, STENMJOL_SACKS*P.stenmjol500],
+        ['Returpall (EUR-pall, stenbolaget.se)', pallets, P.returpall, pallets*P.returpall],
+        ['Leverans, stenbolaget.se', 1, P.leverans, P.leverans],
+      ]},
+      { label: 'Staket', rows: [
+        ['Betongplint Benders 4" × 700 mm med fast stolpjärn', posts, P.plint, posts*P.plint],
+        ['Stolpe 95×95 mm NTR A, 4,8 m (3 stolpar per längd)', postLen, P.post48, postLen*P.post48],
+        ['Regel 45×95 mm NTR AB, 4,8 m (staket + grindram)', railLen, P.rail48, railLen*P.rail48],
+        ['Trall 28×120 mm NTR AB, 4,5 m (3 brädor per längd)', trallLen, P.trall45, trallLen*P.trall45],
+        ['Grindbeslag: 2 hakgångjärn + klinka', 1, P.gateHw, P.gateHw],
+        ['Regel 45×95 mm, 2,4 m, fästplanka på skjulväggen (gångjärn) och på befintliga staketet', 2, P.rail24, 2*P.rail24],
+        ['Krok som håller grinden uppfälld mot väggen', 1, P.gateHolder, P.gateHolder, 'est'],
+        ['Trallskruv + konstruktionsskruv + bult till befintliga staketet, rostfri', 1, P.screws, P.screws, 'est'],
+      ]},
+      { label: 'Maskinhyra', rows: [
+        ['Hyra markvibrator, 1 dag', 1, P.vibrator, P.vibrator, 'est'],
+        ['Hyra pallyftare, 1 dag', 1, P.pallyftare, P.pallyftare],
+      ]},
     ];
-    const hornbach = rows.filter(r=>r[0]!=='group').reduce((a,r)=>a+r[3],0);
-    const bulk = t > 0 ? Math.max(1500, barlagerT*P.bulkPerTon) : 0;
-    const total = hornbach + bulk;
-    const fenceCost = rows.slice(1,9).reduce((a,r)=>a+r[3],0);
-    const wPl = plattor*KG.platta, wSm = stenmjolBags*KG.stenmjol;
-    const wTot = wPl + wSm + posts*KG.plint + trallLen*KG.trall45 + railLen*KG.rail48 + postLen*KG.post48 + 80;
-    return {posts, run, area, areaEnc, areaV, areaH, plattor, stenmjolBags, barlagerT, digM3, rows, hornbach, bulk, total, fenceCost, wPl, wSm, wTot};
+    const total = bomGroups.reduce((a,g)=>a+g.rows.reduce((b,r)=>b+r[3],0), 0);
+    const wPl = plattor*KG.platta;
+    const wTot = wPl + posts*KG.plint + trallLen*KG.trall45 + railLen*KG.rail48 + postLen*KG.post48 + 80;
+    return {posts, run, area, nEnc, nStrip, nTiles, spare, plattor, stenmjolKg, barlagerT, digM3, pallets, palletKg, bomGroups, total, wPl, wTot};
   }
 
-  function plan(A, B, D, W){
-    const y0 = Math.max(B, D);
-    const xmin = -(A+ASPH+0.85), xmax = W+0.85;
-    const ymin = -0.6, ymax = y0+STRIP+1.5;
+  function plan(){
+    const stripEnd = D + STRIPLEN;
+    const xmin = -2.2, xmax = W+0.85;
+    const ymin = -0.55, ymax = stripEnd + 0.75;
     const X = x => ((x-xmin)*S).toFixed(1), Y = y => ((y-ymin)*S).toFixed(1);
     const wpx = (xmax-xmin)*S, hpx = (ymax-ymin)*S;
+    const BROWN = '#5a3e1e', ORANGE = '#e39b2b', ORANGE2 = '#a86d12';
     const o = [];
-    o.push(`<svg viewBox="0 0 ${wpx.toFixed(0)} ${hpx.toFixed(0)}" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" role="img" aria-label="Situationsplan över inhägnaden">`);
-    o.push(`<defs>
-      <pattern id="tile" width="35" height="35" patternUnits="userSpaceOnUse"><rect width="35" height="35" fill="#eeefec"/><path d="M35 0H0V35" fill="none" stroke="#cfd4ce" stroke-width="1"/></pattern>
-      <pattern id="asph" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="9" height="9" fill="#dcdfdb"/><line x1="0" y1="0" x2="0" y2="9" stroke="#a3aaa5" stroke-width="1"/></pattern>
-      <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#2b8a62"/></marker>
-    </defs>`);
-    // asfalt
-    o.push(`<rect x="${X(-(A+ASPH))}" y="${Y(B)}" width="${ASPH*S}" height="${(ymax-0.35-B)*S}" fill="url(#asph)" stroke="#9aa19c" stroke-width="1"/>`);
-    o.push(`<text font-size="12" fill="#1e2a26" x="${X(-(A+ASPH/2))}" y="${Y(ymax-0.55)}" text-anchor="middle">Asfalt</text>`);
-    // remsa (L-form) + inhägnadens golv
-    o.push(`<polygon points="${X(0)},${Y(D)} ${X(STRIP)},${Y(D)} ${X(STRIP)},${Y(y0+STRIP)} ${X(-A)},${Y(y0+STRIP)} ${X(-A)},${Y(y0)} ${X(0)},${Y(y0)}" fill="url(#tile)" stroke="#b7bdb8" stroke-width="1"/>`);
+    o.push(`<svg viewBox="0 0 ${wpx.toFixed(0)} ${hpx.toFixed(0)}" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" role="img" aria-label="Plan över inhägnaden">`);
+    o.push(`<defs><pattern id="tile" x="${X(0)}" y="${Y(0)}" width="${PITCH*S}" height="${PITCH*S}" patternUnits="userSpaceOnUse"><rect width="${PITCH*S}" height="${PITCH*S}" fill="#eeefec"/><path d="M${PITCH*S} 0H0V${PITCH*S}" fill="none" stroke="#cfd4ce" stroke-width="1"/></pattern></defs>`);
+    // asfalt framför hela skjulet
+    o.push(`<rect x="${X(xmin)}" y="${Y(B)}" width="${(0-xmin)*S}" height="${(ymax-B)*S}" fill="#e2e4e0"/>`);
+    o.push(`<text font-size="12" fill="#5f6a65" x="${X(xmin/2)}" y="${Y(B+0.4)}" text-anchor="middle" font-weight="600">Asfalt</text>`);
+    // plattor: inhägnadens golv + remsa, ett sammanhängande rutnät
     o.push(`<rect x="${X(0)}" y="${Y(0)}" width="${W*S}" height="${D*S}" fill="url(#tile)" stroke="#b7bdb8" stroke-width="1"/>`);
-    // cykelskjul
-    const shedL = xmin+0.35;
-    o.push(`<rect x="${X(shedL)}" y="${Y(0)}" width="${(0-shedL)*S}" height="${B*S}" fill="#f6e9d2" stroke="#c99c55" stroke-width="2"/>`);
-    o.push(`<path d="M${X(shedL)} ${Y(0)} l-8 ${B*S/6} l16 ${B*S/6} l-16 ${B*S/6} l16 ${B*S/6} l-16 ${B*S/6} l8 ${B*S/6}" fill="#f6e9d2" stroke="#c99c55" stroke-width="2"/>`);
+    o.push(`<rect x="${X(0)}" y="${Y(D)}" width="${STRIP*S}" height="${STRIPLEN*S}" fill="url(#tile)" stroke="#b7bdb8" stroke-width="1"/>`);
+    // cykelskjul: tak i ljus ton, väggar i mörkbrunt, öppen framsida
+    const shedL = xmin;
+    o.push(`<rect x="${X(shedL)}" y="${Y(0)}" width="${(0-shedL)*S}" height="${B*S}" fill="#efe3d3"/>`);
+    o.push(`<line x1="${X(-0.03)}" y1="${Y(0)}" x2="${X(-0.03)}" y2="${Y(B)}" stroke="${BROWN}" stroke-width="6"/>`);
+    o.push(`<line x1="${X(shedL)}" y1="${Y(B)}" x2="${X(0)}" y2="${Y(B)}" stroke="${BROWN}" stroke-width="1.5" stroke-dasharray="6 6"/>`);
     o.push(`<text font-size="12" fill="#1e2a26" x="${X(shedL+(0-shedL)/2)}" y="${Y(B/2)}" text-anchor="middle" font-weight="600">Cykelskjul</text>`);
-    // befintligt högt staket i norr = skjulets bakvägg, fortsätter som inhägnadens norra sida
-    o.push(`<line x1="${X(shedL-0.1)}" y1="${Y(-0.03)}" x2="${X(W+POST+0.05)}" y2="${Y(-0.03)}" stroke="#4d6b9a" stroke-width="6"/>`);
-    o.push(`<line x1="${X(shedL-0.1)}" y1="${Y(-0.03)}" x2="${X(W+POST+0.05)}" y2="${Y(-0.03)}" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="6 6"/>`);
-    o.push(`<text font-size="11" fill="#4d6b9a" font-weight="600" x="${X(shedL)}" y="${Y(-0.14)}">Befintligt högt staket (skjulets bakvägg)</text>`);
-    // skjulets sidovägg i öster (bär grinden) och öppna framsida i söder
-    o.push(`<line x1="${X(-0.03)}" y1="${Y(0)}" x2="${X(-0.03)}" y2="${Y(B)}" stroke="#7a5a2a" stroke-width="5"/>`);
-    o.push(`<line x1="${X(shedL)}" y1="${Y(B)}" x2="${X(0)}" y2="${Y(B)}" stroke="#c99c55" stroke-width="2" stroke-dasharray="8 6"/>`);
-    o.push(`<text font-size="11" fill="#8a6a35" x="${X(shedL+(0-shedL)/2)}" y="${Y(B-0.12)}" text-anchor="middle">Skjulets öppna framsida</text>`);
-    o.push(`<text font-size="11" fill="#8a6a35" x="${X(-0.16)}" y="${Y(B*0.75)}" text-anchor="middle" transform="rotate(-90 ${X(-0.16)} ${Y(B*0.75)})">Skjulets sidovägg</text>`);
+    // befintligt högt staket = skjulets bakvägg, fortsätter som inhägnadens norra sida
+    o.push(`<line x1="${X(shedL)}" y1="${Y(-0.03)}" x2="${X(W+POST+0.05)}" y2="${Y(-0.03)}" stroke="${BROWN}" stroke-width="6"/>`);
+    o.push(`<text font-size="11" fill="${BROWN}" font-weight="600" x="${X(shedL)}" y="${Y(-0.14)}">Befintligt staket</text>`);
     // kärl
     bins.forEach(b=>{
       const s = BIN[b.t], x = +X(b.x), y = +Y(G), w = s.w*S, hh = s.d*S;
@@ -253,26 +284,20 @@
     });
     // nytt staket och stolpar
     const fx = W+POST/2, fy = D+POST/2;
-    o.push(`<line x1="${X(fx)}" y1="${Y(0)}" x2="${X(fx)}" y2="${Y(D+POST)}" stroke="#e39b2b" stroke-width="7"/>`);
-    o.push(`<line x1="${X(GEND)}" y1="${Y(fy)}" x2="${X(W+POST)}" y2="${Y(fy)}" stroke="#e39b2b" stroke-width="7"/>`);
-    const nE = Math.ceil(D/1.8)+1, nS = Math.ceil((W-GEND)/1.8)+1;
+    o.push(`<line x1="${X(fx)}" y1="${Y(0)}" x2="${X(fx)}" y2="${Y(D+POST)}" stroke="${ORANGE}" stroke-width="7"/>`);
+    o.push(`<line x1="${X(GATE)}" y1="${Y(fy)}" x2="${X(W+POST)}" y2="${Y(fy)}" stroke="${ORANGE}" stroke-width="7"/>`);
     const pts = [];
-    for (let i=0;i<nE;i++) pts.push([fx, POST/2 + i*D/(nE-1)]);
-    for (let i=0;i<nS-1;i++) pts.push([GATE+POST/2 + i*(W-GEND)/(nS-1), fy]);
-    pts.forEach(p=>o.push(`<rect x="${(+X(p[0])-5).toFixed(1)}" y="${(+Y(p[1])-5).toFixed(1)}" width="10" height="10" fill="#a86d12"/>`));
-    o.push(`<text font-size="12" fill="#a86d12" x="${X(W+POST+0.08)}" y="${Y(D*0.5)}" font-weight="600" text-anchor="middle" transform="rotate(90 ${X(W+POST+0.08)} ${Y(D*0.5)})">Nytt staket 1,5 m</text>`);
-    // grind hängd på skjulets vägg, slår inåt och fälls mot väggen (ritad ca 65° öppen)
-    const hx = 0.03, ex = hx + 1.15*Math.cos(80*Math.PI/180), ey = fy - 1.15*Math.sin(80*Math.PI/180);
-    o.push(`<path d="M${X(hx+1.15)} ${Y(fy)} A${1.15*S} ${1.15*S} 0 0 0 ${X(ex)} ${Y(ey)}" fill="none" stroke="#e39b2b" stroke-width="1" stroke-dasharray="3 3"/>`);
-    o.push(`<line x1="${X(hx)}" y1="${Y(fy)}" x2="${X(ex)}" y2="${Y(ey)}" stroke="#e39b2b" stroke-width="4"/>`);
-    o.push(`<circle cx="${X(hx)}" cy="${Y(fy)}" r="5" fill="#a86d12"/>`);
-    o.push(`<text font-size="11" fill="#a86d12" x="${X(0.68)}" y="${Y(D-0.1)}">Gångjärn i skjulväggen</text>`);
-    // dragväg, centrerad i grindöppningen
-    const last = bins[4], c0 = [last.x+BIN.L.w/2, G+BIN.L.d/2], yFront = G+BIN.L.d;
-    const path = [c0, [c0[0], yFront+0.55], [GATE/2, yFront+0.55], [GATE/2, y0+STRIP/2], [-(A+ASPH/2), y0+STRIP/2], [-(A+ASPH/2), ymax-0.9]];
-    o.push(`<polyline points="${path.map(p=>X(p[0])+','+Y(p[1])).join(' ')}" fill="none" stroke="#2b8a62" stroke-width="1.5" stroke-dasharray="7 5" marker-end="url(#arr)"/>`);
-    o.push(`<text font-size="11" fill="#2b8a62" x="${X(-A+0.1)}" y="${Y(y0+STRIP+0.75)}">Dragväg till sopbilen (max 25 m)</text>`);
-    o.push(`<text font-size="11" fill="#5f6a65" x="${X(-A+0.1)}" y="${Y(y0+STRIP-0.12)}">Plattor</text>`);
+    for (let i=1;i<=nE;i++) pts.push([fx, fy*i/nE]);
+    for (let i=0;i<nS-1;i++) pts.push([GATE+POST/2 + i*(W-GATE)/(nS-1), fy]);
+    pts.forEach(p=>o.push(`<rect x="${(+X(p[0])-5).toFixed(1)}" y="${(+Y(p[1])-5).toFixed(1)}" width="10" height="10" fill="${ORANGE2}"/>`));
+    o.push(`<rect x="${(+X(fx)-6).toFixed(1)}" y="${(+Y(0)-4).toFixed(1)}" width="12" height="8" fill="none" stroke="${ORANGE2}" stroke-width="2"/>`);
+    o.push(`<text font-size="12" fill="${ORANGE2}" font-weight="600" text-anchor="end" x="${X(W-0.12)}" y="${Y(D-0.3)}">Nytt staket</text>`);
+    o.push(`<text font-size="12" fill="${ORANGE2}" font-weight="600" text-anchor="end" x="${X(W-0.12)}" y="${Y(D-0.14)}">1,5 m högt</text>`);
+    // grind hängd på skjulets vägg, slår inåt och fälls mot väggen
+    const hx = 0.03, ex = hx + GATELEAF*Math.cos(80*Math.PI/180), ey = fy - GATELEAF*Math.sin(80*Math.PI/180);
+    o.push(`<path d="M${X(hx+GATELEAF)} ${Y(fy)} A${GATELEAF*S} ${GATELEAF*S} 0 0 0 ${X(ex)} ${Y(ey)}" fill="none" stroke="${ORANGE}" stroke-width="1" stroke-dasharray="3 3"/>`);
+    o.push(`<line x1="${X(hx)}" y1="${Y(fy)}" x2="${X(ex)}" y2="${Y(ey)}" stroke="${ORANGE}" stroke-width="4"/>`);
+    o.push(`<circle cx="${X(hx)}" cy="${Y(fy)}" r="5" fill="${ORANGE2}"/>`);
     // mått
     const dimH = (a,b,y,label,below,anchor) => {
       const yy = +Y(y);
@@ -283,41 +308,30 @@
       const xx = +X(x), ym = ((+Y(a))+(+Y(b)))/2, tx = left ? xx-6 : xx+14, rot = left ? -90 : 90;
       return `<g stroke="#1e2a26" stroke-width="1" font-size="11"><line x1="${xx}" y1="${Y(a)}" x2="${xx}" y2="${Y(b)}"/><line x1="${xx-5}" y1="${Y(a)}" x2="${xx+5}" y2="${Y(a)}"/><line x1="${xx-5}" y1="${Y(b)}" x2="${xx+5}" y2="${Y(b)}"/><text x="${tx}" y="${ym}" text-anchor="middle" stroke="none" fill="#1e2a26" transform="rotate(${rot} ${tx} ${ym})">${label}</text></g>`;
     };
-    o.push(dimH(0, W, -0.32, m(W)+' invändigt'));
-    o.push(dimV(0, D, W+POST+0.4, m(D)+' invändigt'));
-    o.push(dimV(0, B, -0.6, 'B = '+m(B), true));
-    o.push(dimH(-A, 0, y0+STRIP+0.32, 'A = '+m(A), true));
-    o.push(dimV(y0, y0+STRIP, STRIP+0.32, '1,35 m'));
-    o.push(dimH(0, GATE, D+0.2, 'Grind 1,2 m fri bredd', true, 'end'));
-    o.push(dimH(G+0.56, G+1.06, G+0.55+0.14, '0,50', true));
-    o.push(dimH(1.74, 1.74+0.76, yFront+0.14, '0,76', true));
-    o.push(dimV(yFront, D, W-0.08, m(D-yFront)+' fri gång (min 1,5)', true));
-    // 6 cm-anvisning med hänvisningslinje till mellanrummet mellan två kärl
-    const gx = 1.74+BIN.L.w+G/2, gy = G+BIN.L.d;
-    o.push(`<line x1="${X(gx)}" y1="${Y(gy)}" x2="${X(gx)}" y2="${Y(gy+0.82)}" stroke="#5f6a65" stroke-width="1"/>`);
-    o.push(`<text font-size="11" fill="#5f6a65" x="${X(0.75)}" y="${Y(gy+0.9)}">6 cm mellan kärl, mot vägg och staket</text>`);
-    // skalstock
-    const sbx = +X(W-1.0), sby = +Y(ymax-0.3);
-    o.push(`<g stroke="#1e2a26" stroke-width="1" font-size="11"><line x1="${sbx}" y1="${sby}" x2="${sbx+S}" y2="${sby}" stroke-width="2"/><line x1="${sbx}" y1="${sby-5}" x2="${sbx}" y2="${sby+5}"/><line x1="${sbx+S}" y1="${sby-5}" x2="${sbx+S}" y2="${sby+5}"/><text x="${sbx+S/2}" y="${sby-6}" text-anchor="middle" stroke="none" fill="#1e2a26">1 m</text></g>`);
+    o.push(dimH(0, W, -0.32, NW+' plattor = '+m(W)));
+    o.push(dimV(0, D, W+0.32, ND+' plattor = '+m(D)));
+    o.push(dimV(0, B, -0.5, m(B), true));
+    o.push(dimH(0, STRIP, stripEnd+0.28, STRIPN+' plattor = '+m(STRIP), true));
+    o.push(`<line x1="${X(STRIP)}" y1="${Y(stripEnd)}" x2="${X(W+0.4)}" y2="${Y(stripEnd)}" stroke="#b7bdb8" stroke-width="1" stroke-dasharray="2 3"/>`);
+    o.push(dimV(D, stripEnd, W+0.32, ROWS+' plattor = '+m(STRIPLEN)));
     o.push('</svg>');
     return o.join('\n');
   }
 
-  function section(t){
+  function section(){
     // snitt genom plattytan, 1 cm = 6 px
     const k = 6, x0 = 130, w = 250, top = 30;
     const layers = [
       {h:5,  fill:'#d9dcd8', stroke:'#9aa19c', name:'Betongplatta 5 cm'},
       {h:3,  fill:'#efe8d6', stroke:'#c9b98f', name:'Stenmjöl 0–4 mm, 3 cm'},
+      {h:T*100, fill:'#c7c9c3', stroke:'#8d928c', name:'Bärlager 0–32 mm, '+Math.round(T*100)+' cm, packat'},
     ];
-    if (t > 0) layers.push({h:t*100, fill:'#c7c9c3', stroke:'#8d928c', name:'Bärlager 0–32 mm, '+Math.round(t*100)+' cm, packat'});
     const soilH = 14;
     const totalH = layers.reduce((a,l)=>a+l.h,0);
     const hpx = top + totalH*k + 12 + soilH*k + 30;
     const o = [`<svg viewBox="0 0 720 ${hpx}" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" role="img" aria-label="Snitt genom plattytan">`];
     o.push(`<defs><pattern id="stone" width="12" height="12" patternUnits="userSpaceOnUse"><rect width="12" height="12" fill="#c7c9c3"/><circle cx="3" cy="4" r="2" fill="#a8aca5"/><circle cx="9" cy="9" r="2.5" fill="#a8aca5"/></pattern>
       <pattern id="soil" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="10" fill="#e6dccb"/><circle cx="5" cy="5" r="1" fill="#c2b08f"/></pattern></defs>`);
-    // borttaget gräs/matjord, visas som streckad kontur ovanför ytan
     o.push(`<text font-size="11" fill="#5f6a65" x="${x0+w+12}" y="${top-12}">Färdig plattyta, i nivå med marken runtom</text>`);
     let y = top;
     layers.forEach(l=>{
@@ -330,68 +344,51 @@
       o.push(`<text font-size="11" fill="#1e2a26" x="${x0-24}" y="${y+h/2+4}" text-anchor="end">${l.h} cm</text>`);
       y += h;
     });
-    // fiberduk
     o.push(`<line x1="${x0}" y1="${y}" x2="${x0+w}" y2="${y}" stroke="#1e2a26" stroke-width="2.5"/>`);
     o.push(`<text font-size="12" fill="#1e2a26" x="${x0+w+12}" y="${y+4}">Fiberduk</text>`);
-    // fast mark under matjorden
     o.push(`<rect x="${x0}" y="${y+2}" width="${w}" height="${soilH*k}" fill="url(#soil)" stroke="#c2b08f" stroke-width="1"/>`);
     o.push(`<text font-size="12" fill="#1e2a26" x="${x0+w+12}" y="${y+2+soilH*k/2}">Fast mark (under matjorden)</text>`);
     o.push(`<text font-size="11" fill="#5f6a65" x="${x0+w+12}" y="${y+2+soilH*k/2+16}">Är matjorden djupare, fyll med mer bärlager</text>`);
-    // total urgrävning
     o.push(`<g stroke="#1e2a26" stroke-width="1"><line x1="${x0-70}" y1="${top}" x2="${x0-70}" y2="${y}"/><line x1="${x0-75}" y1="${top}" x2="${x0-65}" y2="${top}"/><line x1="${x0-75}" y1="${y}" x2="${x0-65}" y2="${y}"/></g>`);
     o.push(`<text font-size="11" fill="#1e2a26" x="${x0-76}" y="${(top+y)/2}" text-anchor="middle" transform="rotate(-90 ${x0-76} ${(top+y)/2})">Gräv minst ${totalH} cm</text>`);
     o.push('</svg>');
     return o.join('\n');
   }
 
-  function render(){
-    const A = parseFloat(document.getElementById('inA').value) || 1.5;
-    const B = parseFloat(document.getElementById('inB').value) || 3.25;
-    const D = parseFloat(document.getElementById('inD').value) || 2.4;
-    const W = parseFloat(document.getElementById('inW').value) || 3.5;
-    const t = parseFloat(document.getElementById('inT').value);
-    const q = quantities(A, B, D, W, t);
-    document.getElementById('svg').innerHTML = plan(A, B, D, W);
-    document.getElementById('svgSection').innerHTML = section(t);
-    document.getElementById('facts').innerHTML = `<dl>
-      <dt>Invändigt</dt><dd>${m(W)} × ${m(D)}</dd>
-      <dt>Minsta invändigt</dt><dd>3,40 m × 2,40 m</dd>
-      <dt>Behövs öster om skjulet</dt><dd>${m(W+POST+0.02)}</dd>
-      <dt>Staket</dt><dd>${m(q.run)} på ${q.posts} stolpar + grind</dd>
-      <dt>Plattyta</dt><dd>${m1(q.area)} m² (${q.plattor} plattor)</dd>
-      <dt>Urgrävning</dt><dd>minst ${Math.round((t+0.08)*100)} cm, ca ${m1(q.digM3)} m³</dd>
-      <dt>Bärlager att beställa</dt><dd>${t>0 ? m1(q.barlagerT)+' ton' : 'inget'}</dd>
-      <dt>Hornbach</dt><dd>${fmt(q.hornbach)}</dd>
-      <dt>Bärlager (uppsk.)</dt><dd>${fmt(q.bulk)}</dd>
-      <dt>Totalt material</dt><dd>${fmt(q.total)}</dd>
-    </dl>
-    <p>Fri gång framför 370-literskärlen: ${m(D-G-BIN.L.d)} (framför 140-literskärlen ${m(D-G-BIN.S.d)}). "Gör rum för miljön" anger minst 1,5 m. För själva dragvägen gäller 1,2 m, och 1,35 m där den svänger.</p>`;
+  const q = quantities();
+  document.getElementById('svg').innerHTML = plan();
+  document.getElementById('svgSection').innerHTML = section();
+  const digCm = Math.round((T+0.08)*100);
+  document.getElementById('quant').innerHTML = `
+    <dt>Yta</dt><dd>${NW} × ${ND} + ${STRIPN} × ${ROWS} = ${q.nTiles} plattor × 0,353 × 0,353 m ≈ ${m1(q.area)} m²</dd>
+    <dt>Schaktning</dt><dd>${digCm} cm (5 cm platta + 3 cm stenmjöl + ${Math.round(T*100)} cm bärlager) × ${m1(q.area)} m² ≈ ${m1(q.digM3)} m³</dd>
+    <dt>Bärlager</dt><dd>${Math.round(T*100)} cm × ${m1(q.area)} m² ≈ ${m1(q.area*T)} m³ × 1,8 ton/m³ ≈ ${m1(q.barlagerT)} ton → köps som ${BERGSKROSS_SACKS} storsäck à 1 000 kg</dd>
+    <dt>Stenmjöl</dt><dd>3 cm × ${m1(q.area)} m² × 1 600 kg/m³ + 5 % spill ≈ ${kg(Math.round(q.stenmjolKg))} → köps som ${STENMJOL_SACKS} storsäck à 500 kg (knapp marginal, se nedan)</dd>
+    <dt>Plattor att köpa</dt><dd>${q.nTiles} st + ${q.spare} st reserv (5 %) = ${q.plattor} st</dd>
+    <dt>Staket</dt><dd>${m(q.run)} långt, 1,5 m högt, på ${q.posts} stolpar + fäste i befintligt staket</dd>
+  `;
 
-    let html = '<tr><th>Artikel</th><th class="n">Antal</th><th class="n">À-pris</th><th class="n">Kostnad</th></tr>';
-    q.rows.forEach(r=>{
-      if (r[0]==='group'){ html += `<tr class="group"><td colspan="4">${r[1]}</td></tr>`; return; }
+  let html = '<tr><th>Artikel</th><th class="n">Antal</th><th class="n">À-pris</th><th class="n">Kostnad</th></tr>';
+  q.bomGroups.forEach(g=>{
+    html += `<tr class="group"><td colspan="4">${g.label}</td></tr>`;
+    let sum = 0;
+    g.rows.forEach(r=>{
       const tag = r[4]==='est' ? ' <span class="est">uppsk.</span>' : '';
       html += `<tr><td>${r[0]}${tag}</td><td class="n">${r[1]}</td><td class="n">${fmt(r[2])}</td><td class="n">${fmt(r[3])}</td></tr>`;
+      sum += r[3];
     });
-    html += `<tr class="sum"><td colspan="3">Summa Hornbach</td><td class="n">${fmt(q.hornbach)}</td></tr>`;
-    html += `<tr class="group"><td colspan="4">Beställs separat</td></tr>`;
-    html += `<tr><td>Bärlager 0–32 mm från grusleverantör, ca ${m1(q.barlagerT)} ton levererat <span class="est">uppsk. 900 kr/ton, minst 1 500 kr</span></td><td class="n">1</td><td class="n">${fmt(q.bulk)}</td><td class="n">${fmt(q.bulk)}</td></tr>`;
-    html += `<tr class="sum"><td colspan="3">Totalt material</td><td class="n">${fmt(q.total)}</td></tr>`;
-    document.getElementById('bom').innerHTML = html;
-    document.getElementById('bomNote').textContent =
-      'Arbete ingår inte. Låter ni en markentreprenör göra plattläggningen brukar det hamna kring 1 000–1 500 kr per m² inklusive material (uppskattning), alltså ungefär ' +
-      fmt(Math.round(q.area)*1000)+'–'+fmt(Math.round(q.area*1.5)*1000)+', med staketet som styrelsen bygger själv utöver det.';
-    const kg = n => (n >= 1000 ? (n/1000).toFixed(1).replace('.',',')+' ton' : Math.round(n)+' kg');
-    document.getElementById('wTot').textContent = kg(q.wTot);
-    document.getElementById('wPl').textContent = kg(q.wPl);
-    document.getElementById('wSm').textContent = kg(q.wSm);
-    document.getElementById('nSm').textContent = q.stenmjolBags;
-    document.getElementById('tBl').textContent = m1(q.barlagerT);
-    document.getElementById('dig').textContent = m1(q.digM3);
-  }
-
-  ['inA','inB','inD','inW','inT'].forEach(id=>document.getElementById(id).addEventListener('input', render));
-  render();
+    html += `<tr class="sum"><td colspan="3">Summa ${g.label.split(',')[0]}</td><td class="n">${fmt(sum)}</td></tr>`;
+  });
+  html += `<tr class="sum"><td colspan="3">Totalt material</td><td class="n">${fmt(q.total)}</td></tr>`;
+  document.getElementById('bom').innerHTML = html;
+  document.getElementById('wTot').textContent = kg(q.wTot);
+  document.getElementById('wPl').textContent = kg(q.wPl);
+  document.getElementById('bergN').textContent = BERGSKROSS_SACKS;
+  document.getElementById('stenN').textContent = STENMJOL_SACKS;
+  document.getElementById('pallN').textContent = q.pallets;
+  document.getElementById('palletKg').textContent = kg(q.palletKg);
+  document.getElementById('stenNeed').textContent = kg(Math.round(q.stenmjolKg));
+  document.getElementById('dig').textContent = m1(q.digM3);
 })();
 </script>
 </body>
