@@ -42,6 +42,7 @@
 
 <svg
 	viewBox="0 0 {PLAN_VIEWBOX.width} {PLAN_VIEWBOX.height}"
+	style="max-width: {PLAN_VIEWBOX.width}px"
 	xmlns="http://www.w3.org/2000/svg"
 	role="img"
 	aria-label="Plan över inhägnaden"

@@ -5,16 +5,12 @@
 </script>
 
 <svelte:head>
-	<title>Inhägnad för förpackningskärl – Brf Skiftesgatan 4</title>
+	<title>Fastighetsnära insamling för BRF Skiftesgatan 4</title>
 </svelte:head>
 
 <main>
 	<header>
-		<h1>Inhägnad för förpackningskärl, Brf Skiftesgatan 4</h1>
-		<p class="lead">
-			Bakgrund, krav och tilltänkt plats för den nya inhägnaden öster om cykelskjulet, med en
-			skalenlig ritning, bygganvisning och kostnad.
-		</p>
+		<h1>Fastighetsnära insamling för BRF Skiftesgatan 4</h1>
 	</header>
 
 	<section>
@@ -22,14 +18,9 @@
 		<p>
 			Göteborgs nya krav på förpackningssortering för flerbostadshus träder i kraft 2027-01-01.
 			Föreningen sorterar i dag bara restavfall och matavfall och behöver införa fastighetsnära
-			sortering för plast, papper, metall och glas.
-		</p>
-		<p>
-			Brf Skiftesgatan 4 har 32 lägenheter. Nuvarande kärl är 2 × 370 l restavfall (tömning 2
-			ggr/vecka, det ena kärlet återrapporteras ofta tomt) och 1 × 140 l matavfall. Renova AB, som
-			kör kommunalt avfall på Hisingen åt Kretslopp och vatten, startar hämtning av de nya
-			förpackningskärlen februari–mars 2027. De nuvarande återvinningsstationerna blir därefter LIP
-			(lättillgängliga insamlingsplatser), för skrymmande förpackningar och returpapper.
+			sortering för plast, papper, metall och glas. De nuvarande återvinningsstationerna blir
+			därefter LIP (lättillgängliga insamlingsplatser), för skrymmande förpackningar och
+			returpapper.
 		</p>
 	</section>
 
@@ -71,15 +62,10 @@
 				</tr>
 			</tbody>
 		</table>
-		<p class="hint">
-			Kärlens mått (bredd × djup, inkl. hjul): 140 l = 50 × 55 cm, 370 l = 76 × 80 cm. Kärlen
-			beställs direkt från en godkänd entreprenör i Göteborg, inte från Kretslopp och vatten — de
-			flesta hämtningar av förpackningar är gratis, finansierat via den kommunala avfallstaxan.
-		</p>
 	</section>
 
 	<section>
-		<h2>Krav på platsen</h2>
+		<h2>Krav och rekommendation från Göteborgs stad</h2>
 		<ul class="check">
 			<li>Inhägnad rekommenderas.</li>
 			<li>Lätt för boende att sortera rätt: sätt upp informationsskyltar.</li>
@@ -327,49 +313,38 @@
 
 <style>
 	main {
-		max-width: 1100px;
+		max-width: 68.75rem;
 		margin: 0 auto;
-		padding: 40px 24px 64px;
+		padding: 2.5rem 1.5rem 4rem;
 	}
 	h1 {
-		font-size: 30px;
+		font-size: 1.875rem;
 		line-height: 1.15;
 		letter-spacing: -0.01em;
-		margin: 0 0 8px;
+		margin: 0 0 0.5rem;
 		font-weight: 700;
 	}
 	h2 {
-		font-size: 21px;
-		margin: 0 0 4px;
+		font-size: 1.3125rem;
+		margin: 0 0 0.25rem;
 		font-weight: 700;
 	}
 	p {
-		margin: 0 0 12px;
+		margin: 0 0 0.75rem;
 		max-width: 72ch;
 	}
-	.lead {
-		font-size: 16px;
-		color: var(--muted);
-		max-width: 76ch;
+	p:last-of-type {
+		margin-bottom: 0;
 	}
 	section {
-		padding: 32px 0;
-		border-top: 1px solid var(--rule);
-	}
-	section:first-of-type {
-		border-top: 0;
-	}
-	.hint {
-		font-size: 13px;
-		color: var(--muted);
-		margin-top: 8px;
+		padding: 1.25rem 0;
 	}
 	.facts {
-		font-size: 14px;
+		font-size: 0.875rem;
 		margin: 0;
 		display: grid;
 		grid-template-columns: auto 1fr;
-		gap: 4px 12px;
+		gap: 0.25rem 0.75rem;
 		max-width: 64ch;
 	}
 	.facts dt {
@@ -381,23 +356,23 @@
 	}
 	.section-wrap {
 		display: grid;
-		grid-template-columns: minmax(0, 520px) 1fr;
-		gap: 28px;
+		grid-template-columns: minmax(0, 32.5rem) 1fr;
+		gap: 1.75rem;
 		align-items: start;
-		margin-top: 12px;
+		margin-top: 0.75rem;
 	}
 	.layers {
-		font-size: 14px;
+		font-size: 0.875rem;
 		max-width: 60ch;
 	}
 	.layers dt {
 		font-weight: 600;
-		margin-top: 10px;
+		margin-top: 0.625rem;
 	}
 	.layers dd {
-		margin: 2px 0 0;
+		margin: 0.125rem 0 0;
 	}
-	@media (max-width: 820px) {
+	@media (max-width: 51.25rem) {
 		.section-wrap {
 			grid-template-columns: 1fr;
 		}
@@ -405,20 +380,20 @@
 	table {
 		border-collapse: collapse;
 		width: 100%;
-		font-size: 14px;
-		margin-top: 8px;
+		font-size: 0.875rem;
+		margin-top: 0.5rem;
 	}
 	th,
 	td {
 		text-align: left;
-		padding: 7px 10px 7px 0;
+		padding: 0.4375rem 0.625rem 0.4375rem 0;
 		vertical-align: top;
 		border-bottom: 1px solid var(--rule);
 	}
 	th {
 		font-weight: 600;
 		color: var(--muted);
-		font-size: 13px;
+		font-size: 0.8125rem;
 	}
 	td.n,
 	th.n {
@@ -431,40 +406,40 @@
 	}
 	tr.group td {
 		font-weight: 700;
-		padding-top: 16px;
+		padding-top: 1rem;
 		border-bottom: 1px solid var(--ink);
 	}
 	.est {
 		color: var(--muted);
-		font-size: 12.5px;
+		font-size: 0.78125rem;
 	}
 	ol.steps {
-		padding-left: 22px;
+		padding-left: 1.375rem;
 		max-width: 76ch;
 	}
 	ol.steps li {
-		margin-bottom: 8px;
+		margin-bottom: 0.5rem;
 	}
 	ul.check {
-		padding-left: 20px;
+		padding-left: 1.25rem;
 		max-width: 76ch;
 	}
 	ul.check li {
-		margin-bottom: 6px;
+		margin-bottom: 0.375rem;
 	}
 	footer {
-		font-size: 12.5px;
+		font-size: 0.78125rem;
 		color: var(--muted);
 		border-top: 1px solid var(--rule);
-		padding-top: 16px;
-		margin-top: 24px;
+		padding-top: 1rem;
+		margin-top: 1.5rem;
 	}
 	@media print {
 		main {
 			padding: 0;
 		}
 		section {
-			padding: 18px 0;
+			padding: 1.125rem 0;
 			break-inside: avoid;
 		}
 	}

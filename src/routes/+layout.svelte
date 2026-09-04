@@ -28,13 +28,13 @@
 		margin: 0;
 		color: var(--ink);
 		font-family: 'Helvetica Neue', Helvetica, Arial, 'Liberation Sans', sans-serif;
-		font-size: 15px;
+		font-size: 0.9375rem;
 		line-height: 1.5;
 		font-variant-numeric: tabular-nums;
 	}
 	@media print {
 		:global(body) {
-			font-size: 12px;
+			font-size: 0.75rem;
 		}
 	}
 </style>

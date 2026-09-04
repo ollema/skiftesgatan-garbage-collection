@@ -2,6 +2,7 @@
 	import { SECTION_LAYERS, SECTION_TOTAL_DEPTH_CM } from './math';
 
 	const SCALE = 6; // px per cm
+	const VIEWBOX_WIDTH = 720;
 	const X0 = 130;
 	const LAYER_WIDTH = 250;
 	const TOP = 30;
@@ -34,7 +35,8 @@
 </script>
 
 <svg
-	viewBox="0 0 720 {viewBoxHeight}"
+	viewBox="0 0 {VIEWBOX_WIDTH} {viewBoxHeight}"
+	style="max-width: {VIEWBOX_WIDTH}px"
 	xmlns="http://www.w3.org/2000/svg"
 	role="img"
 	aria-label="Snitt genom plattytan"
