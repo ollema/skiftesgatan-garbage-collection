@@ -342,7 +342,7 @@ function computeQuantities() {
 	const area = tiles * TILE_PITCH * TILE_PITCH;
 	const plattaPrice = tilesToBuy >= 90 ? PRICE.platta : PRICE.plattaFew;
 
-	const stenmjolKg = area * STENMJOL_THICKNESS * 1600 * 1.05;
+	const stenmjolKg = area * STENMJOL_THICKNESS * 1600;
 	const barlagerTon = area * BARLAGER_THICKNESS * 1.8;
 	const fogsandBags = Math.max(1, Math.ceil((area * 2.5) / 20));
 	const digM3 = area * SCHAKT_DEPTH;
@@ -433,28 +433,28 @@ export const quantities = computeQuantities();
 
 export const FACTS: { term: string; description: string }[] = [
 	{
-		term: 'Yta',
-		description: `${ENCLOSURE_WIDTH_TILES} × ${ENCLOSURE_DEPTH_TILES} + ${STRIP_WIDTH_TILES} × ${STRIP_ROWS_TILES} = ${quantities.tiles} plattor × 0,353 × 0,353 m ≈ ${formatNumber1(quantities.area)} m²`
+		term: 'Total yta',
+		description: `${ENCLOSURE_WIDTH_TILES} × ${ENCLOSURE_DEPTH_TILES} + ${STRIP_WIDTH_TILES} × ${STRIP_ROWS_TILES} = ${quantities.tiles} plattor ≈ ${formatNumber1(quantities.area)} m²`
 	},
 	{
 		term: 'Schaktning',
-		description: `${Math.round(SCHAKT_DEPTH * 100)} cm (5 cm platta + 3 cm stenmjöl + ${Math.round(BARLAGER_THICKNESS * 100)} cm bärlager) × ${formatNumber1(quantities.area)} m² ≈ ${formatNumber1(quantities.digM3)} m³`
+		description: `${Math.round(SCHAKT_DEPTH * 100)} cm bärlager × ${formatNumber1(quantities.area)} m² ≈ ${formatNumber1(quantities.digM3)} m³`
 	},
 	{
 		term: 'Bärlager',
-		description: `${Math.round(BARLAGER_THICKNESS * 100)} cm × ${formatNumber1(quantities.area)} m² ≈ ${formatNumber1(quantities.area * BARLAGER_THICKNESS)} m³ × 1,8 ton/m³ ≈ ${formatNumber1(quantities.barlagerTon)} ton → köps som ${BERGSKROSS_SACKS} storsäck à 1 000 kg`
+		description: `${Math.round(BARLAGER_THICKNESS * 100)} cm × ${formatNumber1(quantities.area)} m² ≈ ${formatNumber1(quantities.area * BARLAGER_THICKNESS)} m³ × 1 800 kg/m³ ≈ ${formatNumber1(quantities.barlagerTon)} ton`
 	},
 	{
 		term: 'Stenmjöl',
-		description: `3 cm × ${formatNumber1(quantities.area)} m² × 1 600 kg/m³ + 5 % spill ≈ ${formatKg(Math.round(quantities.stenmjolKg))} → köps som ${STENMJOL_SACKS} storsäck à 500 kg (knapp marginal, se nedan)`
-	},
-	{
-		term: 'Plattor att köpa',
-		description: `${quantities.tiles} st + ${quantities.spareTiles} st reserv (5 %) = ${quantities.tilesToBuy} st`
+		description: `3 cm × ${formatNumber1(quantities.area)} m² × 1 600 kg/m³ ≈ ${formatKg(Math.round(quantities.stenmjolKg))}`
 	},
 	{
 		term: 'Staket',
-		description: `${formatMeters(quantities.run)} långt, 1,5 m högt, på ${quantities.posts} stolpar + fäste i befintligt staket`
+		description: `${formatMeters(quantities.run)} långt, 1,5 m högt och ${quantities.posts} stolpar`
+	},
+	{
+		term: 'Grind',
+		description: `${formatMeters(GATE_WIDTH)} bred öppning, blad ${formatMeters(GATE.leafWidth)} brett`
 	}
 ];
 

@@ -359,9 +359,6 @@
 		padding: 1.25rem 0;
 		scroll-margin-top: 3.25rem;
 	}
-	section + section {
-		border-top: 1px solid var(--rule);
-	}
 	.table-wrap {
 		overflow-x: auto;
 		-webkit-overflow-scrolling: touch;
@@ -372,14 +369,13 @@
 		display: grid;
 		grid-template-columns: auto 1fr;
 		gap: 0.25rem 0.75rem;
-		max-width: 64ch;
+		max-width: 76ch;
 	}
 	.facts dt {
 		color: var(--muted);
 	}
 	.facts dd {
 		margin: 0;
-		font-weight: 600;
 	}
 	.section-wrap {
 		display: grid;
@@ -407,20 +403,20 @@
 	table {
 		border-collapse: collapse;
 		width: 100%;
-		font-size: 0.875rem;
+		font-size: 0.8125rem;
 		margin-top: 0.5rem;
 	}
 	th,
 	td {
 		text-align: left;
-		padding: 0.4375rem 0.625rem 0.4375rem 0;
+		padding: 0.375rem 0.5rem 0.375rem 0;
 		vertical-align: top;
 		border-bottom: 1px solid var(--rule);
 	}
 	th {
 		font-weight: 600;
 		color: var(--muted);
-		font-size: 0.8125rem;
+		font-size: 0.75rem;
 	}
 	td.n,
 	th.n {
@@ -432,15 +428,15 @@
 		border-bottom: 2px solid var(--ink);
 	}
 	tr.sum:last-child td {
-		padding-top: 1.5rem;
+		padding-top: 1.125rem;
 	}
 	tr.group td {
 		font-weight: 700;
-		padding: 1.75rem 0.625rem 0.5rem 0;
+		padding: 1.25rem 0.5rem 0.375rem 0;
 		border-bottom: 1px solid var(--ink);
 	}
 	tr.group:first-child td {
-		padding-top: 0.625rem;
+		padding-top: 0.5rem;
 	}
 	.est {
 		color: var(--muted);
