@@ -218,62 +218,6 @@
 			</li>
 		</ol>
 	</section>
-
-	<section id="bestallning">
-		<h2>Innan ni beställer</h2>
-		<ul class="check">
-			<li>
-				<strong>Vikt från Hornbach.</strong> Det ni hämtar där väger sammanlagt runt {ORDER_NOTES.weightTotal},
-				i huvudsak plattorna {ORDER_NOTES.weightPlattor}. En vanlig skåpbil lastar 1–1,4 ton, så
-				räkna med två vändor eller be Hornbach leverera plattorna på pall.
-			</li>
-			<li>
-				<strong>Bärlager och stenmjöl på pall.</strong> Beställs som storsäck hos stenbolaget.se:
-				{ORDER_NOTES.bergskrossSacks} × 1 000 kg bergskross och {ORDER_NOTES.stenmjolSacks} × 500 kg stenmjöl,
-				på {ORDER_NOTES.pallets} EUR-pallar, ca {ORDER_NOTES.palletKg} totalt. Hyr en pallyftare för att
-				lossa och köra pallarna fram till platsen, en dag räcker.
-			</li>
-			<li>
-				<strong>Stenmjölets marginal.</strong> Beräknat behov är ca {ORDER_NOTES.stenmjolNeeded}, så
-				en 500 kg-storsäck ger en knapp marginal. Räcker det inte hela vägen ut i remsan,
-				komplettera med en 20 kg-säck stenmjöl från Hornbach.
-			</li>
-			<li>
-				<strong>Schaktmassor.</strong> Ca {ORDER_NOTES.digM3} m³ jord att köra bort, mer om matjorden
-				är djup. Räkna med storsäck eller släpkärra.
-			</li>
-			<li>
-				<strong>Fästet i det befintliga staketet.</strong> Kontrollera att staketet har en frisk stolpe
-				där inhägnadens östra sida möter det. Sitter närmaste stolpe en bit bort, fäst plankan i den och
-				låt reglarna gå dit, eller sätt en egen stolpe ändå (en plint till, ca 160 kr).
-			</li>
-			<li>
-				<strong>Grinden på skjulväggen.</strong> Bladet är 1,37 m brett och väger runt 30 kg, så gångjärnsplankan
-				ska sitta i väggens regelverk, inte bara i panelen. Det förutsätter att sidoväggen är hel ända
-				fram till skjulets framkant.
-			</li>
-			<li>
-				<strong>Asfaltens bredd.</strong> Remsan når 1,35 m förbi skjulets framkant. Mät hur bred asfalten
-				är framför skjulet: remsan ska gå minst lika långt söderut som asfalten, annars blir hörnet i
-				svängen gräs. Är asfalten bredare, lägg en rad till (4 plattor).
-			</li>
-			<li>
-				<strong>Marginal för fler kärl.</strong> 10 plattor (3,53 m) ger 15 cm över. Ett kärl till, oavsett
-				om det är 140 l eller 370 l, ryms om bredden ökas till 12 plattor (4,24 m), djupet behöver inte
-				ändras.
-			</li>
-			<li>
-				<strong>Dragvägen</strong> är godkänd av Kretslopp och vatten (max 25 m). Håll remsan och asfalten
-				fria från cyklar och skottade på vintern.
-			</li>
-		</ul>
-	</section>
-
-	<footer>
-		Kärlmått från Kretslopp och vattens tabell (140 l: 50 × 55 × 109 cm, 370 l: 76 × 80 × 109 cm).
-		Avstånd och krav på dragväg från "Gör rum för miljön" (oktober 2025) och Inga Ziles platsbesök i
-		augusti 2026. Ritningen är schematisk men skalenlig.
-	</footer>
 </main>
 
 <style>
