@@ -32,23 +32,20 @@
 		<p>
 			Göteborgs nya krav på förpackningssortering för flerbostadshus träder i kraft 2027‑01‑01.
 			Föreningen sorterar i dag bara restavfall och matavfall och behöver införa fastighetsnära
-			insamling för plast, papper, metall och glas. De nuvarande återvinningsstationerna blir
-			därefter LIP (lättillgängliga insamlingsplatser), för skrymmande förpackningar och
-			returpapper. För oss innebär fastighetsnära insamling (FNI) 5 nya kärl: 370 l för papper och
-			370 l för plast, samt 140 l vardera för färgat glas, ofärgat glas och metall.
+			insamling för plast, papper, metall och glas. För oss innebär fastighetsnära insamling (FNI) 5
+			nya kärl: 370 l för papper och 370 l för plast, samt 140 l vardera för färgat glas, ofärgat
+			glas och metall.
 		</p>
 
 		<h3>Krav och rekommendationer från Göteborgs stad</h3>
 		<ul class="check">
-			<li>Inhägnad rekommenderas.</li>
 			<li>Det ska vara lätt för boende att sortera rätt (vi ska sätta upp informationsskyltar).</li>
 			<li>Insamlingen får inte orsaka lukt, buller eller sanitär olägenhet.</li>
 			<li>Dragvägen får vara max 25 m lång, minst 1,2 m bred och minst 1,35 m bred i svängar.</li>
+			<li>Dessutom behövs minst 1,5 m fritt utrymme framför kärlen där de är placerade.</li>
 			<li>Ytan kärlen dras över ska vara hårdgjord och jämn, inte grus, gräs eller makadam.</li>
-			<li>Om inhägnaden har dörr: 1,2 m fri bredd i öppningen.</li>
-			<li>
-				Dokumentet "Gör rum för miljön" anger dessutom minst 1,5 m fritt utrymme framför kärlen.
-			</li>
+			<li>Inhägnad rekommenderas.</li>
+			<li>Om inhägnaden har dörr så behöver öppningen vara minst 1,2 m bred.</li>
 		</ul>
 
 		<p>Dessa krav, tillsammans med måtten på de nya kärlen:</p>
@@ -64,8 +61,9 @@
 
 		<h3>Styrelsens förslag</h3>
 		<p>
-			Vi har tänkt bygga inhägnaden i innergården, öster om cykelskjulet. Dragvägen är redan godkänd
-			och vi kan utnyttja existernade cykelskjul och staket för att skapa två av inhägnadens sidor.
+			Styrelsen har tänkt bygga inhägnaden i innergården, öster om cykelskjulet. Dragvägen är redan
+			godkänd och vi kan utnyttja existerande cykelskjul och staket för att skapa två av inhägnadens
+			sidor.
 		</p>
 		<p>
 			Vi har tänkt använda markplattor för att skapa en stabil och jämn yta för inhägnaden och för
@@ -150,23 +148,23 @@
 				<strong>Plintar.</strong> Gräv ner 4 betongplintar med överkanten i nivå med färdig plattyta:
 				en mitt på högra sidan, en i nedre högra hörnet, en mitt på nedre sidan och en grindstolpe. Alla
 				plintar står precis utanför plattornas kant, så ingen platta behöver kapas. Bakre änden av högra
-				sidan får ingen stolpe alls, den förankras i det befintliga staketet — kontrollera i förväg att
-				staketet har en frisk stolpe just där. Sitter närmaste stolpe en bit bort så sätt en egen plint
-				och stolpe ändå. Packa väl runt plintarna och sätt dem innan plattorna.
+				sidan får ingen stolpe alls, den förankras i det befintliga staketet. Kontrollera i förväg att
+				staketet har en frisk stolpe just där. Sitter närmaste stolpe en bit bort så sätt ytterligare
+				en plint och stolpe ändå. Packa väl runt plintarna och sätt dem innan plattorna.
 			</li>
 			<li>
 				<strong>Fiberduk.</strong> Lägg en tunn fiberduk mellan jorden och bärlagret.
 			</li>
 			<li>
 				<strong>Bärlager.</strong> Krossad sten i blandade storlekar, upp till 32 mm ("0–32"). Lägg det
-				i två omgångar som vardera packas med markvibrator: vibrationen låser bitarna i varandra och blir
+				i två omgångar som vardera packas med markvibrator. Vibrationen låser bitarna i varandra och blir
 				ett hårt, dränerande underlag som fördelar lasten. Det är det här lagret som gör att plattorna
 				inte sätter sig.
 			</li>
 			<li>
-				<strong>Stenmjöl.</strong> Krossad sten i finare storlekar, här 0–8 mm. Ungefär som grov sand.
-				Dra av 3 cm tjockt jämnt ovanpå bärlagret med en rak bräda. Det är stenmjölet som gör ytan plan,
-				plattorna knackas ner i det.
+				<strong>Stenmjöl.</strong> Krossad sten i finare storlekar, upp till 8 mm ("0-8"). Ungefär som
+				grov sand. Plana 3 cm tjockt jämnt ovanpå bärlagret med en rak bräda. Det är stenmjölet som gör
+				ytan plan, plattorna knackas sen ner i det.
 			</li>
 			<li>
 				<strong>Plattor och fogsand.</strong> Betongplattor 35 × 35 × 5 cm med 3 mm fog. Sätt yttersta
@@ -174,10 +172,10 @@
 				fogsand i mellanrummen, den låser plattorna.
 			</li>
 			<li>
-				<strong>Stolpar.</strong> Stolpar 95 × 95 mm skruvas i stolpjärnen. Där östra sidan möter det
-				befintliga staketet finns ingen egen stolpe, utan skruva istället en regel 45 × 95 mm stående
-				i staketets stolpe (genomgående bult eller franska träskruvar, inte bara i brädorna). Den blir
-				fästpunkt för de tre reglarna på den sidan. Eller sätt en egen stolpe med plint om det behövs.
+				<strong>Stolpar.</strong> Stolpar 95 × 95 mm skruvas i plintarna. Där högra sidan möter det befintliga
+				staketet finns ingen egen stolpe, utan skruva istället en regel 45 × 95 mm stående i staketets
+				stolpe (genomgående bult eller franska träskruvar, inte bara i brädorna). Den blir fästpunkt för
+				de tre reglarna på den sidan. Eller sätt en egen stolpe med plint om det behövs.
 			</li>
 			<li>
 				<strong>Reglar och trall.</strong> Tre reglar 45 × 95 mm per fack, stående trall 28 × 120 mm med
@@ -188,7 +186,7 @@
 				<strong>Grind.</strong> Öppningen är 4 plattor eller cirka 1,41 m fri bredd, så grindstolpen hamnar
 				utanför plattorna och gången är lika bred som öppningen. Grindbladet blir cirka 1,37 m brett och
 				väger runt 30 kg: ram av 45 × 95 mm med diagonalsträva, samma brädor som staketet. Gångjärnen
-				sätts i skjulets östra vägg. Skruva först en regel 45 × 95 mm i väggens stomme som gångjärnsplanka,
+				sätts i skjulets högra vägg. Skruva först en regel 45 × 95 mm i väggens stomme som gångjärnsplanka,
 				den ska sitta i väggens regelverk och inte bara i panelen. Det förutsätter att sidoväggen är hel
 				ända fram till skjulets framkant. Grinden slår inåt och fälls upp mot skjulväggen, där en krok
 				håller den öppen under tömning. Klinka som går att öppna från båda håll mot grindstolpen, som
