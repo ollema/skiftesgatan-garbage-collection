@@ -42,8 +42,6 @@ const PRICE = {
 const BERGSKROSS_SACKS = 2;
 const STENMJOL_SACKS = 1;
 
-const WEIGHT_KG = { platta: 14, plint: 45, trall45: 9, rail48: 12, post48: 26 };
-
 export interface BomRow {
 	label: string;
 	quantity: number;
@@ -59,7 +57,7 @@ export interface BomGroup {
 }
 
 function bomRow(label: string, quantity: number, unitPrice: number, estimated = false): BomRow {
-	return { label, quantity, unitPrice, cost: quantity * unitPrice, estimated };
+	return { label, quantity, unitPrice, cost: Math.round(quantity * unitPrice), estimated };
 }
 
 function bomGroup(label: string, rows: BomRow[]): BomGroup {
@@ -88,7 +86,6 @@ function computeQuantities() {
 	const digM3 = area * SCHAKT_DEPTH;
 
 	const pallets = BERGSKROSS_SACKS + STENMJOL_SACKS;
-	const palletKg = BERGSKROSS_SACKS * 1000 + STENMJOL_SACKS * 500;
 
 	const bomGroups: BomGroup[] = [
 		bomGroup('Schaktning', [
@@ -138,36 +135,16 @@ function computeQuantities() {
 
 	const total = bomGroups.reduce((sum, g) => sum + g.sum, 0);
 
-	const weightPlattor = tilesToBuy * WEIGHT_KG.platta;
-	const weightTotal =
-		weightPlattor +
-		posts * WEIGHT_KG.plint +
-		trallLen * WEIGHT_KG.trall45 +
-		railLen * WEIGHT_KG.rail48 +
-		postLen * WEIGHT_KG.post48 +
-		80;
-
 	return {
 		posts,
 		run,
 		area,
-		enclosureTiles,
-		stripTiles,
 		tiles,
-		spareTiles,
-		tilesToBuy,
 		stenmjolKg,
 		barlagerTon,
-		fogsandBags,
 		digM3,
-		pallets,
-		palletKg,
-		bergskrossSacks: BERGSKROSS_SACKS,
-		stenmjolSacks: STENMJOL_SACKS,
 		bomGroups,
-		total,
-		weightPlattor,
-		weightTotal
+		total
 	};
 }
 

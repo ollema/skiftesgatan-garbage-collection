@@ -69,7 +69,7 @@
 			Vi har tänkt använda markplattor för att skapa en stabil och jämn yta för inhägnaden och för
 			dragvägen. Grinden öppnas inåt och förankras i cykelskjulet.
 		</p>
-		<p>Höjden på inhägnaden är satt till 1.5 m för att det ska se lite trevligare ut.</p>
+		<p>Höjden på inhägnaden är satt till 1,5 m för att det ska se lite trevligare ut.</p>
 	</section>
 
 	<section id="ritning">
