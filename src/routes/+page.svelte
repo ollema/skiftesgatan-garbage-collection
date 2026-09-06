@@ -1,6 +1,6 @@
 <script lang="ts">
 	import PlanDrawing from './PlanDrawing.svelte';
-	import { formatKg, formatKr, formatNumber1 } from './format';
+	import { formatKr, formatNumber1 } from './format';
 	import { FACTS, quantities } from './materials';
 
 	const SECTIONS = [
@@ -32,10 +32,10 @@
 		<p>
 			Göteborgs nya krav på förpackningssortering för flerbostadshus träder i kraft 2027‑01‑01.
 			Föreningen sorterar i dag bara restavfall och matavfall och behöver införa fastighetsnära
-			sortering för plast, papper, metall och glas. De nuvarande återvinningsstationerna blir
+			insamling för plast, papper, metall och glas. De nuvarande återvinningsstationerna blir
 			därefter LIP (lättillgängliga insamlingsplatser), för skrymmande förpackningar och
-			returpapper. Det innebär fem nya kärl: 370 l för papper och 370 l för plast, samt 140 l
-			vardera för färgat glas, ofärgat glas och metall.
+			returpapper. För oss innebär fastighetsnära insamling (FNI) 5 nya kärl: 370 l för papper och
+			370 l för plast, samt 140 l vardera för färgat glas, ofärgat glas och metall.
 		</p>
 
 		<h3>Krav och rekommendationer från Göteborgs stad</h3>
@@ -46,7 +46,9 @@
 			<li>Dragvägen får vara max 25 m lång, minst 1,2 m bred och minst 1,35 m bred i svängar.</li>
 			<li>Ytan kärlen dras över ska vara hårdgjord och jämn, inte grus, gräs eller makadam.</li>
 			<li>Om inhägnaden har dörr: 1,2 m fri bredd i öppningen.</li>
-			<li>Dokumentet "Gör rum för miljön" anger dessutom minst 1,5 m fri gång framför kärlen.</li>
+			<li>
+				Dokumentet "Gör rum för miljön" anger dessutom minst 1,5 m fritt utrymme framför kärlen.
+			</li>
 		</ul>
 
 		<p>Dessa krav, tillsammans med måtten på de nya kärlen:</p>
@@ -57,8 +59,7 @@
 		<p>
 			resulterar i ett minsta djup på inhägnaden: 6 cm + 80 cm + 150 cm = <strong>2,36 m.</strong>
 			Det ger också en minsta bredd: 6 × 6 cm + 3 × 50 cm + 2 × 76 cm = <strong>3,38 m.</strong>
-			Kärlen är cirka 1,1 m höga, så höjden på inhägnaden är satt till <b>1,5 m</b> så att det ska se
-			lite trevligare ut.
+			Kärlen är cirka 1,1 m höga.
 		</p>
 
 		<h3>Styrelsens förslag</h3>
@@ -70,6 +71,7 @@
 			Vi har tänkt använda markplattor för att skapa en stabil och jämn yta för inhägnaden och för
 			dragvägen. Grinden öppnas inåt och förankras i cykelskjulet.
 		</p>
+		<p>Höjden på inhägnaden är satt till 1.5 m för att det ska se lite trevligare ut.</p>
 	</section>
 
 	<section id="ritning">
@@ -120,7 +122,7 @@
 						</tr>
 					{/each}
 					<tr class="sum">
-						<td colspan="3">Totalt material</td>
+						<td colspan="3">Totalt</td>
 						<td class="n">{formatKr(quantities.total)}</td>
 					</tr>
 				</tbody>
@@ -130,98 +132,67 @@
 
 	<section id="instruktioner">
 		<h2>Instruktioner</h2>
-		<p>
-			Ni börjar på gräsmatta, och gräs och matjord går inte att bygga på: det är löst och sjunker
-			ihop, så plattorna blir ojämna inom ett år. Därför gräver ni bort hela det mörka jordlagret
-			ner till fastare mark och ersätter det med lager som bär.
-		</p>
 		<ol class="steps">
 			<li>
-				<strong>Beställ material.</strong> Det ni hämtar på Hornbach väger sammanlagt runt
-				{formatKg(quantities.weightTotal)}, i huvudsak plattorna ({formatKg(quantities.weightPlattor)}).
-				En vanlig skåpbil lastar 1–1,4 ton, så räkna med två vändor eller be Hornbach leverera plattorna
-				på pall. Bärlager och stenmjöl beställs som storsäck hos stenbolaget.se:
-				{quantities.bergskrossSacks} × 1 000 kg bergskross och {quantities.stenmjolSacks} × 500 kg
-				stenmjöl, på {quantities.pallets} EUR-pallar, ca {formatKg(quantities.palletKg)} totalt. Hyr en
-				pallyftare för att lossa och köra pallarna fram till platsen, en dag räcker. Beräknat
-				stenmjölsbehov är ca {formatKg(Math.round(quantities.stenmjolKg))}, så en 500 kg-storsäck ger en
-				knapp marginal — räcker det inte hela vägen ut i remsan, komplettera med en 20 kg-säck stenmjöl
-				från Hornbach.
+				<strong>Beställ material och boka maskiner. </strong>
 			</li>
 			<li>
-				<strong>Märk ut.</strong> Snöra upp inhägnaden med skjulväggen och det befintliga staketet som
-				två av sidorna: 10 × 7 plattor = 3,53 × 2,47 m invändigt. Remsan är 4 plattor (1,41 m) bred och
-				5 rader (1,76 m) lång, från grindöppningen rakt söderut. Lägg plattorna i ett sammanhängande rutnät
-				med start i hörnet mellan skjulväggen och staketet, då går rutnätet obrutet genom grindöppningen
-				ut i remsan. Mät samtidigt hur bred asfalten är framför skjulet: remsan når 1,35 m förbi skjulets
-				framkant och ska gå minst lika långt söderut som asfalten, annars blir hörnet i svängen gräs. Är
-				asfalten bredare, lägg en rad plattor till i remsan. Vill ni kunna ställa ett kärl till senare,
-				oavsett storlek, ökar ni bredden till 12 plattor (4,24 m) istället för 10 — djupet behöver inte
-				ändras.
+				<strong>Märk ut.</strong> Märk ut inhägnaden med cykelskjulväggen och det befintliga staketet
+				som två av sidorna: 10 × 7 plattor = 3,53 × 2,47 m invändigt. Gången är 4 plattor (1,41 m) bred
+				och 5 rader (1,76 m) lång.
 			</li>
 			<li>
-				<strong>Gräv.</strong> Ta bort gräset och all matjord, det mörka lösa lagret, ner till fastare
-				mark. Det brukar vara 15–25 cm. Räkna sedan från färdig plattyta: platta 5 cm + stenmjöl 3 cm
-				+ bärlager 10 cm = 18 cm. Är matjorden djupare än så, fyll upp skillnaden med mer bärlager. Räkna
-				med ca {formatNumber1(quantities.digM3)} m³ schaktmassor att köra bort, mer om matjorden är djup
-				— storsäck eller släpkärra brukar räcka.
+				<strong>Gräv.</strong> Ta bort gräs och gräv ner till ett djup på 18 cm. Räkna med ca {formatNumber1(
+					quantities.digM3
+				)} m³ som ska schaktas bort.
 			</li>
 			<li>
-				<strong>Plintar.</strong> Gräv ner 4 betongplintar (Benders 4" × 700 mm med fast stolpjärn) med
-				överkanten i nivå med färdig plattyta: en mitt på östra sidan, en i sydöstra hörnet, en mitt på
-				södra sidan och en grindstolpe. Alla plintar står precis utanför plattornas kant, så ingen platta
-				behöver kapas. Bakre änden av östra sidan får ingen stolpe alls, den fästs i det befintliga
-				staketet — kontrollera i förväg att staketet har en frisk stolpe just där. Sitter närmaste stolpe
-				en bit bort, fäst plankan i den och låt reglarna gå dit, eller sätt en egen stolpe ändå (en plint
-				till, ca 160 kr). Packa väl runt plintarna och sätt dem innan plattorna.
+				<strong>Plintar.</strong> Gräv ner 4 betongplintar med överkanten i nivå med färdig plattyta:
+				en mitt på högra sidan, en i nedre högra hörnet, en mitt på nedre sidan och en grindstolpe. Alla
+				plintar står precis utanför plattornas kant, så ingen platta behöver kapas. Bakre änden av högra
+				sidan får ingen stolpe alls, den förankras i det befintliga staketet — kontrollera i förväg att
+				staketet har en frisk stolpe just där. Sitter närmaste stolpe en bit bort så sätt en egen plint
+				och stolpe ändå. Packa väl runt plintarna och sätt dem innan plattorna.
 			</li>
 			<li>
-				<strong>Fiberduk.</strong> Lägg en tunn geotextil mellan jorden och bärlagret, det håller stenen
-				från att blandas ner i jorden med tiden.
+				<strong>Fiberduk.</strong> Lägg en tunn fiberduk mellan jorden och bärlagret.
 			</li>
 			<li>
-				<strong>Bärlager.</strong> Krossad sten i blandade storlekar, från damm upp till 32 mm ("0–32",
-				säljs även som "bergskross 0–32"). Lägg det i två omgångar som vardera packas med markvibrator:
-				vibrationen låser bitarna i varandra och blir ett hårt, dränerande underlag som fördelar lasten
-				— det är det här lagret som gör att plattorna inte sätter sig.
+				<strong>Bärlager.</strong> Krossad sten i blandade storlekar, upp till 32 mm ("0–32"). Lägg det
+				i två omgångar som vardera packas med markvibrator: vibrationen låser bitarna i varandra och blir
+				ett hårt, dränerande underlag som fördelar lasten. Det är det här lagret som gör att plattorna
+				inte sätter sig.
 			</li>
 			<li>
-				<strong>Stenmjöl.</strong> Samma bergart men bara det finaste, här 0–8 mm (något grövre än de
-				0–4 mm som annars är vanligast, men fungerar för det här), ungefär som grov sand. Dra av 3 cm
-				tjockt jämnt ovanpå bärlagret med en rak bräda — det är stenmjölet som gör ytan plan, plattorna
-				knackas ner i det.
+				<strong>Stenmjöl.</strong> Krossad sten i finare storlekar, här 0–8 mm. Ungefär som grov sand.
+				Dra av 3 cm tjockt jämnt ovanpå bärlagret med en rak bräda. Det är stenmjölet som gör ytan plan,
+				plattorna knackas ner i det.
 			</li>
 			<li>
-				<strong>Plattor och fogsand.</strong> Betongplattor 35 × 35 × 5 cm med 3 mm fog. Ge ytan ca 1 cm
-				fall per meter bort från väggen och sätt yttersta plattraden vid grinden och längs remsan i
-				jordfuktig betong eller mot kantstöd så kanten inte vandrar. Sopa till sist ner fogsand i
-				mellanrummen, den låser plattorna.
+				<strong>Plattor och fogsand.</strong> Betongplattor 35 × 35 × 5 cm med 3 mm fog. Sätt yttersta
+				plattraden vid grinden och längs gången mot kantstöd så kanten inte vandrar. Sopa till sist ner
+				fogsand i mellanrummen, den låser plattorna.
 			</li>
 			<li>
 				<strong>Stolpar.</strong> Stolpar 95 × 95 mm skruvas i stolpjärnen. Där östra sidan möter det
-				befintliga staketet finns ingen egen stolpe: skruva istället en regel 45 × 95 mm stående i
-				staketets stolpe (genomgående bult eller franska träskruv, inte bara i brädorna), den blir
-				fästpunkt för de tre reglarna på den sidan.
+				befintliga staketet finns ingen egen stolpe, utan skruva istället en regel 45 × 95 mm stående
+				i staketets stolpe (genomgående bult eller franska träskruvar, inte bara i brädorna). Den blir
+				fästpunkt för de tre reglarna på den sidan. Eller sätt en egen stolpe med plint om det behövs.
 			</li>
 			<li>
 				<strong>Reglar och trall.</strong> Tre reglar 45 × 95 mm per fack, stående trall 28 × 120 mm med
-				10 mm mellanrum, rostfri trallskruv. Nedersta brädan 3–5 cm ovanför plattorna.
+				10 mm mellanrum, rostfri trallskruv. Nedersta brädan 3–5 cm ovanför plattorna. Såga av toppen
+				med vinkel för att förhindra vattenansamling.
 			</li>
 			<li>
-				<strong>Grind.</strong> Öppningen är 4 plattor = 1,41 m fri bredd, så grindstolpen hamnar utanför
-				plattorna och remsan är lika bred som öppningen. Grindbladet blir 1,37 m brett och väger runt
-				30 kg: ram av 45 × 95 mm med diagonalsträva, samma brädor som staketet. Gångjärnen sätts i
-				skjulets östra vägg: skruva först en regel 45 × 95 mm i väggens stomme som gångjärnsplanka, den
-				ska sitta i väggens regelverk och inte bara i panelen — det förutsätter att sidoväggen är hel
+				<strong>Grind.</strong> Öppningen är 4 plattor eller cirka 1,41 m fri bredd, så grindstolpen hamnar
+				utanför plattorna och gången är lika bred som öppningen. Grindbladet blir cirka 1,37 m brett och
+				väger runt 30 kg: ram av 45 × 95 mm med diagonalsträva, samma brädor som staketet. Gångjärnen
+				sätts i skjulets östra vägg. Skruva först en regel 45 × 95 mm i väggens stomme som gångjärnsplanka,
+				den ska sitta i väggens regelverk och inte bara i panelen. Det förutsätter att sidoväggen är hel
 				ända fram till skjulets framkant. Grinden slår inåt och fälls upp mot skjulväggen, där en krok
-				håller den öppen under tömning. Klinka som går att öppna från båda håll mot grindstolpen, som i
-				övrigt är en vanlig staketstolpe.
-			</li>
-			<li>
-				<strong>Skyltar och provkörning.</strong> Sätt upp sorteringsskyltarna från Kretslopp och vatten.
-				Rulla varje kärl ut genom grinden, runt hörnet och ut på asfalten innan ni kallar det klart. Håll
-				sedan remsan och asfalten fria från cyklar och skotta dem på vintern, det är dragvägen kärlen
-				dras över.
+				håller den öppen under tömning. Klinka som går att öppna från båda håll mot grindstolpen, som
+				i övrigt är en vanlig staketstolpe.
 			</li>
 		</ol>
 	</section>

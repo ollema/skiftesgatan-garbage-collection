@@ -180,7 +180,7 @@ export const FACTS: { term: string; description: string }[] = [
 	},
 	{
 		term: 'Schaktning',
-		description: `${Math.round(SCHAKT_DEPTH * 100)} cm bärlager × ${formatNumber1(quantities.area)} m² ≈ ${formatNumber1(quantities.digM3)} m³`
+		description: `${Math.round(SCHAKT_DEPTH * 100)} cm × ${formatNumber1(quantities.area)} m² ≈ ${formatNumber1(quantities.digM3)} m³ ska schaktas bort`
 	},
 	{
 		term: 'Bärlager',
