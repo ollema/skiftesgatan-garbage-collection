@@ -2,30 +2,9 @@ import { GAP } from './dimensions';
 
 export type BinSize = 'small' | 'large';
 
-export const BIN_SIZES: Record<
-	BinSize,
-	{ width: number; depth: number; label: string; wheels: [number, number][] }
-> = {
-	small: {
-		width: 0.5,
-		depth: 0.55,
-		label: '140 l',
-		wheels: [
-			[0.22, 0.12],
-			[0.78, 0.12]
-		]
-	},
-	large: {
-		width: 0.76,
-		depth: 0.8,
-		label: '370 l',
-		wheels: [
-			[0.2, 0.12],
-			[0.8, 0.12],
-			[0.2, 0.88],
-			[0.8, 0.88]
-		]
-	}
+export const BIN_SIZES: Record<BinSize, { width: number; depth: number; label: string }> = {
+	small: { width: 0.5, depth: 0.55, label: '140 l' },
+	large: { width: 0.76, depth: 0.8, label: '370 l' }
 };
 
 export const BINS: { size: BinSize; x: number; name: [string, string] }[] = [

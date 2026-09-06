@@ -137,10 +137,6 @@
 		{@const h = size.depth * PLAN_SCALE}
 		<g>
 			<rect {x} {y} width={w} height={h} rx="5" class="bin" />
-			<line x1={x + 4} y1={y + 4} x2={x + w - 4} y2={y + 4} class="bin-highlight" />
-			{#each size.wheels as [wx, wy], i (i)}
-				<circle cx={x + wx * w} cy={y + wy * h} r="3" class="bin-wheel" />
-			{/each}
 			<text class="bin-label" text-anchor="middle" x={x + w / 2} y={y + h / 2 - 4}
 				>{size.label}</text
 			>
@@ -296,13 +292,6 @@
 		fill: #cfebdc;
 		stroke: #2b8a62;
 		stroke-width: 2;
-	}
-	.bin-highlight {
-		stroke: #2b8a62;
-		stroke-width: 3;
-	}
-	.bin-wheel {
-		fill: #2b8a62;
 	}
 	.bin-label {
 		font-size: 10.5px;
