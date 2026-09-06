@@ -107,7 +107,12 @@
 						{#each group.rows as row (row.label)}
 							<tr>
 								<td>
-									{row.label}{#if row.estimated}<span class="est">uppsk.</span>{/if}
+									{#if row.url}
+										<a href={row.url} target="_blank" rel="noopener noreferrer">{row.label}</a>
+									{:else}
+										{row.label}
+									{/if}
+									{#if row.estimated}<span class="est">uppsk.</span>{/if}
 								</td>
 								<td class="n">{row.quantity}</td>
 								<td class="n">{formatKr(row.unitPrice)}</td>
@@ -323,6 +328,13 @@
 		color: var(--muted);
 		font-size: 0.78125rem;
 		margin-left: 0.25rem;
+	}
+	td a {
+		color: inherit;
+		text-decoration-color: var(--muted);
+	}
+	td a:hover {
+		text-decoration-color: var(--ink);
 	}
 	ol.steps {
 		padding-left: 1.375rem;
