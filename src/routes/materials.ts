@@ -74,8 +74,7 @@ function computeQuantities() {
 	const run = ENCLOSURE_DEPTH + POST_WIDTH + (ENCLOSURE_WIDTH - OPENING_WIDTH);
 	const boards = Math.ceil((run / 0.13) * 1.05);
 	const trallLen = Math.ceil(boards / 3);
-	const postCutLength = 4.8 / 3; // stolparna (och backningsregeln) kapas 3 per 4,8 m-längd
-	// stolpar och reglar är samma virke (95×95 mm NTR A), så de köps som en gemensam längdpott
+	const postCutLength = 4.8 / 3;
 	const postAndRailLength = posts * postCutLength + 3 * run * 1.1 + postCutLength + 2.0;
 	const postAndRailLen = Math.ceil(postAndRailLength / 4.8);
 

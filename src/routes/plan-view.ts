@@ -23,7 +23,7 @@ import {
 } from './dimensions';
 import { formatMeters } from './format';
 
-export const PLAN_SCALE = 100; // px per meter
+export const PLAN_SCALE = 100;
 
 const STRIP_END_Y = ENCLOSURE_OFFSET_Y + ENCLOSURE_DEPTH + STRIP_LENGTH;
 
@@ -67,8 +67,6 @@ export const TILE_FIELDS = {
 		width: STRIP_WIDTH,
 		height: STRIP_LENGTH
 	},
-	// ny rad halvplattor som viker av västerut från gångens nedre del och täcker glappet mot
-	// asfalten (asfalten når inte hela vägen fram till skjulet, därav halvbred platta)
 	connector: {
 		x: ENCLOSURE_OFFSET_X - PATH_CONNECTOR_WIDTH,
 		y: ENCLOSURE_OFFSET_Y + ENCLOSURE_DEPTH + STRIP_LENGTH - PATH_CONNECTOR_LENGTH,
@@ -77,8 +75,6 @@ export const TILE_FIELDS = {
 	}
 };
 
-// asfalten når inte hela vägen fram till cykelskjulets hörn - högerkanten dras tillbaka till
-// halvplattornas ytterkant, resten (norr om anslutningsraden) blir grus istället, se GRAVEL_WEST
 export const ASPHALT = {
 	x: PLAN_BOUNDS.xMin,
 	y: SHED_DEPTH,
@@ -95,8 +91,6 @@ export const EXISTING_FENCE = {
 	labelAt: { x: PLAN_BOUNDS.xMin, y: -0.14 }
 };
 
-// befintlig stolpe i det gamla staketet, ritad tjockare och stickande ut norrut ur vägglinjen
-// för att tydligt visa var den sitter - direkt norr om och i linje med det nya fästposten (FENCE.anchor)
 export const EXISTING_STUD = {
 	x: EXISTING_STUD_DISTANCE,
 	y1: -POST_WIDTH,
@@ -104,19 +98,14 @@ export const EXISTING_STUD = {
 	width: POST_WIDTH
 };
 
-// hörnstolpar på cykelskjulet självt, samma princip som EXISTING_STUD ovan
 export const SHED_STUDS = {
-	// sydöstra hörnet (där östra väggen slutar mot den öppna framsidan) - sticker ut västerut
 	se: { x1: -POST_WIDTH, x2: 0, y1: SHED_DEPTH - POST_WIDTH, y2: SHED_DEPTH },
-	// nordöstra hörnet (där östra väggen möter det befintliga staketet) - sticker ut norrut
 	ne: { x1: -POST_WIDTH, x2: 0, y1: -POST_WIDTH, y2: 0 }
 };
 
-// dashad linje som markerar skjulets öppna framsida
 export const SHED_FRONT_GUIDE = { x1: PLAN_BOUNDS.xMin, y1: SHED_DEPTH, x2: 0, y2: SHED_DEPTH };
 
 export const NEW_FENCE = {
-	// y1 = 0: linjen (post/regel-bredd tjock) börjar precis vid väggen, staketets fästpunkt
 	east: { x: FENCE.corner.x, y1: 0, y2: FENCE.corner.y },
 	south: {
 		x1: ENCLOSURE_OFFSET_X + OPENING_WIDTH,
@@ -129,7 +118,6 @@ export const NEW_FENCE = {
 	}
 };
 
-// trallklädsel, spikad på utsidan av reglarna (bort från inhägnaden), hörnen överlappar
 const CLADDING_OUTER_X = FENCE.corner.x + POST_WIDTH / 2;
 const CLADDING_OUTER_Y = FENCE.corner.y + POST_WIDTH / 2;
 export const FENCE_CLADDING = {
@@ -147,14 +135,12 @@ export const FENCE_CLADDING = {
 	}
 };
 
-// grus: marginalen mellan befintliga väggen och plattfältets nya, förskjutna kanter (norr + väster)
 export const GRAVEL_NORTH = {
 	x: 0,
 	y: 0,
 	width: ENCLOSURE_OFFSET_X + ENCLOSURE_WIDTH,
 	height: ENCLOSURE_OFFSET_Y
 };
-// grus växer västerut ända till asfaltens nya kant (halvplattornas ytterkant), söder om skjulets hörn
 export const GRAVEL_WEST = {
 	x: TILE_FIELDS.connector.x,
 	y: ENCLOSURE_OFFSET_Y,
@@ -162,8 +148,6 @@ export const GRAVEL_WEST = {
 	height: TILE_FIELDS.connector.y - ENCLOSURE_OFFSET_Y
 };
 
-// grävda stolphål (170×170 mm), ett per grävd stolpe - ritas som grus, centrerat på stolpen.
-// den halva som hamnar innanför plattfältet syns inte, plattorna ritas ovanpå
 export const POST_HOLES = POSTS.map((post) => ({
 	x: post.x - POST_HOLE_SIZE / 2,
 	y: post.y - POST_HOLE_SIZE / 2,
