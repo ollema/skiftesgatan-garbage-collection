@@ -65,11 +65,13 @@
 			height={PLATTA_PITCH * PLAN_SCALE}
 			patternUnits="userSpaceOnUse"
 		>
-			<rect width={PLATTA_PITCH * PLAN_SCALE} height={PLATTA_PITCH * PLAN_SCALE} fill="#eeefec" />
+			<rect width={PLATTA_PITCH * PLAN_SCALE} height={PLATTA_PITCH * PLAN_SCALE} fill="#ccd0c8" />
+			<!-- fogen ritas en halv linjebredd in i rutan, annars klipper mönstret bort
+			     yttre halvan och fogarna inne i fältet blir tunnare än fältens kanter -->
 			<path
-				d="M{PLATTA_PITCH * PLAN_SCALE} 0H0V{PLATTA_PITCH * PLAN_SCALE}"
+				d="M{PLATTA_PITCH * PLAN_SCALE} 0.5H0.5V{PLATTA_PITCH * PLAN_SCALE}"
 				fill="none"
-				stroke="#cfd4ce"
+				stroke="#b0b5ad"
 				stroke-width="1"
 			/>
 		</pattern>
@@ -134,7 +136,6 @@
 		width={TILE_FIELDS.enclosure.width * PLAN_SCALE}
 		height={TILE_FIELDS.enclosure.height * PLAN_SCALE}
 		fill="url(#tile)"
-		class="tile-field"
 	/>
 	<rect
 		x={planX(TILE_FIELDS.path.x)}
@@ -142,7 +143,6 @@
 		width={TILE_FIELDS.path.width * PLAN_SCALE}
 		height={TILE_FIELDS.path.height * PLAN_SCALE}
 		fill="url(#tile)"
-		class="tile-field"
 	/>
 	<!-- ny rad som viker av in mot skjulet och täcker glappet mot asfalten (spegelvänt L) -->
 	<rect
@@ -151,7 +151,6 @@
 		width={TILE_FIELDS.connector.width * PLAN_SCALE}
 		height={TILE_FIELDS.connector.height * PLAN_SCALE}
 		fill="url(#tile)"
-		class="tile-field"
 	/>
 
 	<!-- cykelskjul: tak i ljus ton, väggar i mörkbrunt, öppen framsida -->
@@ -316,10 +315,6 @@
 		display: block;
 		margin-top: 12px;
 		font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-	}
-	.tile-field {
-		stroke: #b7bdb8;
-		stroke-width: 1;
 	}
 	.wall {
 		stroke: #5a3e1e;
