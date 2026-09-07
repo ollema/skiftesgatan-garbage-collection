@@ -199,7 +199,7 @@ export const STEPS: Step[] = [
 	{
 		id: 'mark-ut',
 		title: 'Märk ut',
-		text: `Märk med sprayfärg upp var vi ska gräva: kanterna på hela ytan och de ${formatCount(plintar)} plinthålen, enligt måtten i ritningen. Mät från skjulväggen och det befintliga staketet; ytans bortre kant ligger i linje med insidan på stolpen i befintliga staketet. Kontrollera att allt ser rimligt ut genom att lägga ut några plattor på gräset.`,
+		text: `Märk med sprayfärg upp var vi ska gräva. Mät från cykelskjulet och det befintliga staketet. Inhägnadens bortre kant ligger i linje med insidan på stolpen i befintliga staketet. Kontrollera gärna att allt ser rimligt ut genom att lägga ut några plattor på gräset.`,
 		layers: ['markering'],
 		annotations: [
 			...schaktMatt,
@@ -217,7 +217,7 @@ export const STEPS: Step[] = [
 	{
 		id: 'grav',
 		title: 'Gräv',
-		text: `Gräv ${formatCm(SCHAKT_DEPTH)} djupt innanför de sprayade linjerna och ${formatCm(PLINT_DEPTH)} djupt i de ${formatCount(plintar)} plinthålen.`,
+		text: `Gräv ${formatCm(SCHAKT_DEPTH)} djupt inom uppmärkt område och ${formatCm(PLINT_DEPTH)} djupt i de ${formatCount(plintar)} plinthålen.`,
 		layers: ['schakt', 'plinthal'],
 		annotations: [
 			...schaktMatt,
@@ -299,14 +299,14 @@ export const STEPS: Step[] = [
 	{
 		id: 'reglar-trall',
 		title: 'Skruva på reglar och trall',
-		text: `Varje fack får ${formatCount(REGLAR_PER_FACK)} reglar ${formatSection(STOLPE_WIDTH, STOLPE_WIDTH)}, kapade till fackens fria mått i ritningen, samma dimension som stolparna för att matcha det befintliga staketet. Stående trall ${formatSection(TRALL_THICKNESS, TRALL_WIDTH)} med ${formatMm(TRALL_GAP)} springa, rostfri trallskruv. Nedersta kanten ${formatCm(TRALL_GROUND_GAP)} ovanför plattorna. Såga av toppen med vinkel för att förhindra vattenansamling.`,
+		text: `Varje fack får ${formatCount(REGLAR_PER_FACK)} reglar ${formatSection(STOLPE_WIDTH, STOLPE_WIDTH)}, kapade till fackens fria mått i ritningen. Stående trall ${formatSection(TRALL_THICKNESS, TRALL_WIDTH)} med ${formatMm(TRALL_GAP)} springa, rostfri trallskruv. Nedersta kanten ${formatCm(TRALL_GROUND_GAP)} ovanför plattorna. Såga av toppen med vinkel för att förhindra vattenansamling.`,
 		layers: ['plinthal', 'barlager', 'plattor', 'plint-topp', 'stolpar', 'reglar', 'trall'],
 		annotations: staketMatt
 	},
 	{
 		id: 'karl',
 		title: 'Ställ in kärlen',
-		text: `Ställ in kärlen med minst ${formatCm(SOPKARL_GAP)} mellanrum, de små närmast skjulet. Det blir ${formatLength(FRITT_FRAMFOR_KARL)} fritt framför kärlen och öppningen är ${formatLength(GANG_WIDTH)} bred, vilket uppfyller stadens krav.`,
+		text: `Ställ in kärlen. Klart!`,
 		layers: ['plinthal', 'barlager', 'plattor', 'plint-topp', 'stolpar', 'reglar', 'trall', 'karl'],
 		annotations: []
 	}
