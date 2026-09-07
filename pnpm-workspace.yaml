@@ -1,2 +1,6 @@
 allowBuilds:
   esbuild: true
+
+# pnpm 11 läser inte engine-strict från .npmrc; här hårdstoppar den installationen
+# om Node-versionen inte matchar engines.node i package.json.
+engineStrict: true

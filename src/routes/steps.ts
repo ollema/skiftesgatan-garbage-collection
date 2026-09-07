@@ -1,4 +1,3 @@
-import { SOPKARL_SIZES } from './bins';
 import {
 	ANSLUTNING_HALVPLATTOR,
 	BARLAGER_THICKNESS,
@@ -22,7 +21,6 @@ import {
 	PLINT_HAL_SIZE,
 	REGLAR_PER_FACK,
 	SCHAKT_DEPTH,
-	SOPKARL_GAP,
 	STENMJOL_THICKNESS,
 	STAKET,
 	STAKET_KLADSEL,
@@ -188,10 +186,6 @@ const staketMatt: Annotation[] = [
 		true
 	)
 ];
-
-// Kärlen: fritt djup framför de stora kärlen, till främre staketets insida.
-const karlFront = INHAGNAD_OFFSET_Y + SOPKARL_GAP + SOPKARL_SIZES.large.depth;
-const FRITT_FRAMFOR_KARL = STAKET.corner.y - STOLPE_WIDTH / 2 - karlFront;
 
 // --- Stegen ---
 
