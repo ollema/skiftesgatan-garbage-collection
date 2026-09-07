@@ -1,5 +1,6 @@
 import {
 	BEFINTLIG_STOLPE_DISTANCE,
+	centeredSquare,
 	GANG_LENGTH,
 	GANG_WIDTH,
 	INHAGNAD_DEPTH,
@@ -25,13 +26,22 @@ export const PLAN_SCALE = 100;
 export const SCHAKT_EDGE_X = INHAGNAD_OFFSET_X + INHAGNAD_WIDTH;
 export const GANG_END_Y = INHAGNAD_OFFSET_Y + INHAGNAD_DEPTH + GANG_LENGTH;
 
-// Marginalerna ger plats åt måttlinjer: två kolumner till höger och vänster,
-// två rader upptill och nedtill.
+/** Måttlinjernas lägen, utanför ritobjekten: två kolumner till vänster, en till höger, en rad upptill och nedtill. */
+export const DIM_LANES = {
+	top: -0.3,
+	bottom: GANG_END_Y + 0.28,
+	left1: PLATT_YTOR.anslutning.x - 0.25,
+	left2: PLATT_YTOR.anslutning.x - 0.5,
+	right: SCHAKT_EDGE_X + 0.32
+};
+
+// Marginalerna ger plats åt måttlinjerna och deras text. Till höger ryms också
+// trallens måttlinje, som ligger utanför klädseln.
 const PLAN_BOUNDS = {
-	xMin: PLATT_YTOR.anslutning.x - 0.75,
-	xMax: SCHAKT_EDGE_X + 0.85,
-	yMin: -0.7,
-	yMax: GANG_END_Y + 0.7
+	xMin: DIM_LANES.left2 - 0.25,
+	xMax: DIM_LANES.right + 0.53,
+	yMin: DIM_LANES.top - 0.4,
+	yMax: DIM_LANES.bottom + 0.42
 };
 
 export const PLAN_VIEWBOX = {
@@ -72,16 +82,10 @@ export const SHED = {
 	depth: SKJUL_DEPTH
 };
 
-export const TILE_FIELDS = {
-	enclosure: PLATT_YTOR.inhagnad,
-	path: PLATT_YTOR.gang,
-	connector: PLATT_YTOR.anslutning
-};
-
 export const ASPHALT = {
 	x: PLAN_BOUNDS.xMin,
 	y: SKJUL_DEPTH,
-	width: TILE_FIELDS.connector.x - PLAN_BOUNDS.xMin,
+	width: PLATT_YTOR.anslutning.x - PLAN_BOUNDS.xMin,
 	height: PLAN_BOUNDS.yMax - SKJUL_DEPTH
 };
 
@@ -113,14 +117,10 @@ export const NEW_FENCE = {
 	far: { x: STAKET.corner.x, y1: 0, y2: STAKET.corner.y },
 	front: {
 		x1: INHAGNAD_OFFSET_X + GANG_WIDTH,
-		x2: INHAGNAD_OFFSET_X + INHAGNAD_WIDTH + STOLPE_WIDTH,
+		x2: STAKET.corner.x + STOLPE_WIDTH / 2,
 		y: STAKET.corner.y
 	}
 };
-
-function centeredSquare(center: { x: number; y: number }, size: number): Rect {
-	return { x: center.x - size / 2, y: center.y - size / 2, width: size, height: size };
-}
 
 /** Plinttopparna sedda uppifrån. */
 export const PLINT_TOPP: Rect[] = STOLPAR.map((post) => centeredSquare(post, PLINT_TOP));

@@ -3,6 +3,7 @@
 	import {
 		INHAGNAD_OFFSET_X,
 		INHAGNAD_OFFSET_Y,
+		PLATT_YTOR,
 		PLATTA_PITCH,
 		PLINT_HAL,
 		SCHAKT_POLYGON,
@@ -25,7 +26,6 @@
 		SHED,
 		SHED_FRONT_GUIDE,
 		SHED_STUDS,
-		TILE_FIELDS,
 		TRALL_BOARDS,
 		type Annotation,
 		type Dimension,
@@ -40,11 +40,14 @@
 
 	const visible = $derived(new Set(layers));
 
+	/** Ritningen finns flera gånger på sidan, så mönstrens id måste vara unika. */
+	const id = $props.id();
+
 	const postPx = STOLPE_WIDTH * PLAN_SCALE;
 	const tilePx = PLATTA_PITCH * PLAN_SCALE;
 
 	const schaktPoints = SCHAKT_POLYGON.map((p) => `${planX(p.x)},${planY(p.y)}`).join(' ');
-	const tileFields = Object.values(TILE_FIELDS);
+	const tileFields = Object.values(PLATT_YTOR);
 
 	function rect(r: Rect) {
 		return {
@@ -80,7 +83,7 @@
 >
 	<defs>
 		<pattern
-			id="tile"
+			id="{id}-tile"
 			x={planX(INHAGNAD_OFFSET_X)}
 			y={planY(INHAGNAD_OFFSET_Y)}
 			width={tilePx}
@@ -92,7 +95,7 @@
 			     yttre halvan och fogarna inne i fältet blir tunnare än fältens kanter -->
 			<path d="M{tilePx} 0.5H0.5V{tilePx}" fill="none" stroke="#b0b5ad" stroke-width="1" />
 		</pattern>
-		<pattern id="barlager" width="11" height="11" patternUnits="userSpaceOnUse">
+		<pattern id="{id}-barlager" width="11" height="11" patternUnits="userSpaceOnUse">
 			<rect width="11" height="11" fill="#b8b8b8" />
 			<circle cx="2" cy="2.5" r="1.2" fill="#8f8f8f" />
 			<circle cx="7.5" cy="1.5" r="1" fill="#9a9a9a" />
@@ -100,7 +103,7 @@
 			<circle cx="9" cy="7.5" r="1" fill="#8f8f8f" />
 			<circle cx="1.5" cy="9.5" r="1" fill="#9a9a9a" />
 		</pattern>
-		<pattern id="stenmjol" width="6" height="6" patternUnits="userSpaceOnUse">
+		<pattern id="{id}-stenmjol" width="6" height="6" patternUnits="userSpaceOnUse">
 			<rect width="6" height="6" fill="#cfc9b8" />
 			<circle cx="1.5" cy="1.5" r="0.5" fill="#b8b09a" />
 			<circle cx="4.5" cy="4" r="0.5" fill="#b8b09a" />
@@ -127,11 +130,11 @@
 		<polygon points={schaktPoints} fill="#dcdcdc" />
 	{/if}
 	{#if visible.has('barlager')}
-		<polygon points={schaktPoints} fill="url(#barlager)" />
+		<polygon points={schaktPoints} fill="url(#{id}-barlager)" />
 	{/if}
 	{#if visible.has('stenmjol')}
 		{#each tileFields as field (field.x + ',' + field.y)}
-			<rect {...rect(field)} fill="url(#stenmjol)" />
+			<rect {...rect(field)} fill="url(#{id}-stenmjol)" />
 		{/each}
 	{/if}
 
@@ -143,7 +146,7 @@
 	{/if}
 	{#if visible.has('plattor')}
 		{#each tileFields as field (field.x + ',' + field.y)}
-			<rect {...rect(field)} fill="url(#tile)" />
+			<rect {...rect(field)} fill="url(#{id}-tile)" />
 		{/each}
 	{/if}
 

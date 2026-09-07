@@ -13,16 +13,25 @@ import {
 	SCHAKT_DEPTH,
 	STAKET_HEIGHT,
 	STAKET_SIDOR,
-	STENMJOL_THICKNESS,
-	type Rect,
 	PLINT_HAL_SIZE,
+	type Rect,
+	STENMJOL_THICKNESS,
 	STOLPE_WIDTH,
 	TRALL_GAP,
 	TRALL_GROUND_GAP,
 	TRALL_THICKNESS,
 	TRALL_WIDTH
 } from './dimensions';
-import { formatKg, formatNumber1 } from './format';
+import {
+	formatCm,
+	formatKg,
+	formatMetersTrimmed,
+	formatMm,
+	formatNumber1,
+	formatNumberTrimmed,
+	formatSection,
+	listJoin
+} from './format';
 
 const PRICE = {
 	stolpe48: 316.56,
@@ -80,8 +89,7 @@ function bomRow(
 	label: string,
 	quantity: number,
 	unitPrice: number,
-	estimated = false,
-	url?: string
+	{ estimated = false, url }: { estimated?: boolean; url?: string } = {}
 ): BomRow {
 	return { label, quantity, unitPrice, cost: Math.round(quantity * unitPrice), estimated, url };
 }
@@ -111,16 +119,6 @@ function unionArea(rects: Rect[]) {
 	return area;
 }
 
-const cm = (n: number) => `${Math.round(n * 100)} cm`;
-/** Meter utan avslutande nolla: 1,5 istället för 1,50. */
-const num = (n: number) => n.toFixed(2).replace(/0$/, '').replace(/\.$/, '').replace('.', ',');
-const m = (n: number) => `${num(n)} m`;
-/** Virkesdimension i mm: 95 × 95 mm. */
-const mm2 = (a: number, b: number) => `${Math.round(a * 1000)} × ${Math.round(b * 1000)} mm`;
-/** "a", "a och b", "a, b och c". */
-const listJoin = (parts: string[]) =>
-	parts.length < 2 ? (parts[0] ?? '') : `${parts.slice(0, -1).join(', ')} och ${parts.at(-1)}`;
-
 interface Kap {
 	singular: string;
 	plural: string;
@@ -149,9 +147,10 @@ function kapa(stockLength: number, pieces: Kap[]) {
 			else groups.push({ kap: piece, count: 1 });
 		}
 		const parts = groups.map(
-			(g) => `${g.count} ${g.count === 1 ? g.kap.singular : g.kap.plural} à ${m(g.kap.length)}`
+			(g) =>
+				`${g.count} ${g.count === 1 ? g.kap.singular : g.kap.plural} à ${formatMetersTrimmed(g.kap.length)}`
 		);
-		return `Längd ${i + 1}: ${listJoin(parts)} (${m(stockLength - stock.used)} över)`;
+		return `Längd ${i + 1}: ${listJoin(parts)} (${formatMetersTrimmed(stockLength - stock.used)} över)`;
 	});
 }
 
@@ -192,8 +191,8 @@ function computeQuantities() {
 	const fack = STAKET_SIDOR.flatMap((s) => s.fack);
 	const kladselLength = STAKET_SIDOR.reduce((sum, s) => sum + s.kladsel, 0);
 
-	// Fyra stolpar står på plint; den femte skruvas fast i det befintliga
-	// staketets stolpe. Hörnstolpen delas mellan de två sidorna.
+	// En stolpe per plint, plus den som skruvas fast i det befintliga staketets
+	// stolpe. Hörnstolpen delas mellan de två sidorna.
 	const stolpar = plintar + 1;
 	const stolpeLength = STAKET_HEIGHT;
 
@@ -226,84 +225,61 @@ function computeQuantities() {
 
 	const bomGroups: BomGroup[] = [
 		bomGroup('Plattläggning', [
-			bomRow(
-				'Markplatta Benders Siena 35×35×5 cm grå',
-				helaPlattor,
-				plattaPrice,
-				false,
-				'https://www.hornbach.se/p/markplatta-benders-siena-slat-fasad-gra-350x350x50mm/8628862/'
-			),
+			bomRow('Markplatta Benders Siena 35×35×5 cm grå', helaPlattor, plattaPrice, {
+				url: 'https://www.hornbach.se/p/markplatta-benders-siena-slat-fasad-gra-350x350x50mm/8628862/'
+			}),
 			bomRow(
 				'Markplatta Benders Siena 35×17,5×5 cm grå, halv',
 				ANSLUTNING_HALVPLATTOR,
 				PRICE.plattaHalf,
-				false,
-				'https://www.hornbach.se/p/markplatta-benders-siena-slat-fasad-gra-350x175x50mm/8407799/'
+				{
+					url: 'https://www.hornbach.se/p/markplatta-benders-siena-slat-fasad-gra-350x175x50mm/8407799/'
+				}
 			),
-			bomRow(
-				'Fiberduk under bärlagret, N1 90 g/m², 1,4×25 m (35 m²)',
-				1,
-				PRICE.fiberduk,
-				false,
-				'https://www.hornbach.se/p/markduk-geotex-geotextil-fiberduk-n1-90g-m-1-4x25-m/12124052/'
-			),
-			bomRow(
-				'Fogsand 20 kg',
-				fogsandBags,
-				PRICE.fogsand,
-				false,
-				'https://www.hornbach.se/p/fogsand-benders-gra-ograshammande-20-kg/10598223/'
-			),
-			bomRow(
-				'Bergskross 0–32, storsäck 500 kg',
-				barlagerSackar,
-				PRICE.bergskross500,
-				false,
-				'https://stenbolaget.se/products/bergskross-0-32-storsack-500kg'
-			),
-			bomRow(
-				'Stenmjöl 0–8, storsäck 500 kg',
-				stenmjolSackar,
-				PRICE.stenmjol500,
-				false,
-				'https://stenbolaget.se/products/stenmjol-0-8-storsack-500kg-1'
-			),
+			bomRow('Fiberduk under bärlagret, N1 90 g/m², 1,4×25 m (35 m²)', 1, PRICE.fiberduk, {
+				url: 'https://www.hornbach.se/p/markduk-geotex-geotextil-fiberduk-n1-90g-m-1-4x25-m/12124052/'
+			}),
+			bomRow('Fogsand 20 kg', fogsandBags, PRICE.fogsand, {
+				url: 'https://www.hornbach.se/p/fogsand-benders-gra-ograshammande-20-kg/10598223/'
+			}),
+			bomRow('Bergskross 0–32, storsäck 500 kg', barlagerSackar, PRICE.bergskross500, {
+				url: 'https://stenbolaget.se/products/bergskross-0-32-storsack-500kg'
+			}),
+			bomRow('Stenmjöl 0–8, storsäck 500 kg', stenmjolSackar, PRICE.stenmjol500, {
+				url: 'https://stenbolaget.se/products/stenmjol-0-8-storsack-500kg-1'
+			}),
 			bomRow('Returpall (EUR-pall)', pallar, PRICE.returpall),
 			bomRow('Leverans, bergskross och stenmjöl', 1, PRICE.leverans)
 		]),
 		bomGroup('Staket', [
+			bomRow('Betongplint Benders 4" × 700 mm med fast stolpjärn', plintar, PRICE.plint, {
+				url: 'https://www.hornbach.se/p/betongplint-benders-4x700mm/5520589/'
+			}),
 			bomRow(
-				'Betongplint Benders 4" × 700 mm med fast stolpjärn',
-				plintar,
-				PRICE.plint,
-				false,
-				'https://www.hornbach.se/p/betongplint-benders-4x700mm/5520589/'
-			),
-			bomRow(
-				'Stolpe/regel 95×95 mm NTR A, 4,8 m',
+				`Stolpe/regel ${formatSection(STOLPE_WIDTH, STOLPE_WIDTH)} NTR A, ${formatMetersTrimmed(STOLPE_STOCK)}`,
 				stolpeRegelStockar,
 				PRICE.stolpe48,
-				false,
-				'https://www.hornbach.se/p/tryckimpregnerad-stolpe-ntr-a-95x95x4800-mm/6810575/'
+				{ url: 'https://www.hornbach.se/p/tryckimpregnerad-stolpe-ntr-a-95x95x4800-mm/6810575/' }
 			),
 			bomRow(
-				'Trall 28×120 mm NTR AB, 4,5 m',
+				`Trall ${formatSection(TRALL_THICKNESS, TRALL_WIDTH)} NTR AB, ${formatMetersTrimmed(TRALL_STOCK)}`,
 				trallStockar,
 				PRICE.trall45,
-				false,
-				'https://www.hornbach.se/p/tryckimpregnerad-trall-ntr-ab-28x120x4500-mm/6736138/'
+				{ url: 'https://www.hornbach.se/p/tryckimpregnerad-trall-ntr-ab-28x120x4500-mm/6736138/' }
 			),
 			bomRow(
 				'Trallskruv + konstruktionsskruv + bult till befintliga staketet, rostfri',
 				1,
 				PRICE.skruv,
-				true,
-				'https://www.hornbach.se/c/jarnvaror/skruv-bult/trallskruv/S16916/'
+				{
+					estimated: true,
+					url: 'https://www.hornbach.se/c/jarnvaror/skruv-bult/trallskruv/S16916/'
+				}
 			)
 		]),
 		bomGroup('Maskinhyra', [
-			bomRow('Hyra markvibrator, 1 dag', 1, PRICE.markvibrator, true),
-			bomRow('Hyra pallyftare, 1 dag', 1, PRICE.pallyftare, true)
+			bomRow('Hyra markvibrator, 1 dag', 1, PRICE.markvibrator, { estimated: true }),
+			bomRow('Hyra pallyftare, 1 dag', 1, PRICE.pallyftare, { estimated: true })
 		])
 	];
 
@@ -359,27 +335,27 @@ export const FACTS: Fact[] = [
 	},
 	{
 		term: 'Bärlager',
-		description: `${cm(BARLAGER_THICKNESS)} × ${formatNumber1(q.hardgjordArea)} m² plattor och grus, ca ${formatKg(q.barlagerKg)}.`
+		description: `${formatCm(BARLAGER_THICKNESS)} × ${formatNumber1(q.hardgjordArea)} m² plattor och grus, ca ${formatKg(q.barlagerKg)}.`
 	},
 	{
 		term: 'Stenmjöl',
-		description: `${cm(STENMJOL_THICKNESS)} × ${formatNumber1(q.plattArea)} m² under plattorna, ca ${formatKg(q.stenmjolKg)}.`
+		description: `${formatCm(STENMJOL_THICKNESS)} × ${formatNumber1(q.plattArea)} m² under plattorna, ca ${formatKg(q.stenmjolKg)}.`
 	},
 	{
 		term: 'Fogsand',
-		description: `${num(FOGSAND_KG_PER_M2)} kg/m² × ${formatNumber1(q.plattArea)} m², ca. ${formatKg(FOGSAND_KG_PER_M2 * q.plattArea)}.`
+		description: `${formatNumberTrimmed(FOGSAND_KG_PER_M2)} kg/m² × ${formatNumber1(q.plattArea)} m², ca ${formatKg(FOGSAND_KG_PER_M2 * q.plattArea)}.`
 	},
 	{
-		term: `Virke ${mm2(STOLPE_WIDTH, STOLPE_WIDTH)}`,
-		description: `${q.stolpeRegelStockar} längder à ${m(STOLPE_STOCK)}:`,
+		term: `Virke ${formatSection(STOLPE_WIDTH, STOLPE_WIDTH)}`,
+		description: `${q.stolpeRegelStockar} längder à ${formatMetersTrimmed(STOLPE_STOCK)}:`,
 		items: q.virkeKap
 	},
 	{
-		term: `Trall ${mm2(TRALL_THICKNESS, TRALL_WIDTH)}`,
-		description: `${q.trallStockar} längder à ${m(TRALL_STOCK)}:`,
+		term: `Trall ${formatSection(TRALL_THICKNESS, TRALL_WIDTH)}`,
+		description: `${q.trallStockar} längder à ${formatMetersTrimmed(TRALL_STOCK)}:`,
 		items: [
-			`${q.bradorPerStock} brädor à ${m(q.bradLength)} per längd`,
-			`${q.brador} brädor totalt, stående med ${Math.round(TRALL_GAP * 1000)} mm springa`
+			`${q.bradorPerStock} brädor à ${formatMetersTrimmed(q.bradLength)} per längd`,
+			`${q.brador} brädor totalt, stående med ${formatMm(TRALL_GAP)} springa`
 		]
 	}
 ];

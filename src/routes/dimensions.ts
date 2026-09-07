@@ -18,10 +18,20 @@ export const SKJUL_DEPTH = 2.67;
 /** Från skjulets vägg till den befintliga staketstolpe som nya staketet fästs i. */
 export const BEFINTLIG_STOLPE_DISTANCE = 3.93;
 
+// --- Krav från Göteborgs stad som utformningen kontrolleras mot ---
+
+/** Fritt utrymme framför kärlen där de står. */
+export const KRAV_FRITT_FRAMFOR_KARL = 1.5;
+/** Minsta bredd på inhägnadens öppning. */
+export const KRAV_OPPNING_WIDTH = 1.2;
+
 // --- Marksten ---
 
-export const PLATTA_PITCH = 0.353;
-const PLATTA_THICKNESS = 0.05;
+export const PLATTA_SIZE = 0.35;
+export const PLATTA_THICKNESS = 0.05;
+/** Fogen mellan plattorna. */
+export const PLATTA_FOG = 0.003;
+export const PLATTA_PITCH = PLATTA_SIZE + PLATTA_FOG;
 
 // --- Markuppbyggnad under plattorna ---
 
@@ -33,9 +43,11 @@ export const SCHAKT_DEPTH = PLATTA_THICKNESS + STENMJOL_THICKNESS + BARLAGER_THI
 
 /** Plinten är 690 mm hög och ställs med toppen under plattorna, så hålet blir djupare. */
 const PLINT_HEIGHT = 0.69;
-/** Plinttoppen hamnar i nivå med plattornas undersida, så plattorna kan läggas över kanten. */
-export const PLINT_TOP_DEPTH = PLATTA_THICKNESS;
-export const PLINT_DEPTH = PLINT_HEIGHT + PLINT_TOP_DEPTH;
+/**
+ * Plinttoppen hamnar en plattjocklek ner, i nivå med plattornas undersida, så
+ * att plattorna kan läggas över plintens kant utan att kapas.
+ */
+export const PLINT_DEPTH = PLINT_HEIGHT + PLATTA_THICKNESS;
 /** Plintens toppmått; basen är bredare men syns inte när hålet är packat. */
 export const PLINT_TOP = 0.17;
 /** Grävt hål runt plinten, med plats att packa runt om. */
@@ -95,33 +107,44 @@ const STAKET_CORNER_Y = SKJUL_DEPTH - STOLPE_WIDTH / 2 - TRALL_THICKNESS;
 export const INHAGNAD_OFFSET_X = STAKET_CORNER_X - INHAGNAD_WIDTH - STOLPE_WIDTH / 2;
 export const INHAGNAD_OFFSET_Y = STAKET_CORNER_Y - INHAGNAD_DEPTH - STOLPE_WIDTH / 2;
 
+export const STAKET = {
+	/** Hörnstolpen där det bortre och det framre staketet möts. */
+	corner: { x: STAKET_CORNER_X, y: STAKET_CORNER_Y },
+	/** Stolpen som skruvas fast i det befintliga staketets stolpe. */
+	anchor: { x: STAKET_CORNER_X, y: STOLPE_WIDTH / 2 }
+};
+
 // --- Staketets stolpar ---
+
+/** Avrundat till tiondels mm, så att lika mått inte blir olika av flyttalsbrus. */
+const roundMm = (n: number) => Math.round(n * 1e4) / 1e4;
 
 /** Jämnt fördelade stolplägen mellan `from` och `to`, båda ändarna inkluderade. */
 function spanStolpar(from: number, to: number) {
 	const segments = Math.ceil((to - from) / MAX_STOLPE_SPACING);
-	return Array.from({ length: segments + 1 }, (_, i) => from + ((to - from) * i) / segments);
+	return Array.from({ length: segments + 1 }, (_, i) =>
+		roundMm(from + ((to - from) * i) / segments)
+	);
 }
 
-// Det bortre staketet börjar i stolpen som skruvas fast i det befintliga
-// staketet (`STAKET.anchor`), så den änden får ingen egen plint. Det framre
-// staketet delar hörnstolpe med det bortre och hoppar därför över sin sista punkt.
-const bortreStolpar = spanStolpar(STOLPE_WIDTH / 2, STAKET_CORNER_Y)
+// Det bortre staketet börjar i `STAKET.anchor`, så den änden får ingen egen
+// plint. Det framre staketet delar hörnstolpe med det bortre och hoppar därför
+// över sin sista punkt.
+
+/** Stolpar på plint längs bortre sidan, inklusive hörnstolpen. */
+export const BORTRE_STOLPAR = spanStolpar(STAKET.anchor.y, STAKET.corner.y)
 	.slice(1)
-	.map((y) => ({ x: STAKET_CORNER_X, y }));
-const framreStolpar = spanStolpar(
+	.map((y) => ({ x: STAKET.corner.x, y }));
+/** Stolpar på plint längs främre sidan, utom hörnstolpen. */
+export const FRAMRE_STOLPAR = spanStolpar(
 	INHAGNAD_OFFSET_X + GANG_WIDTH + STOLPE_WIDTH / 2,
-	STAKET_CORNER_X
+	STAKET.corner.x
 )
 	.slice(0, -1)
-	.map((x) => ({ x, y: STAKET_CORNER_Y }));
+	.map((x) => ({ x, y: STAKET.corner.y }));
 
-export const STOLPAR = [...bortreStolpar, ...framreStolpar];
-
-export const STAKET = {
-	corner: { x: STAKET_CORNER_X, y: STAKET_CORNER_Y },
-	anchor: { x: STAKET_CORNER_X, y: STOLPE_WIDTH / 2 }
-};
+/** Alla stolpar som står på plint. */
+export const STOLPAR = [...BORTRE_STOLPAR, ...FRAMRE_STOLPAR];
 
 // --- Ytorna som schaktas, som rektanglar i planvyn ---
 //
@@ -134,6 +157,10 @@ export interface Rect {
 	y: number;
 	width: number;
 	height: number;
+}
+
+export function centeredSquare(center: { x: number; y: number }, size: number): Rect {
+	return { x: center.x - size / 2, y: center.y - size / 2, width: size, height: size };
 }
 
 /** Plattfältet: inhägnaden, gången och anslutningsraden mot asfalten. */
@@ -175,12 +202,7 @@ export const GRUS_YTOR = {
 } satisfies Record<string, Rect>;
 
 /** Grävda hål för betongplintarna. */
-export const PLINT_HAL: Rect[] = STOLPAR.map((post) => ({
-	x: post.x - PLINT_HAL_SIZE / 2,
-	y: post.y - PLINT_HAL_SIZE / 2,
-	width: PLINT_HAL_SIZE,
-	height: PLINT_HAL_SIZE
-}));
+export const PLINT_HAL: Rect[] = STOLPAR.map((post) => centeredSquare(post, PLINT_HAL_SIZE));
 
 /**
  * Schaktens omriss: unionen av plattfältet och grusremsorna, som en polygon
@@ -198,17 +220,21 @@ export const SCHAKT_POLYGON: { x: number; y: number }[] = [
 ];
 
 // --- Trallklädseln: sitter utanpå stolparna och möts i ytterhörnet ---
+//
+// I hörnet går den främre sidans brädor hela vägen ut och täcker änden på den
+// bortre sidans, som slutar vid stolpens utsida.
 
-const KLADSEL_OUTER_X = STAKET_CORNER_X + STOLPE_WIDTH / 2;
-const KLADSEL_OUTER_Y = STAKET_CORNER_Y + STOLPE_WIDTH / 2;
+/** Stolparnas utsida, där brädorna skruvas fast. */
+const KLADSEL_INNER_X = STAKET.corner.x + STOLPE_WIDTH / 2;
+const KLADSEL_INNER_Y = STAKET.corner.y + STOLPE_WIDTH / 2;
 
-/** `at` = klädselns utsida, `from`/`to` = dess utsträckning längs sidan. */
+/** `at` = brädornas insida mot stolparna, `from`/`to` = deras utsträckning längs sidan. */
 export const STAKET_KLADSEL = {
-	bortre: { at: KLADSEL_OUTER_X, from: 0, to: KLADSEL_OUTER_Y + TRALL_THICKNESS },
+	bortre: { at: KLADSEL_INNER_X, from: 0, to: KLADSEL_INNER_Y },
 	framre: {
-		at: KLADSEL_OUTER_Y,
+		at: KLADSEL_INNER_Y,
 		from: INHAGNAD_OFFSET_X + GANG_WIDTH,
-		to: KLADSEL_OUTER_X + TRALL_THICKNESS
+		to: KLADSEL_INNER_X + TRALL_THICKNESS
 	}
 };
 
@@ -236,24 +262,24 @@ function staketSida(
 		label,
 		short,
 		stolplagen,
-		fack: stolplagen.slice(1).map((p, i) => p - stolplagen[i] - STOLPE_WIDTH),
-		kladsel: kladsel.to - kladsel.from
+		fack: stolplagen.slice(1).map((p, i) => roundMm(p - stolplagen[i] - STOLPE_WIDTH)),
+		kladsel: roundMm(kladsel.to - kladsel.from)
 	};
 }
 
-// Den bortre sidan börjar i stolpen som skruvas fast i det befintliga staketet
-// (`STAKET.anchor`); den framre slutar i den gemensamma hörnstolpen.
+// Den bortre sidan börjar i `STAKET.anchor`; den framre slutar i den
+// gemensamma hörnstolpen.
 export const STAKET_SIDOR: StaketSida[] = [
 	staketSida(
 		'Bortre sidan, mot befintliga staketet',
 		'bortre sidan',
-		[STOLPE_WIDTH / 2, ...bortreStolpar.map((p) => p.y)],
+		[STAKET.anchor.y, ...BORTRE_STOLPAR.map((p) => p.y)],
 		STAKET_KLADSEL.bortre
 	),
 	staketSida(
 		'Främre sidan, mot asfalten',
 		'främre sidan',
-		[...framreStolpar.map((p) => p.x), STAKET_CORNER_X],
+		[...FRAMRE_STOLPAR.map((p) => p.x), STAKET.corner.x],
 		STAKET_KLADSEL.framre
 	)
 ];

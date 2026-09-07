@@ -1,9 +1,24 @@
 <script lang="ts">
 	import PlanDrawing from './PlanDrawing.svelte';
 	import StepViewer from './StepViewer.svelte';
-	import { formatKr } from './format';
+	import {
+		MIN_INHAGNAD_DEPTH,
+		MIN_INHAGNAD_WIDTH,
+		SOPKARL,
+		SOPKARL_ANTAL,
+		SOPKARL_SIZES
+	} from './bins';
+	import {
+		KRAV_FRITT_FRAMFOR_KARL,
+		KRAV_OPPNING_WIDTH,
+		SOPKARL_GAP,
+		STAKET_HEIGHT
+	} from './dimensions';
+	import { formatCm, formatCount, formatKr, formatMeters, formatMetersTrimmed } from './format';
 	import { FACTS, quantities } from './materials';
 	import { OVERVIEW_LAYERS } from './steps';
+
+	const { small, large } = SOPKARL_SIZES;
 
 	const SECTIONS = [
 		{ id: 'bakgrund', label: 'Bakgrund' },
@@ -34,8 +49,11 @@
 		<p>
 			Göteborgs nya krav på förpackningssortering för flerbostadshus träder i kraft 2027‑01‑01.
 			Föreningen sorterar i dag bara restavfall och matavfall och behöver införa fastighetsnära
-			insamling (FNI) för plast, papper, metall och glas. För oss innebär FNI fem nya kärl: 370 l
-			för papper och 370 l för plast, samt 140 l vardera för färgat glas, ofärgat glas och metall.
+			insamling (FNI) för plast, papper, metall och glas. För oss innebär FNI {formatCount(
+				SOPKARL.length
+			)} nya kärl:
+			{large.label} för papper och {large.label} för plast, samt {small.label} vardera för färgat glas,
+			ofärgat glas och metall.
 		</p>
 
 		<h3>Krav och rekommendationer från Göteborgs stad</h3>
@@ -43,22 +61,37 @@
 			<li>Det ska vara lätt för boende att sortera rätt (vi ska sätta upp informationsskyltar).</li>
 			<li>Insamlingen får inte orsaka lukt, buller eller sanitär olägenhet.</li>
 			<li>Dragvägen får vara max 25 m lång, minst 1,2 m bred och minst 1,35 m bred i svängar.</li>
-			<li>Dessutom behövs minst 1,5 m fritt utrymme framför kärlen där de är placerade.</li>
-			<li>Det ska vara minst 6 cm mellan kärlen.</li>
+			<li>
+				Dessutom behövs minst {formatMetersTrimmed(KRAV_FRITT_FRAMFOR_KARL)} fritt utrymme framför kärlen
+				där de är placerade.
+			</li>
+			<li>Det ska vara minst {formatCm(SOPKARL_GAP)} mellan kärlen.</li>
 			<li>Ytan kärlen dras över ska vara hårdgjord och jämn, inte grus, gräs eller makadam.</li>
 			<li>Inhägnad rekommenderas.</li>
-			<li>Om inhägnaden har dörr så behöver öppningen vara minst 1,2 m bred.</li>
+			<li>
+				Om inhägnaden har dörr så behöver öppningen vara minst {formatMetersTrimmed(
+					KRAV_OPPNING_WIDTH
+				)} bred.
+			</li>
 		</ul>
 
 		<p>Dessa krav, tillsammans med måtten på de nya kärlen:</p>
 		<ul class="check">
-			<li>140 l: djup 50 cm, bredd 50 cm, höjd 109 cm</li>
-			<li>370 l: djup 80 cm, bredd 76 cm, höjd 109 cm</li>
+			{#each [small, large] as size (size.label)}
+				<li>
+					{size.label}: djup {formatCm(size.depth)}, bredd {formatCm(size.width)}, höjd {formatCm(
+						size.height
+					)}
+				</li>
+			{/each}
 		</ul>
 		<p>
-			resulterar i ett minsta djup på inhägnaden: 6 cm + 80 cm + 150 cm = <strong>2,36 m.</strong>
-			Det ger också en minsta bredd: 6 × 6 cm + 3 × 50 cm + 2 × 76 cm = <strong>3,38 m.</strong>
-			Kärlen är cirka 1,1 m höga.
+			resulterar i ett minsta djup på inhägnaden: {formatCm(SOPKARL_GAP)} + {formatCm(large.depth)} +
+			{formatCm(KRAV_FRITT_FRAMFOR_KARL)} = <strong>{formatMeters(MIN_INHAGNAD_DEPTH)}.</strong>
+			Det ger också en minsta bredd: {SOPKARL.length + 1} × {formatCm(SOPKARL_GAP)} + {SOPKARL_ANTAL.small}
+			× {formatCm(small.width)} + {SOPKARL_ANTAL.large} × {formatCm(large.width)} =
+			<strong>{formatMeters(MIN_INHAGNAD_WIDTH)}.</strong>
+			Kärlen är {formatMetersTrimmed(large.height)} höga.
 		</p>
 
 		<h3>Styrelsens förslag</h3>
@@ -71,7 +104,10 @@
 			Vi har tänkt använda markplattor för att skapa en stabil och jämn yta för inhägnaden och för
 			dragvägen.
 		</p>
-		<p>Höjden på inhägnaden är satt till 1,5 m för att det ska se lite trevligare ut.</p>
+		<p>
+			Höjden på inhägnaden är satt till {formatMetersTrimmed(STAKET_HEIGHT)} för att det ska se lite trevligare
+			ut.
+		</p>
 	</section>
 
 	<section id="skiss">
