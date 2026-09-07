@@ -1,34 +1,34 @@
 import {
+	ANSLUTNING_HALVPLATTOR,
 	BARLAGER_THICKNESS,
-	ENCLOSURE_DEPTH,
-	ENCLOSURE_DEPTH_TILES,
-	ENCLOSURE_WIDTH,
-	ENCLOSURE_WIDTH_TILES,
-	PATH_CONNECTOR_TILES,
-	POST_WIDTH,
-	POSTS,
+	INHAGNAD_DEPTH,
+	INHAGNAD_DEPTH_PLATTOR,
+	INHAGNAD_WIDTH,
+	INHAGNAD_WIDTH_PLATTOR,
+	PLATTA_PITCH,
+	REMSA_LENGTH,
+	REMSA_LENGTH_PLATTOR,
+	REMSA_WIDTH,
+	REMSA_WIDTH_PLATTOR,
 	SCHAKT_DEPTH,
 	STENMJOL_THICKNESS,
-	STRIP_LENGTH,
-	STRIP_ROWS_TILES,
-	STRIP_WIDTH,
-	STRIP_WIDTH_TILES,
-	TILE_PITCH
+	STOLPAR,
+	STOLPE_WIDTH
 } from './dimensions';
 import { formatKg, formatMeters, formatNumber1 } from './format';
 
 const PRICE = {
-	post48: 316.56,
+	stolpe48: 316.56,
 	trall45: 85.28,
 	plint: 159.0,
-	screws: 450,
+	skruv: 450,
 	platta: 24.0,
 	plattaFew: 26.9,
 	plattaHalf: 17.0,
 	fiberduk: 399,
 	fogsand: 199,
 	kantsten: 38.8,
-	vibrator: 700,
+	markvibrator: 700,
 	schakt: 2000,
 	bergskross1000: 993.65,
 	stenmjol500: 601.3,
@@ -37,8 +37,8 @@ const PRICE = {
 	leverans: 2615.0
 };
 
-const BERGSKROSS_SACKS = 2;
-const STENMJOL_SACKS = 1;
+const BERGSKROSS_STORSACKAR = 2;
+const STENMJOL_STORSACKAR = 1;
 
 interface BomRow {
 	label: string;
@@ -70,52 +70,56 @@ function bomGroup(label: string, rows: BomRow[]): BomGroup {
 }
 
 function computeQuantities() {
-	const posts = POSTS.length;
-	const run = ENCLOSURE_DEPTH + POST_WIDTH + (ENCLOSURE_WIDTH - STRIP_WIDTH);
-	const boards = Math.ceil((run / 0.13) * 1.05);
-	const trallLen = Math.ceil(boards / 3);
-	const postCutLength = 4.8 / 3;
-	const postAndRailLength = posts * postCutLength + 3 * run * 1.1 + postCutLength + 2.0;
-	const postAndRailLen = Math.ceil(postAndRailLength / 4.8);
+	const stolpar = STOLPAR.length;
+	const run = INHAGNAD_DEPTH + STOLPE_WIDTH + (INHAGNAD_WIDTH - REMSA_WIDTH);
+	const brador = Math.ceil((run / 0.13) * 1.05);
+	const trallLen = Math.ceil(brador / 3);
+	const stolpeCutLength = 4.8 / 3;
+	const stolpeRegelLength = stolpar * stolpeCutLength + 3 * run * 1.1 + stolpeCutLength + 2.0;
+	const stolpeRegelLen = Math.ceil(stolpeRegelLength / 4.8);
 
-	const enclosureTiles = ENCLOSURE_WIDTH_TILES * ENCLOSURE_DEPTH_TILES;
-	const stripTiles = STRIP_WIDTH_TILES * STRIP_ROWS_TILES;
-	const connectorHalfTiles = PATH_CONNECTOR_TILES;
-	const tiles = enclosureTiles + stripTiles;
-	const spareTiles = Math.ceil(tiles * 0.05);
-	const tilesToBuy = tiles + spareTiles;
-	const spareHalfTiles = Math.ceil(connectorHalfTiles * 0.05);
-	const halfTilesToBuy = connectorHalfTiles + spareHalfTiles;
-	const area = (tiles + connectorHalfTiles * 0.5) * TILE_PITCH * TILE_PITCH;
-	const plattaPrice = tilesToBuy >= 90 ? PRICE.platta : PRICE.plattaFew;
+	const inhagnadPlattor = INHAGNAD_WIDTH_PLATTOR * INHAGNAD_DEPTH_PLATTOR;
+	const remsaPlattor = REMSA_WIDTH_PLATTOR * REMSA_LENGTH_PLATTOR;
+	const plattor = inhagnadPlattor + remsaPlattor;
+	const reservPlattor = Math.ceil(plattor * 0.05);
+	const plattorToBuy = plattor + reservPlattor;
+	const reservHalvplattor = Math.ceil(ANSLUTNING_HALVPLATTOR * 0.05);
+	const halvplattorToBuy = ANSLUTNING_HALVPLATTOR + reservHalvplattor;
+	const area = (plattor + ANSLUTNING_HALVPLATTOR * 0.5) * PLATTA_PITCH * PLATTA_PITCH;
+	const plattaPrice = plattorToBuy >= 90 ? PRICE.platta : PRICE.plattaFew;
 
 	const stenmjolKg = area * STENMJOL_THICKNESS * 1600;
 	const barlagerTon = area * BARLAGER_THICKNESS * 1.8;
 	const fogsandBags = Math.max(1, Math.ceil((area * 2.5) / 20));
-	const digM3 = area * SCHAKT_DEPTH;
+	const schaktM3 = area * SCHAKT_DEPTH;
 
-	const pallets = BERGSKROSS_SACKS + STENMJOL_SACKS;
+	const pallar = BERGSKROSS_STORSACKAR + STENMJOL_STORSACKAR;
 
 	const KANTSTEN_LENGTH = 0.5;
-	const kantstenCount = Math.ceil((STRIP_LENGTH * 2) / KANTSTEN_LENGTH);
+	const kantstenCount = Math.ceil((REMSA_LENGTH * 2) / KANTSTEN_LENGTH);
 
 	const bomGroups: BomGroup[] = [
 		bomGroup('Schaktning', [
-			bomRow(`Bortforsling av schaktmassor, ca ${formatNumber1(digM3)} m³`, 1, PRICE.schakt, true)
+			bomRow(
+				`Bortforsling av schaktmassor, ca ${formatNumber1(schaktM3)} m³`,
+				1,
+				PRICE.schakt,
+				true
+			)
 		]),
 		bomGroup(
-			`Plattläggning, ${formatNumber1(area)} m² (${enclosureTiles} plattor inhägnad + ${stripTiles} remsa + ${connectorHalfTiles} halvplattor anslutning mot asfalt + ${spareTiles} reserv)`,
+			`Plattläggning, ${formatNumber1(area)} m² (${inhagnadPlattor} plattor inhägnad + ${remsaPlattor} remsa + ${ANSLUTNING_HALVPLATTOR} halvplattor anslutning mot asfalt + ${reservPlattor} reserv)`,
 			[
 				bomRow(
 					'Markplatta Benders Siena 35×35×5 cm grå',
-					tilesToBuy,
+					plattorToBuy,
 					plattaPrice,
 					false,
 					'https://www.hornbach.se/p/markplatta-benders-siena-slat-fasad-gra-350x350x50mm/8628862/'
 				),
 				bomRow(
 					'Markplatta Benders Siena 35×17,5×5 cm grå, halv',
-					halfTilesToBuy,
+					halvplattorToBuy,
 					PRICE.plattaHalf,
 					false,
 					'https://www.hornbach.se/p/markplatta-benders-siena-slat-fasad-gra-350x175x50mm/8407799/'
@@ -135,7 +139,7 @@ function computeQuantities() {
 					'https://www.hornbach.se/p/fogsand-benders-gra-ograshammande-20-kg/10598223/'
 				),
 				bomRow(
-					`Kantsten Benders grå 500×250×50 mm, längs gången (2 × ${formatNumber1(STRIP_LENGTH)} m)`,
+					`Kantsten Benders grå 500×250×50 mm, längs gången (2 × ${formatNumber1(REMSA_LENGTH)} m)`,
 					kantstenCount,
 					PRICE.kantsten,
 					false,
@@ -143,34 +147,34 @@ function computeQuantities() {
 				),
 				bomRow(
 					'Bergskross 0–32, storsäck 1 000 kg',
-					BERGSKROSS_SACKS,
+					BERGSKROSS_STORSACKAR,
 					PRICE.bergskross1000,
 					false,
 					'https://stenbolaget.se/products/bergskross-0-32-storsack-1000kg'
 				),
 				bomRow(
 					'Stenmjöl 0–8, storsäck 500 kg',
-					STENMJOL_SACKS,
+					STENMJOL_STORSACKAR,
 					PRICE.stenmjol500,
 					false,
 					'https://stenbolaget.se/products/stenmjol-0-8-storsack-500kg-1'
 				),
-				bomRow('Returpall (EUR-pall)', pallets, PRICE.returpall),
+				bomRow('Returpall (EUR-pall)', pallar, PRICE.returpall),
 				bomRow('Leverans, bergskross och stenmjöl', 1, PRICE.leverans)
 			]
 		),
 		bomGroup('Staket', [
 			bomRow(
 				'Betongplint Benders 4" × 700 mm med fast stolpjärn',
-				posts,
+				stolpar,
 				PRICE.plint,
 				false,
 				'https://www.hornbach.se/p/betongplint-benders-4x700mm/5520589/'
 			),
 			bomRow(
 				'Stolpe/regel 95×95 mm NTR A, 4,8 m',
-				postAndRailLen,
-				PRICE.post48,
+				stolpeRegelLen,
+				PRICE.stolpe48,
 				false,
 				'https://www.hornbach.se/p/tryckimpregnerad-stolpe-ntr-a-95x95x4800-mm/6810575/'
 			),
@@ -184,13 +188,13 @@ function computeQuantities() {
 			bomRow(
 				'Trallskruv + konstruktionsskruv + bult till befintliga staketet, rostfri',
 				1,
-				PRICE.screws,
+				PRICE.skruv,
 				true,
 				'https://www.hornbach.se/c/jarnvaror/skruv-bult/trallskruv/S16916/'
 			)
 		]),
 		bomGroup('Maskinhyra', [
-			bomRow('Hyra markvibrator, 1 dag', 1, PRICE.vibrator, true),
+			bomRow('Hyra markvibrator, 1 dag', 1, PRICE.markvibrator, true),
 			bomRow('Hyra pallyftare, 1 dag', 1, PRICE.pallyftare, true)
 		])
 	];
@@ -198,13 +202,13 @@ function computeQuantities() {
 	const total = bomGroups.reduce((sum, g) => sum + g.sum, 0);
 
 	return {
-		posts,
+		stolpar,
 		run,
 		area,
-		tiles,
+		plattor,
 		stenmjolKg,
 		barlagerTon,
-		digM3,
+		schaktM3,
 		bomGroups,
 		total
 	};
@@ -215,11 +219,11 @@ export const quantities = computeQuantities();
 export const FACTS: { term: string; description: string }[] = [
 	{
 		term: 'Total yta',
-		description: `${ENCLOSURE_WIDTH_TILES} × ${ENCLOSURE_DEPTH_TILES} + ${STRIP_WIDTH_TILES} × ${STRIP_ROWS_TILES} = ${quantities.tiles} plattor + ${PATH_CONNECTOR_TILES} halvplattor ≈ ${formatNumber1(quantities.area)} m²`
+		description: `${INHAGNAD_WIDTH_PLATTOR} × ${INHAGNAD_DEPTH_PLATTOR} + ${REMSA_WIDTH_PLATTOR} × ${REMSA_LENGTH_PLATTOR} = ${quantities.plattor} plattor + ${ANSLUTNING_HALVPLATTOR} halvplattor ≈ ${formatNumber1(quantities.area)} m²`
 	},
 	{
 		term: 'Schaktning',
-		description: `${Math.round(SCHAKT_DEPTH * 100)} cm × ${formatNumber1(quantities.area)} m² ≈ ${formatNumber1(quantities.digM3)} m³ ska schaktas bort`
+		description: `${Math.round(SCHAKT_DEPTH * 100)} cm × ${formatNumber1(quantities.area)} m² ≈ ${formatNumber1(quantities.schaktM3)} m³ ska schaktas bort`
 	},
 	{
 		term: 'Bärlager',
@@ -231,10 +235,10 @@ export const FACTS: { term: string; description: string }[] = [
 	},
 	{
 		term: 'Staket',
-		description: `${formatMeters(quantities.run)} långt, 1,5 m högt och ${quantities.posts} stolpar`
+		description: `${formatMeters(quantities.run)} långt, 1,5 m högt och ${quantities.stolpar} stolpar`
 	},
 	{
 		term: 'Öppning',
-		description: `${formatMeters(STRIP_WIDTH)} bred, ingen grind`
+		description: `${formatMeters(REMSA_WIDTH)} bred, ingen grind`
 	}
 ];

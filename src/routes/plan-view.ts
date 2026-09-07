@@ -1,34 +1,34 @@
 import {
-	ENCLOSURE_DEPTH,
-	ENCLOSURE_DEPTH_TILES,
-	ENCLOSURE_OFFSET_X,
-	ENCLOSURE_OFFSET_Y,
-	ENCLOSURE_WIDTH,
-	ENCLOSURE_WIDTH_TILES,
-	EXISTING_STUD_DISTANCE,
-	FENCE,
-	PATH_CONNECTOR_LENGTH,
-	PATH_CONNECTOR_TILES,
-	PATH_CONNECTOR_WIDTH,
-	POST_HOLE_SIZE,
-	POST_WIDTH,
-	POSTS,
-	SHED_DEPTH,
-	STRIP_LENGTH,
-	STRIP_ROWS_TILES,
-	STRIP_WIDTH,
-	STRIP_WIDTH_TILES,
+	ANSLUTNING_HALVPLATTOR,
+	ANSLUTNING_LENGTH,
+	ANSLUTNING_WIDTH,
+	BEFINTLIG_STOLPE_DISTANCE,
+	INHAGNAD_DEPTH,
+	INHAGNAD_DEPTH_PLATTOR,
+	INHAGNAD_OFFSET_X,
+	INHAGNAD_OFFSET_Y,
+	INHAGNAD_WIDTH,
+	INHAGNAD_WIDTH_PLATTOR,
+	REMSA_LENGTH,
+	REMSA_LENGTH_PLATTOR,
+	REMSA_WIDTH,
+	REMSA_WIDTH_PLATTOR,
+	SKJUL_DEPTH,
+	STAKET,
+	STOLPAR,
+	STOLPE_HOLE_SIZE,
+	STOLPE_WIDTH,
 	TRALL_THICKNESS
 } from './dimensions';
 import { formatMeters } from './format';
 
 export const PLAN_SCALE = 100;
 
-const STRIP_END_Y = ENCLOSURE_OFFSET_Y + ENCLOSURE_DEPTH + STRIP_LENGTH;
+const STRIP_END_Y = INHAGNAD_OFFSET_Y + INHAGNAD_DEPTH + REMSA_LENGTH;
 
 const PLAN_BOUNDS = {
 	xMin: -2.2,
-	xMax: ENCLOSURE_OFFSET_X + ENCLOSURE_WIDTH + 0.85,
+	xMax: INHAGNAD_OFFSET_X + INHAGNAD_WIDTH + 0.85,
 	yMin: -0.7,
 	yMax: STRIP_END_Y + 0.75
 };
@@ -50,75 +50,75 @@ export const SHED = {
 	x: PLAN_BOUNDS.xMin,
 	y: 0,
 	width: -PLAN_BOUNDS.xMin,
-	depth: SHED_DEPTH
+	depth: SKJUL_DEPTH
 };
 
 export const TILE_FIELDS = {
 	enclosure: {
-		x: ENCLOSURE_OFFSET_X,
-		y: ENCLOSURE_OFFSET_Y,
-		width: ENCLOSURE_WIDTH,
-		height: ENCLOSURE_DEPTH
+		x: INHAGNAD_OFFSET_X,
+		y: INHAGNAD_OFFSET_Y,
+		width: INHAGNAD_WIDTH,
+		height: INHAGNAD_DEPTH
 	},
 	strip: {
-		x: ENCLOSURE_OFFSET_X,
-		y: ENCLOSURE_OFFSET_Y + ENCLOSURE_DEPTH,
-		width: STRIP_WIDTH,
-		height: STRIP_LENGTH
+		x: INHAGNAD_OFFSET_X,
+		y: INHAGNAD_OFFSET_Y + INHAGNAD_DEPTH,
+		width: REMSA_WIDTH,
+		height: REMSA_LENGTH
 	},
 	connector: {
-		x: ENCLOSURE_OFFSET_X - PATH_CONNECTOR_WIDTH,
-		y: ENCLOSURE_OFFSET_Y + ENCLOSURE_DEPTH + STRIP_LENGTH - PATH_CONNECTOR_LENGTH,
-		width: PATH_CONNECTOR_WIDTH,
-		height: PATH_CONNECTOR_LENGTH
+		x: INHAGNAD_OFFSET_X - ANSLUTNING_WIDTH,
+		y: INHAGNAD_OFFSET_Y + INHAGNAD_DEPTH + REMSA_LENGTH - ANSLUTNING_LENGTH,
+		width: ANSLUTNING_WIDTH,
+		height: ANSLUTNING_LENGTH
 	}
 };
 
 export const ASPHALT = {
 	x: PLAN_BOUNDS.xMin,
-	y: SHED_DEPTH,
+	y: SKJUL_DEPTH,
 	width: TILE_FIELDS.connector.x - PLAN_BOUNDS.xMin,
-	height: PLAN_BOUNDS.yMax - SHED_DEPTH,
-	labelAt: { x: (PLAN_BOUNDS.xMin + TILE_FIELDS.connector.x) / 2, y: SHED_DEPTH + 0.4 }
+	height: PLAN_BOUNDS.yMax - SKJUL_DEPTH,
+	labelAt: { x: (PLAN_BOUNDS.xMin + TILE_FIELDS.connector.x) / 2, y: SKJUL_DEPTH + 0.4 }
 };
 
 export const EXISTING_FENCE = {
 	x1: PLAN_BOUNDS.xMin,
 	y1: -0.03,
-	x2: FENCE.corner.x + POST_WIDTH / 2 + 0.05,
+	x2: STAKET.corner.x + STOLPE_WIDTH / 2 + 0.05,
 	y2: -0.03,
 	labelAt: { x: PLAN_BOUNDS.xMin, y: -0.14 }
 };
 
 export const EXISTING_STUD = {
-	x: EXISTING_STUD_DISTANCE,
-	y1: -POST_WIDTH,
+	x: BEFINTLIG_STOLPE_DISTANCE,
+	y1: -STOLPE_WIDTH,
 	y2: 0,
-	width: POST_WIDTH
+	width: STOLPE_WIDTH
 };
 
 export const SHED_STUDS = {
-	se: { x1: -POST_WIDTH, x2: 0, y1: SHED_DEPTH - POST_WIDTH, y2: SHED_DEPTH },
-	ne: { x1: -POST_WIDTH, x2: 0, y1: -POST_WIDTH, y2: 0 }
+	se: { x1: -STOLPE_WIDTH, x2: 0, y1: SKJUL_DEPTH - STOLPE_WIDTH, y2: SKJUL_DEPTH },
+	ne: { x1: -STOLPE_WIDTH, x2: 0, y1: -STOLPE_WIDTH, y2: 0 }
 };
 
-export const SHED_FRONT_GUIDE = { x1: PLAN_BOUNDS.xMin, y1: SHED_DEPTH, x2: 0, y2: SHED_DEPTH };
+export const SHED_FRONT_GUIDE = { x1: PLAN_BOUNDS.xMin, y1: SKJUL_DEPTH, x2: 0, y2: SKJUL_DEPTH };
 
 export const NEW_FENCE = {
-	east: { x: FENCE.corner.x, y1: 0, y2: FENCE.corner.y },
+	east: { x: STAKET.corner.x, y1: 0, y2: STAKET.corner.y },
 	south: {
-		x1: ENCLOSURE_OFFSET_X + STRIP_WIDTH,
-		x2: ENCLOSURE_OFFSET_X + ENCLOSURE_WIDTH + POST_WIDTH,
-		y: FENCE.corner.y
+		x1: INHAGNAD_OFFSET_X + REMSA_WIDTH,
+		x2: INHAGNAD_OFFSET_X + INHAGNAD_WIDTH + STOLPE_WIDTH,
+		y: STAKET.corner.y
 	},
 	labelAt: {
-		x: ENCLOSURE_OFFSET_X + ENCLOSURE_WIDTH - 0.12,
-		y: ENCLOSURE_OFFSET_Y + ENCLOSURE_DEPTH - 0.3
+		x: INHAGNAD_OFFSET_X + INHAGNAD_WIDTH - 0.12,
+		y: INHAGNAD_OFFSET_Y + INHAGNAD_DEPTH - 0.3
 	}
 };
 
-const CLADDING_OUTER_X = FENCE.corner.x + POST_WIDTH / 2;
-const CLADDING_OUTER_Y = FENCE.corner.y + POST_WIDTH / 2;
+const CLADDING_OUTER_X = STAKET.corner.x + STOLPE_WIDTH / 2;
+const CLADDING_OUTER_Y = STAKET.corner.y + STOLPE_WIDTH / 2;
 export const FENCE_CLADDING = {
 	east: {
 		x: CLADDING_OUTER_X,
@@ -137,31 +137,31 @@ export const FENCE_CLADDING = {
 export const GRAVEL_NORTH = {
 	x: 0,
 	y: 0,
-	width: ENCLOSURE_OFFSET_X + ENCLOSURE_WIDTH,
-	height: ENCLOSURE_OFFSET_Y
+	width: INHAGNAD_OFFSET_X + INHAGNAD_WIDTH,
+	height: INHAGNAD_OFFSET_Y
 };
 export const GRAVEL_WEST = {
 	x: TILE_FIELDS.connector.x,
-	y: ENCLOSURE_OFFSET_Y,
-	width: ENCLOSURE_OFFSET_X - TILE_FIELDS.connector.x,
-	height: TILE_FIELDS.connector.y - ENCLOSURE_OFFSET_Y
+	y: INHAGNAD_OFFSET_Y,
+	width: INHAGNAD_OFFSET_X - TILE_FIELDS.connector.x,
+	height: TILE_FIELDS.connector.y - INHAGNAD_OFFSET_Y
 };
 
-export const POST_HOLES = POSTS.map((post) => ({
-	x: post.x - POST_HOLE_SIZE / 2,
-	y: post.y - POST_HOLE_SIZE / 2,
-	size: POST_HOLE_SIZE
+export const POST_HOLES = STOLPAR.map((post) => ({
+	x: post.x - STOLPE_HOLE_SIZE / 2,
+	y: post.y - STOLPE_HOLE_SIZE / 2,
+	size: STOLPE_HOLE_SIZE
 }));
 
 export const CONNECTOR_LABEL = {
 	x: TILE_FIELDS.connector.x - 0.16,
-	y: TILE_FIELDS.connector.y + PATH_CONNECTOR_LENGTH / 2,
-	text: `${PATH_CONNECTOR_TILES} halvplattor`
+	y: TILE_FIELDS.connector.y + ANSLUTNING_LENGTH / 2,
+	text: `${ANSLUTNING_HALVPLATTOR} halvplattor`
 };
 
 export const SHED_LABEL_AT = {
 	x: PLAN_BOUNDS.xMin + (0 - PLAN_BOUNDS.xMin) / 2,
-	y: SHED_DEPTH / 2
+	y: SKJUL_DEPTH / 2
 };
 
 export type Dimension =
@@ -188,60 +188,60 @@ export const PLAN_DIMENSIONS: Dimension[] = [
 	{
 		orientation: 'horizontal',
 		from: 0,
-		to: EXISTING_STUD_DISTANCE,
+		to: BEFINTLIG_STOLPE_DISTANCE,
 		at: -0.58,
-		label: `Skjul till bef. stolpe = ${formatMeters(EXISTING_STUD_DISTANCE)}`,
+		label: `Skjul till bef. stolpe = ${formatMeters(BEFINTLIG_STOLPE_DISTANCE)}`,
 		muted: true
 	},
 	{
 		orientation: 'horizontal',
 		from: 0,
-		to: ENCLOSURE_OFFSET_X,
+		to: INHAGNAD_OFFSET_X,
 		at: -0.3,
-		label: `${formatMeters(ENCLOSURE_OFFSET_X)}`
+		label: `${formatMeters(INHAGNAD_OFFSET_X)}`
 	},
 	{
 		orientation: 'horizontal',
-		from: ENCLOSURE_OFFSET_X,
-		to: ENCLOSURE_OFFSET_X + ENCLOSURE_WIDTH,
+		from: INHAGNAD_OFFSET_X,
+		to: INHAGNAD_OFFSET_X + INHAGNAD_WIDTH,
 		at: -0.3,
-		label: `${ENCLOSURE_WIDTH_TILES} plattor = ${formatMeters(ENCLOSURE_WIDTH)}`
+		label: `${INHAGNAD_WIDTH_PLATTOR} plattor = ${formatMeters(INHAGNAD_WIDTH)}`
 	},
 	{
 		orientation: 'vertical',
 		from: 0,
-		to: ENCLOSURE_OFFSET_Y,
-		at: ENCLOSURE_OFFSET_X + ENCLOSURE_WIDTH + 0.32,
-		label: `${formatMeters(ENCLOSURE_OFFSET_Y)}`
+		to: INHAGNAD_OFFSET_Y,
+		at: INHAGNAD_OFFSET_X + INHAGNAD_WIDTH + 0.32,
+		label: `${formatMeters(INHAGNAD_OFFSET_Y)}`
 	},
 	{
 		orientation: 'vertical',
-		from: ENCLOSURE_OFFSET_Y,
-		to: ENCLOSURE_OFFSET_Y + ENCLOSURE_DEPTH,
-		at: ENCLOSURE_OFFSET_X + ENCLOSURE_WIDTH + 0.32,
-		label: `${ENCLOSURE_DEPTH_TILES} plattor = ${formatMeters(ENCLOSURE_DEPTH)}`
+		from: INHAGNAD_OFFSET_Y,
+		to: INHAGNAD_OFFSET_Y + INHAGNAD_DEPTH,
+		at: INHAGNAD_OFFSET_X + INHAGNAD_WIDTH + 0.32,
+		label: `${INHAGNAD_DEPTH_PLATTOR} plattor = ${formatMeters(INHAGNAD_DEPTH)}`
 	},
 	{
 		orientation: 'vertical',
-		from: ENCLOSURE_OFFSET_Y + ENCLOSURE_DEPTH,
+		from: INHAGNAD_OFFSET_Y + INHAGNAD_DEPTH,
 		to: STRIP_END_Y,
-		at: ENCLOSURE_OFFSET_X + ENCLOSURE_WIDTH + 0.32,
-		label: `${STRIP_ROWS_TILES} plattor = ${formatMeters(STRIP_LENGTH)}`
+		at: INHAGNAD_OFFSET_X + INHAGNAD_WIDTH + 0.32,
+		label: `${REMSA_LENGTH_PLATTOR} plattor = ${formatMeters(REMSA_LENGTH)}`
 	},
 	{
 		orientation: 'vertical',
 		from: 0,
-		to: SHED_DEPTH,
+		to: SKJUL_DEPTH,
 		at: -0.5,
-		label: formatMeters(SHED_DEPTH),
+		label: formatMeters(SKJUL_DEPTH),
 		left: true
 	},
 	{
 		orientation: 'horizontal',
-		from: ENCLOSURE_OFFSET_X,
-		to: ENCLOSURE_OFFSET_X + STRIP_WIDTH,
+		from: INHAGNAD_OFFSET_X,
+		to: INHAGNAD_OFFSET_X + REMSA_WIDTH,
 		at: STRIP_END_Y + 0.28,
-		label: `${STRIP_WIDTH_TILES} plattor = ${formatMeters(STRIP_WIDTH)}`,
+		label: `${REMSA_WIDTH_PLATTOR} plattor = ${formatMeters(REMSA_WIDTH)}`,
 		below: true
 	}
 ];

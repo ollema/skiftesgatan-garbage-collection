@@ -1,13 +1,13 @@
 <script lang="ts">
-	import { BIN_SIZES, BINS } from './bins';
+	import { SOPKARL, SOPKARL_SIZES } from './bins';
 	import {
-		ENCLOSURE_OFFSET_X,
-		ENCLOSURE_OFFSET_Y,
-		FENCE,
-		GAP,
-		POST_WIDTH,
-		POSTS,
-		TILE_PITCH
+		INHAGNAD_OFFSET_X,
+		INHAGNAD_OFFSET_Y,
+		PLATTA_PITCH,
+		SOPKARL_GAP,
+		STAKET,
+		STOLPAR,
+		STOLPE_WIDTH
 	} from './dimensions';
 	import {
 		ASPHALT,
@@ -32,7 +32,7 @@
 		type Dimension
 	} from './plan-view';
 
-	const postPx = POST_WIDTH * PLAN_SCALE;
+	const postPx = STOLPE_WIDTH * PLAN_SCALE;
 
 	function horizontalDimension(dim: Extract<Dimension, { orientation: 'horizontal' }>) {
 		const y = planY(dim.at);
@@ -60,15 +60,15 @@
 	<defs>
 		<pattern
 			id="tile"
-			x={planX(ENCLOSURE_OFFSET_X)}
-			y={planY(ENCLOSURE_OFFSET_Y)}
-			width={TILE_PITCH * PLAN_SCALE}
-			height={TILE_PITCH * PLAN_SCALE}
+			x={planX(INHAGNAD_OFFSET_X)}
+			y={planY(INHAGNAD_OFFSET_Y)}
+			width={PLATTA_PITCH * PLAN_SCALE}
+			height={PLATTA_PITCH * PLAN_SCALE}
 			patternUnits="userSpaceOnUse"
 		>
-			<rect width={TILE_PITCH * PLAN_SCALE} height={TILE_PITCH * PLAN_SCALE} fill="#eeefec" />
+			<rect width={PLATTA_PITCH * PLAN_SCALE} height={PLATTA_PITCH * PLAN_SCALE} fill="#eeefec" />
 			<path
-				d="M{TILE_PITCH * PLAN_SCALE} 0H0V{TILE_PITCH * PLAN_SCALE}"
+				d="M{PLATTA_PITCH * PLAN_SCALE} 0H0V{PLATTA_PITCH * PLAN_SCALE}"
 				fill="none"
 				stroke="#cfd4ce"
 				stroke-width="1"
@@ -207,7 +207,7 @@
 		y2={planY(EXISTING_FENCE.y2)}
 		class="wall"
 	/>
-	<!-- befintlig stolpe, sticker ut norrut ur väggen - här fästs det nya staketets stolpe (se FENCE.anchor) -->
+	<!-- befintlig stolpe, sticker ut norrut ur väggen - här fästs det nya staketets stolpe (se STAKET.anchor) -->
 	<rect
 		x={planX(EXISTING_STUD.x)}
 		y={planY(EXISTING_STUD.y1)}
@@ -222,10 +222,10 @@
 	>
 
 	<!-- kärl -->
-	{#each BINS as bin (bin.x)}
-		{@const size = BIN_SIZES[bin.size]}
+	{#each SOPKARL as bin (bin.x)}
+		{@const size = SOPKARL_SIZES[bin.size]}
 		{@const x = planX(bin.x)}
-		{@const y = planY(ENCLOSURE_OFFSET_Y + GAP)}
+		{@const y = planY(INHAGNAD_OFFSET_Y + SOPKARL_GAP)}
 		{@const w = size.width * PLAN_SCALE}
 		{@const h = size.depth * PLAN_SCALE}
 		<g>
@@ -276,7 +276,7 @@
 		height={FENCE_CLADDING.south.height * PLAN_SCALE}
 		class="cladding"
 	/>
-	{#each POSTS as post (post.x + ',' + post.y)}
+	{#each STOLPAR as post (post.x + ',' + post.y)}
 		<rect
 			x={planX(post.x) - postPx / 2}
 			y={planY(post.y) - postPx / 2}
@@ -286,8 +286,8 @@
 		/>
 	{/each}
 	<rect
-		x={planX(FENCE.anchor.x) - postPx / 2}
-		y={planY(FENCE.anchor.y) - postPx / 2}
+		x={planX(STAKET.anchor.x) - postPx / 2}
+		y={planY(STAKET.anchor.y) - postPx / 2}
 		width={postPx}
 		height={postPx}
 		class="post"

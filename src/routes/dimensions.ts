@@ -1,59 +1,78 @@
-export const GAP = 0.06;
-export const TILE_PITCH = 0.353;
-export const POST_WIDTH = 0.095;
-export const TRALL_THICKNESS = 0.028;
-export const SHED_DEPTH = 2.67;
+// Alla mått i meter, i ett planvy-koordinatsystem:
+//   origo = skjulets nordöstra hörn, i linje med det befintliga staketet
+//   +x = österut, bort från skjulet — x < 0 ligger alltså inne i skjulet
+//   +y = söderut, bort från det befintliga staketet
 
-export const POST_HOLE_SIZE = 0.17;
+// --- Platsen: uppmätt på plats ---
 
-export const ENCLOSURE_WIDTH_TILES = 11;
-export const ENCLOSURE_DEPTH_TILES = 7;
-export const STRIP_WIDTH_TILES = 4;
-export const STRIP_ROWS_TILES = 5;
+export const SKJUL_DEPTH = 2.67;
+export const BEFINTLIG_STOLPE_DISTANCE = 3.93;
 
-export const PATH_CONNECTOR_TILES = 4;
+// --- Material: bestäms av vad som köps ---
 
+export const PLATTA_PITCH = 0.353;
 const PLATTA_THICKNESS = 0.05;
+export const STOLPE_WIDTH = 0.095;
+export const STOLPE_HOLE_SIZE = 0.17;
+export const TRALL_THICKNESS = 0.028;
 export const STENMJOL_THICKNESS = 0.03;
 export const BARLAGER_THICKNESS = 0.1;
+
+// --- Utformning: här ligger designbesluten ---
+
+export const INHAGNAD_WIDTH_PLATTOR = 11;
+export const INHAGNAD_DEPTH_PLATTOR = 7;
+export const REMSA_WIDTH_PLATTOR = 4;
+export const REMSA_LENGTH_PLATTOR = 5;
+export const ANSLUTNING_HALVPLATTOR = 4;
+
+/** Spel runt om och mellan kärlen. */
+export const SOPKARL_GAP = 0.06;
+
+/** Största tillåtna avstånd mellan två stolpar. */
+const MAX_STOLPE_SPACING = 1.8;
+
+// --- Härledda mått ---
+
+export const INHAGNAD_WIDTH = INHAGNAD_WIDTH_PLATTOR * PLATTA_PITCH;
+export const INHAGNAD_DEPTH = INHAGNAD_DEPTH_PLATTOR * PLATTA_PITCH;
+export const REMSA_WIDTH = REMSA_WIDTH_PLATTOR * PLATTA_PITCH;
+export const REMSA_LENGTH = REMSA_LENGTH_PLATTOR * PLATTA_PITCH;
+export const ANSLUTNING_LENGTH = ANSLUTNING_HALVPLATTOR * PLATTA_PITCH;
+export const ANSLUTNING_WIDTH = PLATTA_PITCH / 2;
+
 export const SCHAKT_DEPTH = PLATTA_THICKNESS + STENMJOL_THICKNESS + BARLAGER_THICKNESS;
 
-export const ENCLOSURE_WIDTH = ENCLOSURE_WIDTH_TILES * TILE_PITCH;
-export const ENCLOSURE_DEPTH = ENCLOSURE_DEPTH_TILES * TILE_PITCH;
-export const STRIP_WIDTH = STRIP_WIDTH_TILES * TILE_PITCH;
-export const STRIP_LENGTH = STRIP_ROWS_TILES * TILE_PITCH;
-export const PATH_CONNECTOR_LENGTH = PATH_CONNECTOR_TILES * TILE_PITCH;
-export const PATH_CONNECTOR_WIDTH = TILE_PITCH / 2;
+/** Staketets sydöstra hörnstolpe, som all plattläggning placeras utifrån. */
+const STAKET_CORNER_X = BEFINTLIG_STOLPE_DISTANCE + STOLPE_WIDTH / 2;
+const STAKET_CORNER_Y = SKJUL_DEPTH - STOLPE_WIDTH / 2 - TRALL_THICKNESS;
 
-export const EXISTING_STUD_DISTANCE = 3.93;
+/** Plattfältets nordvästra hörn. */
+export const INHAGNAD_OFFSET_X = STAKET_CORNER_X - INHAGNAD_WIDTH - STOLPE_WIDTH / 2;
+export const INHAGNAD_OFFSET_Y = STAKET_CORNER_Y - INHAGNAD_DEPTH - STOLPE_WIDTH / 2;
 
-const MAX_POST_SPACING = 1.8;
+/** Jämnt fördelade stolplägen mellan `from` och `to`, båda ändarna inkluderade. */
+function spanStolpar(from: number, to: number) {
+	const segments = Math.ceil((to - from) / MAX_STOLPE_SPACING);
+	return Array.from({ length: segments + 1 }, (_, i) => from + ((to - from) * i) / segments);
+}
 
-const EAST_POST_COUNT = Math.ceil((ENCLOSURE_DEPTH + POST_WIDTH) / MAX_POST_SPACING);
-const SOUTH_POST_COUNT = Math.ceil((ENCLOSURE_WIDTH - STRIP_WIDTH) / MAX_POST_SPACING) + 1;
+// Det östra staketet skruvas fast i det befintliga staketet i norr, så den änden
+// får ingen egen stolpe. Det södra staketet delar hörnstolpe med det östra och
+// hoppar därför över sin sista punkt.
+const eastStolpar = spanStolpar(INHAGNAD_OFFSET_Y, STAKET_CORNER_Y)
+	.slice(1)
+	.map((y) => ({ x: STAKET_CORNER_X, y }));
+const southStolpar = spanStolpar(
+	INHAGNAD_OFFSET_X + REMSA_WIDTH + STOLPE_WIDTH / 2,
+	STAKET_CORNER_X
+)
+	.slice(0, -1)
+	.map((x) => ({ x, y: STAKET_CORNER_Y }));
 
-const FENCE_CORNER_X = EXISTING_STUD_DISTANCE + POST_WIDTH / 2;
-const FENCE_CORNER_Y = SHED_DEPTH - POST_WIDTH / 2 - TRALL_THICKNESS;
+export const STOLPAR = [...eastStolpar, ...southStolpar];
 
-export const ENCLOSURE_OFFSET_X = FENCE_CORNER_X - ENCLOSURE_WIDTH - POST_WIDTH / 2;
-export const ENCLOSURE_OFFSET_Y = FENCE_CORNER_Y - ENCLOSURE_DEPTH - POST_WIDTH / 2;
-
-const eastPosts = Array.from({ length: EAST_POST_COUNT }, (_, i) => ({
-	x: FENCE_CORNER_X,
-	y: ENCLOSURE_OFFSET_Y + ((FENCE_CORNER_Y - ENCLOSURE_OFFSET_Y) * (i + 1)) / EAST_POST_COUNT
-}));
-const southPosts = Array.from({ length: SOUTH_POST_COUNT - 1 }, (_, i) => ({
-	x:
-		ENCLOSURE_OFFSET_X +
-		STRIP_WIDTH +
-		POST_WIDTH / 2 +
-		(i * (ENCLOSURE_WIDTH - STRIP_WIDTH)) / (SOUTH_POST_COUNT - 1),
-	y: FENCE_CORNER_Y
-}));
-
-export const POSTS = [...eastPosts, ...southPosts];
-
-export const FENCE = {
-	corner: { x: FENCE_CORNER_X, y: FENCE_CORNER_Y },
-	anchor: { x: FENCE_CORNER_X, y: POST_WIDTH / 2 }
+export const STAKET = {
+	corner: { x: STAKET_CORNER_X, y: STAKET_CORNER_Y },
+	anchor: { x: STAKET_CORNER_X, y: STOLPE_WIDTH / 2 }
 };
