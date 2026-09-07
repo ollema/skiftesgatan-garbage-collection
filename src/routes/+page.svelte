@@ -42,6 +42,7 @@
 			<li>Insamlingen får inte orsaka lukt, buller eller sanitär olägenhet.</li>
 			<li>Dragvägen får vara max 25 m lång, minst 1,2 m bred och minst 1,35 m bred i svängar.</li>
 			<li>Dessutom behövs minst 1,5 m fritt utrymme framför kärlen där de är placerade.</li>
+			<li>Det ska vara minst 6 cm mellan kärlen.</li>
 			<li>Ytan kärlen dras över ska vara hårdgjord och jämn, inte grus, gräs eller makadam.</li>
 			<li>Inhägnad rekommenderas.</li>
 			<li>Om inhägnaden har dörr så behöver öppningen vara minst 1,2 m bred.</li>
@@ -81,7 +82,16 @@
 		<dl class="facts">
 			{#each FACTS as fact (fact.term)}
 				<dt>{fact.term}</dt>
-				<dd>{fact.description}</dd>
+				<dd>
+					{fact.description}
+					{#if fact.items}
+						<ul>
+							{#each fact.items as item (item)}
+								<li>{item}</li>
+							{/each}
+						</ul>
+					{/if}
+				</dd>
 			{/each}
 		</dl>
 	</section>
@@ -119,7 +129,7 @@
 							</tr>
 						{/each}
 						<tr class="sum">
-							<td colspan="3">Summa {group.label.split(',')[0]}</td>
+							<td colspan="3">Totalt {group.label}</td>
 							<td class="n">{formatKr(group.sum)}</td>
 						</tr>
 					{/each}
@@ -273,6 +283,12 @@
 	}
 	.facts dd {
 		margin: 0;
+	}
+	.facts dd ul {
+		margin: 0.125rem 0 0;
+		padding-left: 0;
+		list-style: none;
+		color: var(--muted);
 	}
 	table {
 		border-collapse: collapse;

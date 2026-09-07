@@ -1,21 +1,20 @@
 import {
-	ANSLUTNING_LENGTH,
-	ANSLUTNING_WIDTH,
 	BEFINTLIG_STOLPE_DISTANCE,
 	GANG_LENGTH,
 	GANG_LENGTH_PLATTOR,
 	GANG_WIDTH,
 	GANG_WIDTH_PLATTOR,
+	GRUS_YTOR,
 	INHAGNAD_DEPTH,
 	INHAGNAD_DEPTH_PLATTOR,
 	INHAGNAD_OFFSET_X,
 	INHAGNAD_OFFSET_Y,
 	INHAGNAD_WIDTH,
 	INHAGNAD_WIDTH_PLATTOR,
+	PLATT_YTOR,
 	SKJUL_DEPTH,
 	STAKET,
-	STOLPAR,
-	STOLPE_HOLE_SIZE,
+	STAKET_KLADSEL,
 	STOLPE_WIDTH,
 	TRALL_THICKNESS
 } from './dimensions';
@@ -53,24 +52,9 @@ export const SHED = {
 };
 
 export const TILE_FIELDS = {
-	enclosure: {
-		x: INHAGNAD_OFFSET_X,
-		y: INHAGNAD_OFFSET_Y,
-		width: INHAGNAD_WIDTH,
-		height: INHAGNAD_DEPTH
-	},
-	path: {
-		x: INHAGNAD_OFFSET_X,
-		y: INHAGNAD_OFFSET_Y + INHAGNAD_DEPTH,
-		width: GANG_WIDTH,
-		height: GANG_LENGTH
-	},
-	connector: {
-		x: INHAGNAD_OFFSET_X - ANSLUTNING_WIDTH,
-		y: INHAGNAD_OFFSET_Y + INHAGNAD_DEPTH + GANG_LENGTH - ANSLUTNING_LENGTH,
-		width: ANSLUTNING_WIDTH,
-		height: ANSLUTNING_LENGTH
-	}
+	enclosure: PLATT_YTOR.inhagnad,
+	path: PLATT_YTOR.gang,
+	connector: PLATT_YTOR.anslutning
 };
 
 export const ASPHALT = {
@@ -110,41 +94,28 @@ export const NEW_FENCE = {
 	}
 };
 
-const CLADDING_OUTER_X = STAKET.corner.x + STOLPE_WIDTH / 2;
-const CLADDING_OUTER_Y = STAKET.corner.y + STOLPE_WIDTH / 2;
 export const FENCE_CLADDING = {
 	far: {
-		x: CLADDING_OUTER_X,
-		y1: NEW_FENCE.far.y1,
-		y2: CLADDING_OUTER_Y + TRALL_THICKNESS,
+		x: STAKET_KLADSEL.bortre.at,
+		y1: STAKET_KLADSEL.bortre.from,
+		y2: STAKET_KLADSEL.bortre.to,
 		width: TRALL_THICKNESS
 	},
 	front: {
-		x1: NEW_FENCE.front.x1,
-		x2: CLADDING_OUTER_X + TRALL_THICKNESS,
-		y: CLADDING_OUTER_Y,
+		x1: STAKET_KLADSEL.framre.from,
+		x2: STAKET_KLADSEL.framre.to,
+		y: STAKET_KLADSEL.framre.at,
 		height: TRALL_THICKNESS
 	}
 };
 
-export const GRAVEL_ALONG_FENCE = {
-	x: 0,
-	y: 0,
-	width: INHAGNAD_OFFSET_X + INHAGNAD_WIDTH,
-	height: INHAGNAD_OFFSET_Y
-};
+export const GRAVEL_ALONG_FENCE = GRUS_YTOR.vidStaketet;
+// Ritas ända in under skjulet, annars lyser gräset igenom bakom anslutningsraden.
 export const GRAVEL_ALONG_SHED = {
+	...GRUS_YTOR.vidSkjulet,
 	x: TILE_FIELDS.connector.x,
-	y: INHAGNAD_OFFSET_Y,
-	width: INHAGNAD_OFFSET_X - TILE_FIELDS.connector.x,
-	height: TILE_FIELDS.connector.y - INHAGNAD_OFFSET_Y
+	width: GRUS_YTOR.vidSkjulet.x + GRUS_YTOR.vidSkjulet.width - TILE_FIELDS.connector.x
 };
-
-export const POST_HOLES = STOLPAR.map((post) => ({
-	x: post.x - STOLPE_HOLE_SIZE / 2,
-	y: post.y - STOLPE_HOLE_SIZE / 2,
-	size: STOLPE_HOLE_SIZE
-}));
 
 export type Dimension =
 	| {

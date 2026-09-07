@@ -29,6 +29,9 @@ export const STENMJOL_THICKNESS = 0.03;
 export const BARLAGER_THICKNESS = 0.1;
 export const SCHAKT_DEPTH = PLATTA_THICKNESS + STENMJOL_THICKNESS + BARLAGER_THICKNESS;
 
+/** Betongplintarna sätts djupare än plattlagret. */
+export const PLINT_DEPTH = 0.7;
+
 // --- Inhägnaden ---
 
 export const INHAGNAD_WIDTH_PLATTOR = 11;
@@ -46,8 +49,8 @@ export const GANG_LENGTH = GANG_LENGTH_PLATTOR * PLATTA_PITCH;
 // --- Anslutningen: halvplattor som tar upp glappet mot asfalten ---
 
 export const ANSLUTNING_HALVPLATTOR = 4;
-export const ANSLUTNING_LENGTH = ANSLUTNING_HALVPLATTOR * PLATTA_PITCH;
-export const ANSLUTNING_WIDTH = PLATTA_PITCH / 2;
+const ANSLUTNING_LENGTH = ANSLUTNING_HALVPLATTOR * PLATTA_PITCH;
+const ANSLUTNING_WIDTH = PLATTA_PITCH / 2;
 
 // --- Sopkärlen ---
 
@@ -59,6 +62,17 @@ export const SOPKARL_GAP = 0.06;
 export const STOLPE_WIDTH = 0.095;
 export const STOLPE_HOLE_SIZE = 0.17;
 export const TRALL_THICKNESS = 0.028;
+export const TRALL_WIDTH = 0.12;
+
+/** Springa mellan de stående trallbrädorna. */
+export const TRALL_GAP = 0.01;
+/** Trallens nederkant hålls fri från plattorna. */
+export const TRALL_GROUND_GAP = 0.04;
+
+/** Färdig höjd över plattorna. */
+export const STAKET_HEIGHT = 1.5;
+/** Liggande reglar per fack, mellan stolparna. */
+export const REGLAR_PER_FACK = 3;
 
 /** Största tillåtna avstånd mellan två stolpar. */
 const MAX_STOLPE_SPACING = 1.8;
@@ -100,3 +114,123 @@ export const STAKET = {
 	corner: { x: STAKET_CORNER_X, y: STAKET_CORNER_Y },
 	anchor: { x: STAKET_CORNER_X, y: STOLPE_WIDTH / 2 }
 };
+
+// --- Ytorna som schaktas, som rektanglar i planvyn ---
+//
+// Plinthålen är centrerade på stolparna, som står precis vid plattfältets kant.
+// En del av varje hål ligger därför redan inne i plattfältet — ytorna överlappar
+// och måste läggas ihop som en union, inte summeras rakt av.
+
+export interface Rect {
+	x: number;
+	y: number;
+	width: number;
+	height: number;
+}
+
+/** Plattfältet: inhägnaden, gången och anslutningsraden mot asfalten. */
+export const PLATT_YTOR = {
+	inhagnad: {
+		x: INHAGNAD_OFFSET_X,
+		y: INHAGNAD_OFFSET_Y,
+		width: INHAGNAD_WIDTH,
+		height: INHAGNAD_DEPTH
+	},
+	gang: {
+		x: INHAGNAD_OFFSET_X,
+		y: INHAGNAD_OFFSET_Y + INHAGNAD_DEPTH,
+		width: GANG_WIDTH,
+		height: GANG_LENGTH
+	},
+	anslutning: {
+		x: INHAGNAD_OFFSET_X - ANSLUTNING_WIDTH,
+		y: INHAGNAD_OFFSET_Y + INHAGNAD_DEPTH + GANG_LENGTH - ANSLUTNING_LENGTH,
+		width: ANSLUTNING_WIDTH,
+		height: ANSLUTNING_LENGTH
+	}
+} satisfies Record<string, Rect>;
+
+/** Grusremsorna: plattfältet är förskjutet så att ingen platta behöver kapas. */
+export const GRUS_YTOR = {
+	vidStaketet: {
+		x: 0,
+		y: 0,
+		width: INHAGNAD_OFFSET_X + INHAGNAD_WIDTH,
+		height: INHAGNAD_OFFSET_Y
+	},
+	vidSkjulet: {
+		x: 0,
+		y: INHAGNAD_OFFSET_Y,
+		width: INHAGNAD_OFFSET_X,
+		height: PLATT_YTOR.anslutning.y - INHAGNAD_OFFSET_Y
+	}
+} satisfies Record<string, Rect>;
+
+/** Grävda hål för betongplintarna. */
+export const PLINT_HAL: Rect[] = STOLPAR.map((post) => ({
+	x: post.x - STOLPE_HOLE_SIZE / 2,
+	y: post.y - STOLPE_HOLE_SIZE / 2,
+	width: STOLPE_HOLE_SIZE,
+	height: STOLPE_HOLE_SIZE
+}));
+
+// --- Trallklädseln: sitter utanpå stolparna och möts i ytterhörnet ---
+
+const KLADSEL_OUTER_X = STAKET_CORNER_X + STOLPE_WIDTH / 2;
+const KLADSEL_OUTER_Y = STAKET_CORNER_Y + STOLPE_WIDTH / 2;
+
+/** `at` = klädselns utsida, `from`/`to` = dess utsträckning längs sidan. */
+export const STAKET_KLADSEL = {
+	bortre: { at: KLADSEL_OUTER_X, from: 0, to: KLADSEL_OUTER_Y + TRALL_THICKNESS },
+	framre: {
+		at: KLADSEL_OUTER_Y,
+		from: INHAGNAD_OFFSET_X + GANG_WIDTH,
+		to: KLADSEL_OUTER_X + TRALL_THICKNESS
+	}
+};
+
+// --- Staketets två sidor, som kaplistan räknas ur ---
+
+export interface StaketSida {
+	label: string;
+	/** Kort form, för när sidan nämns mitt i en mening. */
+	short: string;
+	/** Stolplägen längs sidan (mittlinje), i ordning. */
+	stolplagen: number[];
+	/** Fria måttet mellan stolparna i varje fack. */
+	fack: number[];
+	/** Trallklädselns längd, ytterkant till ytterkant. */
+	kladsel: number;
+}
+
+function staketSida(
+	label: string,
+	short: string,
+	stolplagen: number[],
+	kladsel: { from: number; to: number }
+): StaketSida {
+	return {
+		label,
+		short,
+		stolplagen,
+		fack: stolplagen.slice(1).map((p, i) => p - stolplagen[i] - STOLPE_WIDTH),
+		kladsel: kladsel.to - kladsel.from
+	};
+}
+
+// Den bortre sidan börjar i stolpen som skruvas fast i det befintliga staketet
+// (`STAKET.anchor`); den framre slutar i den gemensamma hörnstolpen.
+export const STAKET_SIDOR: StaketSida[] = [
+	staketSida(
+		'Bortre sidan, mot befintliga staketet',
+		'bortre sidan',
+		[STOLPE_WIDTH / 2, ...bortreStolpar.map((p) => p.y)],
+		STAKET_KLADSEL.bortre
+	),
+	staketSida(
+		'Främre sidan, mot asfalten',
+		'främre sidan',
+		[...framreStolpar.map((p) => p.x), STAKET_CORNER_X],
+		STAKET_KLADSEL.framre
+	)
+];

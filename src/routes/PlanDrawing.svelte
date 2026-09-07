@@ -4,6 +4,7 @@
 		INHAGNAD_OFFSET_X,
 		INHAGNAD_OFFSET_Y,
 		PLATTA_PITCH,
+		PLINT_HAL,
 		SOPKARL_GAP,
 		STAKET,
 		STOLPAR,
@@ -20,7 +21,6 @@
 		PLAN_DIMENSIONS,
 		PLAN_SCALE,
 		PLAN_VIEWBOX,
-		POST_HOLES,
 		planX,
 		planY,
 		SHED,
@@ -112,12 +112,12 @@
 		fill="url(#gravel)"
 	/>
 	<!-- grävda stolphål, 170×170 mm - halva som hamnar under plattorna täcks av dem nedan -->
-	{#each POST_HOLES as hole (hole.x + ',' + hole.y)}
+	{#each PLINT_HAL as hole (hole.x + ',' + hole.y)}
 		<rect
 			x={planX(hole.x)}
 			y={planY(hole.y)}
-			width={hole.size * PLAN_SCALE}
-			height={hole.size * PLAN_SCALE}
+			width={hole.width * PLAN_SCALE}
+			height={hole.height * PLAN_SCALE}
 			fill="url(#gravel)"
 		/>
 	{/each}
