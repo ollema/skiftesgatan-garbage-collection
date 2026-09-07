@@ -1,4 +1,4 @@
-import { GAP } from './dimensions';
+import { ENCLOSURE_OFFSET_X, GAP } from './dimensions';
 
 export type BinSize = 'small' | 'large';
 
@@ -8,9 +8,13 @@ export const BIN_SIZES: Record<BinSize, { width: number; depth: number; label: s
 };
 
 export const BINS: { size: BinSize; x: number; name: [string, string] }[] = [
-	{ size: 'small', x: GAP, name: ['Färgat', 'glas'] },
-	{ size: 'small', x: GAP + 0.56, name: ['Ofärgat', 'glas'] },
-	{ size: 'small', x: GAP + 1.12, name: ['Metall', ''] },
-	{ size: 'large', x: 1.74, name: ['Papper', ''] },
-	{ size: 'large', x: 1.74 + BIN_SIZES.large.width + GAP, name: ['Plast', ''] }
+	{ size: 'small', x: ENCLOSURE_OFFSET_X + GAP, name: ['Färgat', 'glas'] },
+	{ size: 'small', x: ENCLOSURE_OFFSET_X + GAP + 0.56, name: ['Ofärgat', 'glas'] },
+	{ size: 'small', x: ENCLOSURE_OFFSET_X + GAP + 1.12, name: ['Metall', ''] },
+	{ size: 'large', x: ENCLOSURE_OFFSET_X + 1.74, name: ['Papper', ''] },
+	{
+		size: 'large',
+		x: ENCLOSURE_OFFSET_X + 1.74 + BIN_SIZES.large.width + GAP,
+		name: ['Plast', '']
+	}
 ];

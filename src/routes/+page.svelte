@@ -67,7 +67,7 @@
 		</p>
 		<p>
 			Vi har tänkt använda markplattor för att skapa en stabil och jämn yta för inhägnaden och för
-			dragvägen. Grinden öppnas inåt och förankras i cykelskjulet.
+			dragvägen.
 		</p>
 		<p>Höjden på inhägnaden är satt till 1,5 m för att det ska se lite trevligare ut.</p>
 	</section>
@@ -140,22 +140,20 @@
 				<strong>Beställ material och boka maskiner. </strong>
 			</li>
 			<li>
-				<strong>Märk ut.</strong> Märk ut inhägnaden med cykelskjulväggen och det befintliga staketet
-				som två av sidorna: 10 × 7 plattor = 3,53 × 2,47 m invändigt. Gången är 4 plattor (1,41 m) bred
-				och 5 rader (1,76 m) lång.
+				<strong>Märk ut.</strong> Märk ut inhägnaden TODO: calculate what we need to dig out. basically
+				everywhere where there is gravel now, where there is plattor where there is a betongplint.
 			</li>
 			<li>
 				<strong>Gräv.</strong> Ta bort gräs och gräv ner till ett djup på 18 cm. Räkna med ca {formatNumber1(
 					quantities.digM3
-				)} m³ som ska schaktas bort.
+				)} m³ som ska schaktas bort. TODO: dig deeper for betongplintar.
 			</li>
 			<li>
 				<strong>Plintar.</strong> Gräv ner 4 betongplintar med överkanten i nivå med färdig plattyta:
-				en mitt på högra sidan, en i nedre högra hörnet, en mitt på nedre sidan och en grindstolpe. Alla
-				plintar står precis utanför plattornas kant, så ingen platta behöver kapas. Bakre änden av högra
-				sidan får ingen stolpe alls, den förankras i det befintliga staketet. Kontrollera i förväg att
-				staketet har en frisk stolpe just där. Sitter närmaste stolpe en bit bort så sätt ytterligare
-				en plint och stolpe ändå. Packa väl runt plintarna och sätt dem innan plattorna.
+				en mitt på högra sidan, en i nedre högra hörnet, en mitt på nedre sidan och en vid öppningen.
+				Alla plintar står precis utanför plattornas kant, så ingen platta behöver kapas. Övre änden av
+				högra sidan, mot befintliga staketet, har ingen egen plint utan den stolpen monteras på befintliga
+				staketets stolpe istället. Packa väl runt plintarna och sätt dem innan plattorna.
 			</li>
 			<li>
 				<strong>Fiberduk.</strong> Lägg en tunn fiberduk mellan jorden och bärlagret.
@@ -172,30 +170,20 @@
 				ytan plan, plattorna knackas sen ner i det.
 			</li>
 			<li>
-				<strong>Plattor och fogsand.</strong> Betongplattor 35 × 35 × 5 cm med 3 mm fog. Sätt yttersta
-				plattraden vid grinden och längs gången mot kantstöd så kanten inte vandrar. Sopa till sist ner
-				fogsand i mellanrummen, den låser plattorna.
+				<strong>Plattor och fogsand.</strong> Betongplattor 35 × 35 × 5 cm med 3 mm fog. Sopa till sist
+				ner fogsand i mellanrummen som låser fast plattorna.
 			</li>
 			<li>
-				<strong>Stolpar.</strong> Stolpar 95 × 95 mm skruvas i plintarna. Där högra sidan möter det befintliga
-				staketet finns ingen egen stolpe, utan skruva istället en regel 45 × 95 mm stående i staketets
-				stolpe (genomgående bult eller franska träskruvar, inte bara i brädorna). Den blir fästpunkt för
-				de tre reglarna på den sidan. Eller sätt en egen stolpe med plint om det behövs.
+				<strong>Stolpar.</strong> Stolpar 95 × 95 mm skruvas i plintarna. Vid övre änden av högra sidan,
+				som förankras på befintliga staketet: skruva en regel 95 × 95 mm stående på staketets stolpe (genomgående
+				bult eller franska träskruvar, inte bara i brädorna) som fästpunkt för de tre reglarna på den
+				sidan.
 			</li>
 			<li>
-				<strong>Reglar och trall.</strong> Tre reglar 45 × 95 mm per fack, stående trall 28 × 120 mm med
-				10 mm mellanrum, rostfri trallskruv. Nedersta brädan 3–5 cm ovanför plattorna. Såga av toppen
-				med vinkel för att förhindra vattenansamling.
-			</li>
-			<li>
-				<strong>Grind.</strong> Öppningen är 4 plattor eller cirka 1,41 m fri bredd, så grindstolpen hamnar
-				utanför plattorna och gången är lika bred som öppningen. Grindbladet blir cirka 1,37 m brett och
-				väger runt 30 kg: ram av 45 × 95 mm med diagonalsträva, samma brädor som staketet. Gångjärnen
-				sätts i skjulets högra vägg. Skruva först en regel 45 × 95 mm i väggens stomme som gångjärnsplanka,
-				den ska sitta i väggens regelverk och inte bara i panelen. Det förutsätter att sidoväggen är hel
-				ända fram till skjulets framkant. Grinden slår inåt och fälls upp mot skjulväggen, där en krok
-				håller den öppen under tömning. Klinka som går att öppna från båda håll mot grindstolpen, som
-				i övrigt är en vanlig staketstolpe.
+				<strong>Reglar och trall.</strong> Tre reglar 95 × 95 mm per fack, samma dimension som stolparna
+				för att matcha det befintliga staketet, stående trall 28 × 120 mm med 10 mm mellanrum, rostfri
+				trallskruv. Nedersta brädan 3–5 cm ovanför plattorna. Såga av toppen med vinkel för att förhindra
+				vattenansamling.
 			</li>
 		</ol>
 	</section>

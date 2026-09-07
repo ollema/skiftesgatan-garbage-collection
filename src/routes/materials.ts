@@ -4,8 +4,8 @@ import {
 	ENCLOSURE_DEPTH_TILES,
 	ENCLOSURE_WIDTH,
 	ENCLOSURE_WIDTH_TILES,
-	GATE,
-	GATE_WIDTH,
+	OPENING_WIDTH,
+	PATH_CONNECTOR_TILES,
 	POST_WIDTH,
 	POSTS,
 	SCHAKT_DEPTH,
@@ -19,16 +19,12 @@ import { formatKg, formatMeters, formatNumber1 } from './format';
 
 const PRICE = {
 	post48: 316.56,
-	rail48: 143.76,
 	trall45: 85.28,
 	plint: 159.0,
 	screws: 450,
-	hakgangjarn: 259,
-	grindklinka: 249,
-	gateHolder: 34,
 	platta: 24.0,
 	plattaFew: 26.9,
-	rail24: 72,
+	plattaHalf: 17.0,
 	fiberduk: 399,
 	fogsand: 199,
 	kantsten: 38.8,
@@ -75,18 +71,23 @@ function bomGroup(label: string, rows: BomRow[]): BomGroup {
 
 function computeQuantities() {
 	const posts = POSTS.length;
-	const run = ENCLOSURE_DEPTH + POST_WIDTH + (ENCLOSURE_WIDTH - GATE_WIDTH);
-	const boards = Math.ceil((run / 0.13) * 1.05) + Math.ceil(GATE.leafWidth / 0.13);
+	const run = ENCLOSURE_DEPTH + POST_WIDTH + (ENCLOSURE_WIDTH - OPENING_WIDTH);
+	const boards = Math.ceil((run / 0.13) * 1.05);
 	const trallLen = Math.ceil(boards / 3);
-	const railLen = Math.ceil((3 * run * 1.1 + 2 * GATE.leafWidth + 2 * 1.4 + 2.0) / 4.8);
-	const postLen = Math.ceil(posts / 3);
+	const postCutLength = 4.8 / 3; // stolparna (och backningsregeln) kapas 3 per 4,8 m-längd
+	// stolpar och reglar är samma virke (95×95 mm NTR A), så de köps som en gemensam längdpott
+	const postAndRailLength = posts * postCutLength + 3 * run * 1.1 + postCutLength + 2.0;
+	const postAndRailLen = Math.ceil(postAndRailLength / 4.8);
 
 	const enclosureTiles = ENCLOSURE_WIDTH_TILES * ENCLOSURE_DEPTH_TILES;
 	const stripTiles = STRIP_WIDTH_TILES * STRIP_ROWS_TILES;
+	const connectorHalfTiles = PATH_CONNECTOR_TILES;
 	const tiles = enclosureTiles + stripTiles;
 	const spareTiles = Math.ceil(tiles * 0.05);
 	const tilesToBuy = tiles + spareTiles;
-	const area = tiles * TILE_PITCH * TILE_PITCH;
+	const spareHalfTiles = Math.ceil(connectorHalfTiles * 0.05);
+	const halfTilesToBuy = connectorHalfTiles + spareHalfTiles;
+	const area = (tiles + connectorHalfTiles * 0.5) * TILE_PITCH * TILE_PITCH;
 	const plattaPrice = tilesToBuy >= 90 ? PRICE.platta : PRICE.plattaFew;
 
 	const stenmjolKg = area * STENMJOL_THICKNESS * 1600;
@@ -104,7 +105,7 @@ function computeQuantities() {
 			bomRow(`Bortforsling av schaktmassor, ca ${formatNumber1(digM3)} m³`, 1, PRICE.schakt, true)
 		]),
 		bomGroup(
-			`Plattläggning, ${formatNumber1(area)} m² (${enclosureTiles} plattor inhägnad + ${stripTiles} remsa + ${spareTiles} reserv)`,
+			`Plattläggning, ${formatNumber1(area)} m² (${enclosureTiles} plattor inhägnad + ${stripTiles} remsa + ${connectorHalfTiles} halvplattor anslutning mot asfalt + ${spareTiles} reserv)`,
 			[
 				bomRow(
 					'Markplatta Benders Siena 35×35×5 cm grå',
@@ -112,6 +113,13 @@ function computeQuantities() {
 					plattaPrice,
 					false,
 					'https://www.hornbach.se/p/markplatta-benders-siena-slat-fasad-gra-350x350x50mm/8628862/'
+				),
+				bomRow(
+					'Markplatta Benders Siena 35×17,5×5 cm grå, halv',
+					halfTilesToBuy,
+					PRICE.plattaHalf,
+					false,
+					'https://www.hornbach.se/p/markplatta-benders-siena-slat-fasad-gra-350x175x50mm/8407799/'
 				),
 				bomRow(
 					'Fiberduk under bärlagret, N1 90 g/m², 1,4×25 m (35 m²)',
@@ -161,18 +169,11 @@ function computeQuantities() {
 				'https://www.hornbach.se/p/betongplint-benders-4x700mm/5520589/'
 			),
 			bomRow(
-				'Stolpe 95×95 mm NTR A, 4,8 m (3 stolpar per längd)',
-				postLen,
+				'Stolpe/regel 95×95 mm NTR A, 4,8 m',
+				postAndRailLen,
 				PRICE.post48,
 				false,
 				'https://www.hornbach.se/p/tryckimpregnerad-stolpe-ntr-a-95x95x4800-mm/6810575/'
-			),
-			bomRow(
-				'Regel 45×95 mm NTR AB, 4,8 m (staket + grindram)',
-				railLen,
-				PRICE.rail48,
-				false,
-				'https://www.hornbach.se/p/tryckimpregnerad-regel-ntr-ab-45x95x4800-mm/5196591/'
 			),
 			bomRow(
 				'Trall 28×120 mm NTR AB, 4,5 m (3 brädor per längd)',
@@ -180,34 +181,6 @@ function computeQuantities() {
 				PRICE.trall45,
 				false,
 				'https://www.hornbach.se/p/tryckimpregnerad-trall-ntr-ab-28x120x4500-mm/6736138/'
-			),
-			bomRow(
-				'Hakgångjärn HABO 104 500 mm (par, 2 st)',
-				1,
-				PRICE.hakgangjarn,
-				false,
-				'https://www.hornbach.se/p/hakgangjarn-habo-104-varmgalvaniserat-stal-500mm/10485738/'
-			),
-			bomRow(
-				'Grindklinka Alberts 80×55 mm rostfritt stål',
-				1,
-				PRICE.grindklinka,
-				false,
-				'https://www.hornbach.se/p/grindklinka-alberts-80x55mm-rostfritt-stal/3884117/'
-			),
-			bomRow(
-				'Regel 45×95 mm NTR AB, 2,4 m, på skjulväggen/staketet',
-				2,
-				PRICE.rail24,
-				false,
-				'https://www.hornbach.se/p/tryckimpregnerad-regel-ntr-ab-45x95x4800-mm/5196591/'
-			),
-			bomRow(
-				'Stormhasp Alberts med ögla, förzinkad, 157×5 mm, håller grinden uppfälld mot väggen',
-				1,
-				PRICE.gateHolder,
-				false,
-				'https://www.hornbach.se/p/stormhasp-alberts-med-ogla-forzinkad-157x5mm/8729295/'
 			),
 			bomRow(
 				'Trallskruv + konstruktionsskruv + bult till befintliga staketet, rostfri',
@@ -243,7 +216,7 @@ export const quantities = computeQuantities();
 export const FACTS: { term: string; description: string }[] = [
 	{
 		term: 'Total yta',
-		description: `${ENCLOSURE_WIDTH_TILES} × ${ENCLOSURE_DEPTH_TILES} + ${STRIP_WIDTH_TILES} × ${STRIP_ROWS_TILES} = ${quantities.tiles} plattor ≈ ${formatNumber1(quantities.area)} m²`
+		description: `${ENCLOSURE_WIDTH_TILES} × ${ENCLOSURE_DEPTH_TILES} + ${STRIP_WIDTH_TILES} × ${STRIP_ROWS_TILES} = ${quantities.tiles} plattor + ${PATH_CONNECTOR_TILES} halvplattor ≈ ${formatNumber1(quantities.area)} m²`
 	},
 	{
 		term: 'Schaktning',
@@ -262,7 +235,7 @@ export const FACTS: { term: string; description: string }[] = [
 		description: `${formatMeters(quantities.run)} långt, 1,5 m högt och ${quantities.posts} stolpar`
 	},
 	{
-		term: 'Grind',
-		description: `${formatMeters(GATE_WIDTH)} bred öppning, blad ${formatMeters(GATE.leafWidth)} brett`
+		term: 'Öppning',
+		description: `${formatMeters(OPENING_WIDTH)} bred, ingen grind`
 	}
 ];
