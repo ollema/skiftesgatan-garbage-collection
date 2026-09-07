@@ -33,7 +33,11 @@
 		>
 			<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10.5 2.5 5 8l5.5 5.5" /></svg>
 		</button>
-		<h3>{index + 1}. {step.title}</h3>
+		<h3 class="stack">
+			{#each STEPS as s, i (s.id)}
+				<span class:shown={i === index}>{i + 1}. {s.title}</span>
+			{/each}
+		</h3>
 		<span class="counter">Steg {index + 1} av {STEPS.length}</span>
 		<button
 			type="button"
@@ -53,7 +57,11 @@
 		/>
 	{/key}
 
-	<p>{step.text}</p>
+	<div class="stack">
+		{#each STEPS as s, i (s.id)}
+			<p class:shown={i === index}>{s.text}</p>
+		{/each}
+	</div>
 </div>
 
 <style>
@@ -70,7 +78,24 @@
 	.head h3 {
 		margin: 0;
 		min-width: 0;
+	}
+	.head h3 span {
 		text-wrap: balance;
+	}
+	/*
+	 * Alla steg läggs i samma rutnätscell, så höjden blir den högsta textens och
+	 * sidan slutar hoppa när man bläddrar längst ner. Bara det aktiva steget syns;
+	 * visibility: hidden håller de andra utanför både skärmläsare och tabbordning.
+	 */
+	.stack {
+		display: grid;
+	}
+	.stack > * {
+		grid-area: 1 / 1;
+		visibility: hidden;
+	}
+	.stack > .shown {
+		visibility: visible;
 	}
 	.counter {
 		color: var(--muted);
@@ -109,5 +134,11 @@
 	p {
 		margin: 0.75rem 0 0;
 		text-wrap: pretty;
+	}
+	@media print {
+		/* Utskriften visar bara det aktiva steget, så reservera ingen extra höjd. */
+		.stack > *:not(.shown) {
+			display: none;
+		}
 	}
 </style>
