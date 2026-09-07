@@ -146,9 +146,6 @@
 		<h2>Instruktioner</h2>
 		<ol class="steps">
 			<li>
-				<strong>Beställ material och boka maskiner. </strong>
-			</li>
-			<li>
 				<strong>Märk ut.</strong> Använd t.ex. sprayfärg för att märka upp var vi ska gräva, var plintarna
 				ska stå och var markplattorna ska läggas. Använd den stolpen i det existerande staketet och hörnet
 				på cykelskjulet som referens men kontrollera även att allt ser rimligt ut genom att lägga ut några
