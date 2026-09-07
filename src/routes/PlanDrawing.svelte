@@ -5,32 +5,55 @@
 		INHAGNAD_OFFSET_Y,
 		PLATTA_PITCH,
 		PLINT_HAL,
+		SCHAKT_POLYGON,
 		SOPKARL_GAP,
 		STAKET,
 		STOLPAR,
-		STOLPE_WIDTH
+		STOLPE_WIDTH,
+		type Rect
 	} from './dimensions';
 	import {
 		ASPHALT,
 		EXISTING_FENCE,
 		EXISTING_STUD,
-		FENCE_CLADDING,
-		GRAVEL_ALONG_FENCE,
-		GRAVEL_ALONG_SHED,
 		NEW_FENCE,
-		PLAN_DIMENSIONS,
 		PLAN_SCALE,
 		PLAN_VIEWBOX,
+		PLINT_TOPP,
 		planX,
 		planY,
 		SHED,
 		SHED_FRONT_GUIDE,
 		SHED_STUDS,
 		TILE_FIELDS,
-		type Dimension
+		TRALL_BOARDS,
+		type Annotation,
+		type Dimension,
+		type Layer
 	} from './plan-view';
 
+	let {
+		layers,
+		annotations = [],
+		label
+	}: { layers: Layer[]; annotations?: Annotation[]; label: string } = $props();
+
+	const visible = $derived(new Set(layers));
+
 	const postPx = STOLPE_WIDTH * PLAN_SCALE;
+	const tilePx = PLATTA_PITCH * PLAN_SCALE;
+
+	const schaktPoints = SCHAKT_POLYGON.map((p) => `${planX(p.x)},${planY(p.y)}`).join(' ');
+	const tileFields = Object.values(TILE_FIELDS);
+
+	function rect(r: Rect) {
+		return {
+			x: planX(r.x),
+			y: planY(r.y),
+			width: r.width * PLAN_SCALE,
+			height: r.height * PLAN_SCALE
+		};
+	}
 
 	function horizontalDimension(dim: Extract<Dimension, { orientation: 'horizontal' }>) {
 		const y = planY(dim.at);
@@ -53,34 +76,34 @@
 	viewBox="0 0 {PLAN_VIEWBOX.width} {PLAN_VIEWBOX.height}"
 	xmlns="http://www.w3.org/2000/svg"
 	role="img"
-	aria-label="Plan över inhägnaden"
+	aria-label={label}
 >
 	<defs>
 		<pattern
 			id="tile"
 			x={planX(INHAGNAD_OFFSET_X)}
 			y={planY(INHAGNAD_OFFSET_Y)}
-			width={PLATTA_PITCH * PLAN_SCALE}
-			height={PLATTA_PITCH * PLAN_SCALE}
+			width={tilePx}
+			height={tilePx}
 			patternUnits="userSpaceOnUse"
 		>
-			<rect width={PLATTA_PITCH * PLAN_SCALE} height={PLATTA_PITCH * PLAN_SCALE} fill="#ccd0c8" />
+			<rect width={tilePx} height={tilePx} fill="#ccd0c8" />
 			<!-- fogen ritas en halv linjebredd in i rutan, annars klipper mönstret bort
 			     yttre halvan och fogarna inne i fältet blir tunnare än fältens kanter -->
-			<path
-				d="M{PLATTA_PITCH * PLAN_SCALE} 0.5H0.5V{PLATTA_PITCH * PLAN_SCALE}"
-				fill="none"
-				stroke="#b0b5ad"
-				stroke-width="1"
-			/>
+			<path d="M{tilePx} 0.5H0.5V{tilePx}" fill="none" stroke="#b0b5ad" stroke-width="1" />
 		</pattern>
-		<pattern id="gravel" width="11" height="11" patternUnits="userSpaceOnUse">
-			<rect width="11" height="11" fill="#ded7c7" />
-			<circle cx="2" cy="2.5" r="1" fill="#b3a890" />
-			<circle cx="7.5" cy="1.5" r="1" fill="#b3a890" />
-			<circle cx="4.5" cy="6" r="1" fill="#b3a890" />
-			<circle cx="9" cy="7.5" r="1" fill="#b3a890" />
-			<circle cx="1.5" cy="9.5" r="1" fill="#b3a890" />
+		<pattern id="barlager" width="11" height="11" patternUnits="userSpaceOnUse">
+			<rect width="11" height="11" fill="#b8b8b8" />
+			<circle cx="2" cy="2.5" r="1.2" fill="#8f8f8f" />
+			<circle cx="7.5" cy="1.5" r="1" fill="#9a9a9a" />
+			<circle cx="4.5" cy="6" r="1.4" fill="#9a9a9a" />
+			<circle cx="9" cy="7.5" r="1" fill="#8f8f8f" />
+			<circle cx="1.5" cy="9.5" r="1" fill="#9a9a9a" />
+		</pattern>
+		<pattern id="stenmjol" width="6" height="6" patternUnits="userSpaceOnUse">
+			<rect width="6" height="6" fill="#cfc9b8" />
+			<circle cx="1.5" cy="1.5" r="0.5" fill="#b8b09a" />
+			<circle cx="4.5" cy="4" r="0.5" fill="#b8b09a" />
 		</pattern>
 	</defs>
 
@@ -88,63 +111,49 @@
 	<rect x="0" y="0" width={PLAN_VIEWBOX.width} height={PLAN_VIEWBOX.height} fill="#d7e6c1" />
 
 	<!-- asfalt framför hela skjulet -->
-	<rect
-		x={planX(ASPHALT.x)}
-		y={planY(ASPHALT.y)}
-		width={ASPHALT.width * PLAN_SCALE}
-		height={ASPHALT.height * PLAN_SCALE}
-		fill="#e2e4e0"
-	/>
+	<rect {...rect(ASPHALT)} fill="#e2e4e0" />
 
-	<!-- grus: marginalen mellan befintliga väggen och plattfältets nya, förskjutna kanter -->
-	<rect
-		x={planX(GRAVEL_ALONG_FENCE.x)}
-		y={planY(GRAVEL_ALONG_FENCE.y)}
-		width={GRAVEL_ALONG_FENCE.width * PLAN_SCALE}
-		height={GRAVEL_ALONG_FENCE.height * PLAN_SCALE}
-		fill="url(#gravel)"
-	/>
-	<rect
-		x={planX(GRAVEL_ALONG_SHED.x)}
-		y={planY(GRAVEL_ALONG_SHED.y)}
-		width={GRAVEL_ALONG_SHED.width * PLAN_SCALE}
-		height={GRAVEL_ALONG_SHED.height * PLAN_SCALE}
-		fill="url(#gravel)"
-	/>
-	<!-- grävda stolphål, 170×170 mm - halva som hamnar under plattorna täcks av dem nedan -->
-	{#each PLINT_HAL as hole (hole.x + ',' + hole.y)}
-		<rect
-			x={planX(hole.x)}
-			y={planY(hole.y)}
-			width={hole.width * PLAN_SCALE}
-			height={hole.height * PLAN_SCALE}
-			fill="url(#gravel)"
-		/>
-	{/each}
+	<!-- markuppbyggnaden, nedifrån och upp: schakt, plinthål, fiberduk, bärlager, stenmjöl, plattor -->
+	{#if visible.has('schakt')}
+		<polygon points={schaktPoints} fill="#7f5b3a" />
+	{/if}
+	<!-- plinthålen sticker ut utanför schakten; den delen packad jord som förblir synlig -->
+	{#if visible.has('plinthal')}
+		{#each PLINT_HAL as hole (hole.x + ',' + hole.y)}
+			<rect {...rect(hole)} fill="#6b4a2b" />
+		{/each}
+	{/if}
+	{#if visible.has('fiberduk')}
+		<polygon points={schaktPoints} fill="#dcdcdc" />
+	{/if}
+	{#if visible.has('barlager')}
+		<polygon points={schaktPoints} fill="url(#barlager)" />
+	{/if}
+	{#if visible.has('stenmjol')}
+		{#each tileFields as field (field.x + ',' + field.y)}
+			<rect {...rect(field)} fill="url(#stenmjol)" />
+		{/each}
+	{/if}
 
-	<!-- plattor: inhägnadens golv + gång, ett sammanhängande rutnät -->
-	<rect
-		x={planX(TILE_FIELDS.enclosure.x)}
-		y={planY(TILE_FIELDS.enclosure.y)}
-		width={TILE_FIELDS.enclosure.width * PLAN_SCALE}
-		height={TILE_FIELDS.enclosure.height * PLAN_SCALE}
-		fill="url(#tile)"
-	/>
-	<rect
-		x={planX(TILE_FIELDS.path.x)}
-		y={planY(TILE_FIELDS.path.y)}
-		width={TILE_FIELDS.path.width * PLAN_SCALE}
-		height={TILE_FIELDS.path.height * PLAN_SCALE}
-		fill="url(#tile)"
-	/>
-	<!-- ny rad som viker av in mot skjulet och täcker glappet mot asfalten (spegelvänt L) -->
-	<rect
-		x={planX(TILE_FIELDS.connector.x)}
-		y={planY(TILE_FIELDS.connector.y)}
-		width={TILE_FIELDS.connector.width * PLAN_SCALE}
-		height={TILE_FIELDS.connector.height * PLAN_SCALE}
-		fill="url(#tile)"
-	/>
+	<!-- plinttopparna; de ligger under plattorna -->
+	{#if visible.has('plint-topp')}
+		{#each PLINT_TOPP as plint (plint.x + ',' + plint.y)}
+			<rect {...rect(plint)} fill="#b5b5b5" stroke="#7a7a7a" stroke-width="1" />
+		{/each}
+	{/if}
+	{#if visible.has('plattor')}
+		{#each tileFields as field (field.x + ',' + field.y)}
+			<rect {...rect(field)} fill="url(#tile)" />
+		{/each}
+	{/if}
+
+	<!-- utmärkning med sprayfärg: schaktens omriss och plinthålen -->
+	{#if visible.has('markering')}
+		<polygon points={schaktPoints} class="markering" />
+		{#each PLINT_HAL as hole (hole.x + ',' + hole.y)}
+			<rect {...rect(hole)} class="markering" />
+		{/each}
+	{/if}
 
 	<!-- cykelskjul: tak i ljus ton, väggar i mörkbrunt, öppen framsida -->
 	<rect
@@ -197,89 +206,95 @@
 	/>
 
 	<!-- kärl -->
-	{#each SOPKARL as bin (bin.x)}
-		{@const size = SOPKARL_SIZES[bin.size]}
-		{@const x = planX(bin.x)}
-		{@const y = planY(INHAGNAD_OFFSET_Y + SOPKARL_GAP)}
-		{@const w = size.width * PLAN_SCALE}
-		{@const h = size.depth * PLAN_SCALE}
-		<g>
-			<rect {x} {y} width={w} height={h} rx="5" class="bin" />
-			<text class="bin-label" text-anchor="middle" x={x + w / 2} y={y + h / 2 + 4}
-				>{size.label}</text
-			>
-		</g>
-	{/each}
+	{#if visible.has('karl')}
+		{#each SOPKARL as bin (bin.x)}
+			{@const size = SOPKARL_SIZES[bin.size]}
+			{@const x = planX(bin.x)}
+			{@const y = planY(INHAGNAD_OFFSET_Y + SOPKARL_GAP)}
+			{@const w = size.width * PLAN_SCALE}
+			{@const h = size.depth * PLAN_SCALE}
+			<g>
+				<rect {x} {y} width={w} height={h} rx="5" class="bin" />
+				<text class="bin-label" text-anchor="middle" x={x + w / 2} y={y + h / 2 + 4}
+					>{size.label}</text
+				>
+			</g>
+		{/each}
+	{/if}
 
-	<!-- nytt staket: regel/stolpe (95×95, mittlinje) + trallklädsel utanpå, öppning istället för grind -->
-	<line
-		x1={planX(NEW_FENCE.far.x)}
-		y1={planY(NEW_FENCE.far.y1)}
-		x2={planX(NEW_FENCE.far.x)}
-		y2={planY(NEW_FENCE.far.y2)}
-		stroke-width={postPx}
-		class="new-fence"
-	/>
-	<line
-		x1={planX(NEW_FENCE.front.x1)}
-		y1={planY(NEW_FENCE.front.y)}
-		x2={planX(NEW_FENCE.front.x2)}
-		y2={planY(NEW_FENCE.front.y)}
-		stroke-width={postPx}
-		class="new-fence"
-	/>
-	<!-- trall, 28 mm, spikad på utsidan av reglarna -->
-	<rect
-		x={planX(FENCE_CLADDING.far.x)}
-		y={planY(FENCE_CLADDING.far.y1)}
-		width={FENCE_CLADDING.far.width * PLAN_SCALE}
-		height={(FENCE_CLADDING.far.y2 - FENCE_CLADDING.far.y1) * PLAN_SCALE}
-		class="cladding"
-	/>
-	<rect
-		x={planX(FENCE_CLADDING.front.x1)}
-		y={planY(FENCE_CLADDING.front.y)}
-		width={(FENCE_CLADDING.front.x2 - FENCE_CLADDING.front.x1) * PLAN_SCALE}
-		height={FENCE_CLADDING.front.height * PLAN_SCALE}
-		class="cladding"
-	/>
-	{#each STOLPAR as post (post.x + ',' + post.y)}
-		<rect
-			x={planX(post.x) - postPx / 2}
-			y={planY(post.y) - postPx / 2}
-			width={postPx}
-			height={postPx}
-			class="post"
+	<!-- nytt staket: reglar (95×95, mittlinje) + trallbrädor utanpå + stolpar överst -->
+	{#if visible.has('reglar')}
+		<line
+			x1={planX(NEW_FENCE.far.x)}
+			y1={planY(NEW_FENCE.far.y1)}
+			x2={planX(NEW_FENCE.far.x)}
+			y2={planY(NEW_FENCE.far.y2)}
+			stroke-width={postPx}
+			class="new-fence"
 		/>
-	{/each}
-	<rect
-		x={planX(STAKET.anchor.x) - postPx / 2}
-		y={planY(STAKET.anchor.y) - postPx / 2}
-		width={postPx}
-		height={postPx}
-		class="post"
-	/>
+		<line
+			x1={planX(NEW_FENCE.front.x1)}
+			y1={planY(NEW_FENCE.front.y)}
+			x2={planX(NEW_FENCE.front.x2)}
+			y2={planY(NEW_FENCE.front.y)}
+			stroke-width={postPx}
+			class="new-fence"
+		/>
+	{/if}
+	{#if visible.has('trall')}
+		{#each TRALL_BOARDS as board (board.x + ',' + board.y)}
+			<rect {...rect(board)} class="cladding" />
+		{/each}
+	{/if}
+	{#if visible.has('stolpar')}
+		{#each [...STOLPAR, STAKET.anchor] as post (post.x + ',' + post.y)}
+			<rect
+				x={planX(post.x) - postPx / 2}
+				y={planY(post.y) - postPx / 2}
+				width={postPx}
+				height={postPx}
+				class="post"
+			/>
+		{/each}
+	{/if}
 
-	<!-- mått -->
-	{#each PLAN_DIMENSIONS as dim (dim.label)}
-		{#if dim.orientation === 'horizontal'}
-			{@const { y, x1, x2, textX, textY } = horizontalDimension(dim)}
-			<g class="dim" class:muted={dim.muted}>
+	<!-- annoteringar -->
+	{#each annotations as a, i (i)}
+		{#if a.kind === 'dimension' && a.orientation === 'horizontal'}
+			{@const { y, x1, x2, textX, textY } = horizontalDimension(a)}
+			<g class="dim">
 				<line {x1} y1={y} {x2} y2={y} />
 				<line {x1} y1={y - 5} x2={x1} y2={y + 5} />
 				<line x1={x2} y1={y - 5} {x2} y2={y + 5} />
-				<text x={textX} y={textY} text-anchor="middle">{dim.label}</text>
+				<text x={textX} y={textY} text-anchor="middle">{a.label}</text>
 			</g>
-		{:else}
-			{@const { x, y1, y2, textX, textY, rotate } = verticalDimension(dim)}
-			<g class="dim" class:muted={dim.muted}>
+		{:else if a.kind === 'dimension'}
+			{@const { x, y1, y2, textX, textY, rotate } = verticalDimension(a)}
+			<g class="dim">
 				<line x1={x} {y1} x2={x} {y2} />
 				<line x1={x - 5} {y1} x2={x + 5} y2={y1} />
 				<line x1={x - 5} y1={y2} x2={x + 5} {y2} />
 				<text x={textX} y={textY} text-anchor="middle" transform="rotate({rotate} {textX} {textY})"
-					>{dim.label}</text
+					>{a.label}</text
 				>
 			</g>
+		{:else if a.kind === 'callout'}
+			{@const x = planX(a.x)}
+			{@const y = planY(a.y)}
+			{@const tx = x + a.dx * PLAN_SCALE}
+			{@const ty = y + a.dy * PLAN_SCALE}
+			{@const anchor = a.dx > 0 ? 'start' : a.dx < 0 ? 'end' : 'middle'}
+			<g class="dim callout">
+				<circle cx={x} cy={y} r="3" />
+				<line x1={x} y1={y} x2={tx} y2={ty} />
+				<text
+					x={tx + (a.dx > 0 ? 4 : a.dx < 0 ? -4 : 0)}
+					y={ty + (a.dy > 0 ? 12 : 4)}
+					text-anchor={anchor}>{a.label}</text
+				>
+			</g>
+		{:else}
+			<text class="field-label" x={planX(a.x)} y={planY(a.y)} text-anchor="middle">{a.label}</text>
 		{/if}
 	{/each}
 </svg>
@@ -287,31 +302,37 @@
 <style>
 	svg {
 		width: 100%;
-		max-width: 100ch;
+		max-width: var(--drawing-width);
 		height: auto;
 		display: block;
 		margin-top: 12px;
 		font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	}
 	.wall {
-		stroke: #5a3e1e;
+		stroke: #8c7d4e;
 		stroke-width: 6;
 	}
 	.wall-guide {
-		stroke: #5a3e1e;
+		stroke: #8c7d4e;
 		stroke-width: 1.5;
 		stroke-dasharray: 6 6;
 	}
+	.markering {
+		fill: none;
+		stroke: #d0341b;
+		stroke-width: 3;
+		stroke-linejoin: round;
+	}
 	.new-fence {
-		stroke: #e39b2b;
+		stroke: #b3a571;
 	}
 	.cladding {
-		fill: #f0c98a;
-		stroke: #c9832f;
-		stroke-width: 1;
+		fill: #cdc08c;
+		stroke: #a89a68;
+		stroke-width: 0.5;
 	}
 	.post {
-		fill: #a86d12;
+		fill: #9a8a50;
 	}
 	.bin {
 		fill: #cfebdc;
@@ -323,25 +344,26 @@
 		font-weight: 700;
 		fill: #174d36;
 	}
-	.muted {
-		fill: #5f6a65;
-	}
 	.brown {
-		fill: #5a3e1e;
+		fill: #8c7d4e;
 	}
 	.dim {
 		stroke: #1e2a26;
 		stroke-width: 1;
 		font-size: 11px;
 	}
-	.dim text {
-		stroke: none;
+	.dim text,
+	.field-label {
+		stroke: #fcfcfa;
+		stroke-width: 3;
+		paint-order: stroke;
 		fill: #1e2a26;
 	}
-	.dim.muted {
-		opacity: 0.6;
+	.callout circle {
+		fill: #1e2a26;
 	}
-	.dim.muted text {
-		font-size: 10px;
+	.field-label {
+		font-size: 12px;
+		font-weight: 700;
 	}
 </style>

@@ -1,34 +1,37 @@
 import {
 	BEFINTLIG_STOLPE_DISTANCE,
 	GANG_LENGTH,
-	GANG_LENGTH_PLATTOR,
 	GANG_WIDTH,
-	GANG_WIDTH_PLATTOR,
-	GRUS_YTOR,
 	INHAGNAD_DEPTH,
-	INHAGNAD_DEPTH_PLATTOR,
 	INHAGNAD_OFFSET_X,
 	INHAGNAD_OFFSET_Y,
 	INHAGNAD_WIDTH,
-	INHAGNAD_WIDTH_PLATTOR,
 	PLATT_YTOR,
+	PLINT_TOP,
+	type Rect,
 	SKJUL_DEPTH,
 	STAKET,
 	STAKET_KLADSEL,
+	STOLPAR,
 	STOLPE_WIDTH,
-	TRALL_THICKNESS
+	TRALL_GAP,
+	TRALL_THICKNESS,
+	TRALL_WIDTH
 } from './dimensions';
-import { formatMeters } from './format';
 
 export const PLAN_SCALE = 100;
 
-const GANG_END_Y = INHAGNAD_OFFSET_Y + INHAGNAD_DEPTH + GANG_LENGTH;
+/** Schaktens kant längs det befintliga staketet, längst bort från skjulet. */
+export const SCHAKT_EDGE_X = INHAGNAD_OFFSET_X + INHAGNAD_WIDTH;
+export const GANG_END_Y = INHAGNAD_OFFSET_Y + INHAGNAD_DEPTH + GANG_LENGTH;
 
+// Marginalerna ger plats åt måttlinjer: två kolumner till höger och vänster,
+// två rader upptill och nedtill.
 const PLAN_BOUNDS = {
-	xMin: -2.2,
-	xMax: INHAGNAD_OFFSET_X + INHAGNAD_WIDTH + 0.85,
+	xMin: PLATT_YTOR.anslutning.x - 0.75,
+	xMax: SCHAKT_EDGE_X + 0.85,
 	yMin: -0.7,
-	yMax: GANG_END_Y + 0.75
+	yMax: GANG_END_Y + 0.7
 };
 
 export const PLAN_VIEWBOX = {
@@ -43,6 +46,24 @@ export function planX(x: number) {
 export function planY(y: number) {
 	return (y - PLAN_BOUNDS.yMin) * PLAN_SCALE;
 }
+
+// --- Lager: det som kan tändas och släckas per ritning ---
+
+export type Layer =
+	| 'markering'
+	| 'schakt'
+	| 'plinthal'
+	| 'plint-topp'
+	| 'fiberduk'
+	| 'barlager'
+	| 'stenmjol'
+	| 'plattor'
+	| 'stolpar'
+	| 'reglar'
+	| 'trall'
+	| 'karl';
+
+// --- Det befintliga: skjul, asfalt, staket ---
 
 export const SHED = {
 	x: PLAN_BOUNDS.xMin,
@@ -85,6 +106,9 @@ export const SHED_STUDS = {
 
 export const SHED_FRONT_GUIDE = { x1: PLAN_BOUNDS.xMin, y1: SKJUL_DEPTH, x2: 0, y2: SKJUL_DEPTH };
 
+// --- Det nya staketet ---
+
+/** Reglarna, ritade som en linje i stolpbredd längs varje sida. */
 export const NEW_FENCE = {
 	far: { x: STAKET.corner.x, y1: 0, y2: STAKET.corner.y },
 	front: {
@@ -94,107 +118,80 @@ export const NEW_FENCE = {
 	}
 };
 
-export const FENCE_CLADDING = {
-	far: {
-		x: STAKET_KLADSEL.bortre.at,
-		y1: STAKET_KLADSEL.bortre.from,
-		y2: STAKET_KLADSEL.bortre.to,
-		width: TRALL_THICKNESS
-	},
-	front: {
-		x1: STAKET_KLADSEL.framre.from,
-		x2: STAKET_KLADSEL.framre.to,
-		y: STAKET_KLADSEL.framre.at,
-		height: TRALL_THICKNESS
-	}
-};
+function centeredSquare(center: { x: number; y: number }, size: number): Rect {
+	return { x: center.x - size / 2, y: center.y - size / 2, width: size, height: size };
+}
 
-export const GRAVEL_ALONG_FENCE = GRUS_YTOR.vidStaketet;
-// Ritas ända in under skjulet, annars lyser gräset igenom bakom anslutningsraden.
-export const GRAVEL_ALONG_SHED = {
-	...GRUS_YTOR.vidSkjulet,
-	x: TILE_FIELDS.connector.x,
-	width: GRUS_YTOR.vidSkjulet.x + GRUS_YTOR.vidSkjulet.width - TILE_FIELDS.connector.x
-};
+/** Plinttopparna sedda uppifrån. */
+export const PLINT_TOPP: Rect[] = STOLPAR.map((post) => centeredSquare(post, PLINT_TOP));
+
+/** Brädlägen längs en sida: start och längd för varje bräda, sista kan bli kortare. */
+function boardsAlong(from: number, to: number) {
+	const pitch = TRALL_WIDTH + TRALL_GAP;
+	const count = Math.ceil((to - from) / pitch);
+	return Array.from({ length: count }, (_, i) => {
+		const start = from + i * pitch;
+		return { start, length: Math.min(TRALL_WIDTH, to - start) };
+	});
+}
+
+/** Trallbrädorna en och en, utanpå reglarna. */
+export const TRALL_BOARDS: Rect[] = [
+	...boardsAlong(STAKET_KLADSEL.bortre.from, STAKET_KLADSEL.bortre.to).map((b) => ({
+		x: STAKET_KLADSEL.bortre.at,
+		y: b.start,
+		width: TRALL_THICKNESS,
+		height: b.length
+	})),
+	...boardsAlong(STAKET_KLADSEL.framre.from, STAKET_KLADSEL.framre.to).map((b) => ({
+		x: b.start,
+		y: STAKET_KLADSEL.framre.at,
+		width: b.length,
+		height: TRALL_THICKNESS
+	}))
+];
+
+// --- Annoteringar: mått, hänvisningar och etiketter, i meter ---
 
 export type Dimension =
 	| {
+			kind: 'dimension';
 			orientation: 'horizontal';
 			from: number;
 			to: number;
 			at: number;
 			label: string;
+			/** Texten under linjen istället för ovanför. */
 			below?: boolean;
-			muted?: boolean;
 	  }
 	| {
+			kind: 'dimension';
 			orientation: 'vertical';
 			from: number;
 			to: number;
 			at: number;
 			label: string;
+			/** Texten till vänster om linjen istället för till höger. */
 			left?: boolean;
-			muted?: boolean;
 	  };
 
-export const PLAN_DIMENSIONS: Dimension[] = [
-	{
-		orientation: 'horizontal',
-		from: 0,
-		to: BEFINTLIG_STOLPE_DISTANCE,
-		at: -0.58,
-		label: `Skjul till bef. stolpe = ${formatMeters(BEFINTLIG_STOLPE_DISTANCE)}`,
-		muted: true
-	},
-	{
-		orientation: 'horizontal',
-		from: 0,
-		to: INHAGNAD_OFFSET_X,
-		at: -0.3,
-		label: `${formatMeters(INHAGNAD_OFFSET_X)}`
-	},
-	{
-		orientation: 'horizontal',
-		from: INHAGNAD_OFFSET_X,
-		to: INHAGNAD_OFFSET_X + INHAGNAD_WIDTH,
-		at: -0.3,
-		label: `${INHAGNAD_WIDTH_PLATTOR} plattor = ${formatMeters(INHAGNAD_WIDTH)}`
-	},
-	{
-		orientation: 'vertical',
-		from: 0,
-		to: INHAGNAD_OFFSET_Y,
-		at: INHAGNAD_OFFSET_X + INHAGNAD_WIDTH + 0.32,
-		label: `${formatMeters(INHAGNAD_OFFSET_Y)}`
-	},
-	{
-		orientation: 'vertical',
-		from: INHAGNAD_OFFSET_Y,
-		to: INHAGNAD_OFFSET_Y + INHAGNAD_DEPTH,
-		at: INHAGNAD_OFFSET_X + INHAGNAD_WIDTH + 0.32,
-		label: `${INHAGNAD_DEPTH_PLATTOR} plattor = ${formatMeters(INHAGNAD_DEPTH)}`
-	},
-	{
-		orientation: 'vertical',
-		from: INHAGNAD_OFFSET_Y + INHAGNAD_DEPTH,
-		to: GANG_END_Y,
-		at: INHAGNAD_OFFSET_X + INHAGNAD_WIDTH + 0.32,
-		label: `${GANG_LENGTH_PLATTOR} plattor = ${formatMeters(GANG_LENGTH)}`
-	},
-	{
-		orientation: 'vertical',
-		from: 0,
-		to: SKJUL_DEPTH,
-		at: -0.5,
-		label: formatMeters(SKJUL_DEPTH),
-		left: true
-	},
-	{
-		orientation: 'horizontal',
-		from: INHAGNAD_OFFSET_X,
-		to: INHAGNAD_OFFSET_X + GANG_WIDTH,
-		at: GANG_END_Y + 0.28,
-		label: `${GANG_WIDTH_PLATTOR} plattor = ${formatMeters(GANG_WIDTH)}`,
-		below: true
-	}
-];
+/** En punkt i ritningen med en förklarande text en bit bort, förbundna med en linje. */
+interface Callout {
+	kind: 'callout';
+	x: number;
+	y: number;
+	/** Textens läge relativt punkten. Texten ankras bort från punkten. */
+	dx: number;
+	dy: number;
+	label: string;
+}
+
+/** Text mitt i ett fält. */
+interface FieldLabel {
+	kind: 'label';
+	x: number;
+	y: number;
+	label: string;
+}
+
+export type Annotation = Dimension | Callout | FieldLabel;

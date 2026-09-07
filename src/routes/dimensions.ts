@@ -29,8 +29,17 @@ export const STENMJOL_THICKNESS = 0.03;
 export const BARLAGER_THICKNESS = 0.1;
 export const SCHAKT_DEPTH = PLATTA_THICKNESS + STENMJOL_THICKNESS + BARLAGER_THICKNESS;
 
-/** Betongplintarna sätts djupare än plattlagret. */
-export const PLINT_DEPTH = 0.7;
+// --- Betongplintar (Benders 4" × 700 mm) ---
+
+/** Plinten är 690 mm hög och ställs med toppen under plattorna, så hålet blir djupare. */
+const PLINT_HEIGHT = 0.69;
+/** Plinttoppen hamnar i nivå med plattornas undersida, så plattorna kan läggas över kanten. */
+export const PLINT_TOP_DEPTH = PLATTA_THICKNESS;
+export const PLINT_DEPTH = PLINT_HEIGHT + PLINT_TOP_DEPTH;
+/** Plintens toppmått; basen är bredare men syns inte när hålet är packat. */
+export const PLINT_TOP = 0.17;
+/** Grävt hål runt plinten, med plats att packa runt om. */
+export const PLINT_HAL_SIZE = 0.3;
 
 // --- Inhägnaden ---
 
@@ -60,7 +69,6 @@ export const SOPKARL_GAP = 0.06;
 // --- Staketets virke ---
 
 export const STOLPE_WIDTH = 0.095;
-export const STOLPE_HOLE_SIZE = 0.17;
 export const TRALL_THICKNESS = 0.028;
 export const TRALL_WIDTH = 0.12;
 
@@ -95,10 +103,10 @@ function spanStolpar(from: number, to: number) {
 	return Array.from({ length: segments + 1 }, (_, i) => from + ((to - from) * i) / segments);
 }
 
-// Det bortre staketet skruvas fast i det befintliga staketet, så den änden får
-// ingen egen stolpe. Det framre staketet delar hörnstolpe med det bortre och
-// hoppar därför över sin sista punkt.
-const bortreStolpar = spanStolpar(INHAGNAD_OFFSET_Y, STAKET_CORNER_Y)
+// Det bortre staketet börjar i stolpen som skruvas fast i det befintliga
+// staketet (`STAKET.anchor`), så den änden får ingen egen plint. Det framre
+// staketet delar hörnstolpe med det bortre och hoppar därför över sin sista punkt.
+const bortreStolpar = spanStolpar(STOLPE_WIDTH / 2, STAKET_CORNER_Y)
 	.slice(1)
 	.map((y) => ({ x: STAKET_CORNER_X, y }));
 const framreStolpar = spanStolpar(
@@ -168,11 +176,26 @@ export const GRUS_YTOR = {
 
 /** Grävda hål för betongplintarna. */
 export const PLINT_HAL: Rect[] = STOLPAR.map((post) => ({
-	x: post.x - STOLPE_HOLE_SIZE / 2,
-	y: post.y - STOLPE_HOLE_SIZE / 2,
-	width: STOLPE_HOLE_SIZE,
-	height: STOLPE_HOLE_SIZE
+	x: post.x - PLINT_HAL_SIZE / 2,
+	y: post.y - PLINT_HAL_SIZE / 2,
+	width: PLINT_HAL_SIZE,
+	height: PLINT_HAL_SIZE
 }));
+
+/**
+ * Schaktens omriss: unionen av plattfältet och grusremsorna, som en polygon
+ * medurs från skjulhörnet vid staketet. Plinthålen sticker ut utanför.
+ */
+export const SCHAKT_POLYGON: { x: number; y: number }[] = [
+	{ x: 0, y: 0 },
+	{ x: INHAGNAD_OFFSET_X + INHAGNAD_WIDTH, y: 0 },
+	{ x: INHAGNAD_OFFSET_X + INHAGNAD_WIDTH, y: PLATT_YTOR.gang.y },
+	{ x: INHAGNAD_OFFSET_X + GANG_WIDTH, y: PLATT_YTOR.gang.y },
+	{ x: INHAGNAD_OFFSET_X + GANG_WIDTH, y: PLATT_YTOR.gang.y + GANG_LENGTH },
+	{ x: PLATT_YTOR.anslutning.x, y: PLATT_YTOR.gang.y + GANG_LENGTH },
+	{ x: PLATT_YTOR.anslutning.x, y: PLATT_YTOR.anslutning.y },
+	{ x: 0, y: PLATT_YTOR.anslutning.y }
+];
 
 // --- Trallklädseln: sitter utanpå stolparna och möts i ytterhörnet ---
 

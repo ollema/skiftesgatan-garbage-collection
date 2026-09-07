@@ -1,11 +1,13 @@
 <script lang="ts">
 	import PlanDrawing from './PlanDrawing.svelte';
+	import StepViewer from './StepViewer.svelte';
 	import { formatKr } from './format';
 	import { FACTS, quantities } from './materials';
+	import { OVERVIEW_LAYERS } from './steps';
 
 	const SECTIONS = [
 		{ id: 'bakgrund', label: 'Bakgrund' },
-		{ id: 'ritning', label: 'Ritning' },
+		{ id: 'skiss', label: 'Skiss' },
 		{ id: 'materialatgang', label: 'Materialåtgång' },
 		{ id: 'kostnad', label: 'Kostnad' },
 		{ id: 'instruktioner', label: 'Instruktioner' }
@@ -72,9 +74,9 @@
 		<p>Höjden på inhägnaden är satt till 1,5 m för att det ska se lite trevligare ut.</p>
 	</section>
 
-	<section id="ritning">
-		<h2>Ritning</h2>
-		<PlanDrawing />
+	<section id="skiss">
+		<h2>Skiss</h2>
+		<PlanDrawing layers={OVERVIEW_LAYERS} label="Skiss över inhägnaden" />
 	</section>
 
 	<section id="materialatgang">
@@ -144,55 +146,7 @@
 
 	<section id="instruktioner">
 		<h2>Instruktioner</h2>
-		<ol class="steps">
-			<li>
-				<strong>Märk ut.</strong> Använd t.ex. sprayfärg för att märka upp var vi ska gräva, var plintarna
-				ska stå och var markplattorna ska läggas. Använd den stolpen i det existerande staketet och hörnet
-				på cykelskjulet som referens men kontrollera även att allt ser rimligt ut genom att lägga ut några
-				plattor på gräset.
-			</li>
-			<li>
-				<strong>Gräv.</strong> Gräv ner till ett djup på 18 cm där det ska läggas plattor. Gräv ner till
-				ett djup på 70 cm där det ska stå betongplintar.
-			</li>
-			<li>
-				<strong>Placera plintar.</strong> Placera de fyra plintarna enligt ritningen. De ska stå med överkanten
-				i nivå med existerande mark och färdig plattyta. Använd en stolpe för att rikta in plintarna korrekt.
-				Viktigt att den högra väggen är i linje med stolpe i existerande staket. Alla plintar ska stå
-				precis utanför den tilltänkta kanten på plattorna så att ingen platta behöver kapas. Packa väl
-				runt plintarna.
-			</li>
-			<li>
-				<strong>Lägg ut fiberduk.</strong> Lägg en tunn fiberduk mellan jorden och bärlagret.
-			</li>
-			<li>
-				<strong>Fyll på med bärlager.</strong> Krossad sten i blandade storlekar, upp till 32 mm ("0–32").
-				Lägg det i två omgångar som vardera packas med markvibrator. Vibrationen låser bitarna i varandra
-				och blir ett hårt, dränerande underlag som fördelar lasten. Det är det här lagret som gör att
-				plattorna inte sätter sig.
-			</li>
-			<li>
-				<strong>Fyll på med stenmjöl.</strong> Krossad sten i finare storlekar, upp till 8 mm ("0-8").
-				Ungefär som grov sand. Plana 3 cm tjockt jämnt ovanpå bärlagret med en rak bräda. Det är stenmjölet
-				som gör ytan plan, plattorna knackas sen ner i det.
-			</li>
-			<li>
-				<strong>Plattor och fogsand.</strong> Knacka ner (med hjälp av särskild hammare) betongplattor
-				35 × 35 × 5 cm med 3 mm fog, alternativt 17.5 x 35 x 5 cm vid gången mot asfalten. Sopa till sist
-				ner fogsand i mellanrummen som låser fast plattorna.
-			</li>
-			<li>
-				<strong>Förankra stolpar.</strong> Stolpar 95 × 95 mm skruvas i plintarna. Vid övre änden av högra
-				sidan, som förankras på befintliga staketet så skruvas stolpen istället fast på existerande staketets
-				stolpe.
-			</li>
-			<li>
-				<strong>Skruva på reglar och trall.</strong> Tre reglar 95 × 95 mm per fack, samma dimension som
-				stolparna för att matcha det befintliga staketet, stående trall 28 × 120 mm med 10 mm mellanrum,
-				rostfri trallskruv. Nedersta brädan 3–5 cm ovanför plattorna. Såga av toppen med vinkel för att
-				förhindra vattenansamling.
-			</li>
-		</ol>
+		<StepViewer />
 	</section>
 </main>
 
@@ -225,8 +179,7 @@
 		font-weight: 700;
 	}
 	p,
-	ul.check li,
-	ol.steps li {
+	ul.check li {
 		text-wrap: pretty;
 	}
 	p {
@@ -336,13 +289,6 @@
 	}
 	td a:hover {
 		text-decoration-color: var(--ink);
-	}
-	ol.steps {
-		padding-left: 1.375rem;
-		max-width: 76ch;
-	}
-	ol.steps li {
-		margin-bottom: 0.5rem;
 	}
 	ul.check {
 		padding-left: 1.25rem;

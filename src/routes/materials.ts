@@ -15,7 +15,7 @@ import {
 	STAKET_SIDOR,
 	STENMJOL_THICKNESS,
 	type Rect,
-	STOLPE_HOLE_SIZE,
+	PLINT_HAL_SIZE,
 	STOLPE_WIDTH,
 	TRALL_GAP,
 	TRALL_GROUND_GAP,
@@ -172,7 +172,7 @@ function computeQuantities() {
 
 	// Hela ytan schaktas till plattlagrets djup; plinthålen går vidare ner.
 	const plintar = PLINT_HAL.length;
-	const plintHalArea = plintar * STOLPE_HOLE_SIZE * STOLPE_HOLE_SIZE;
+	const plintHalArea = plintar * PLINT_HAL_SIZE * PLINT_HAL_SIZE;
 	const schaktM3 = totalArea * SCHAKT_DEPTH + plintHalArea * (PLINT_DEPTH - SCHAKT_DEPTH);
 
 	// --- Plattor och markuppbyggnad ---

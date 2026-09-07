@@ -17,6 +17,8 @@
 		--rule: #d9ddd9;
 		--paper: #fcfcfa;
 		--accent: #2b8a62;
+		/* Ritningens bredd; delas av översikten och stegvisaren så rubrikraden linjerar med ritningen. */
+		--drawing-width: 42rem;
 	}
 	:global(*) {
 		box-sizing: border-box;
