@@ -77,16 +77,14 @@ export const ASPHALT = {
 	x: PLAN_BOUNDS.xMin,
 	y: SKJUL_DEPTH,
 	width: TILE_FIELDS.connector.x - PLAN_BOUNDS.xMin,
-	height: PLAN_BOUNDS.yMax - SKJUL_DEPTH,
-	labelAt: { x: (PLAN_BOUNDS.xMin + TILE_FIELDS.connector.x) / 2, y: SKJUL_DEPTH + 0.4 }
+	height: PLAN_BOUNDS.yMax - SKJUL_DEPTH
 };
 
 export const EXISTING_FENCE = {
 	x1: PLAN_BOUNDS.xMin,
 	y1: -0.03,
 	x2: STAKET.corner.x + STOLPE_WIDTH / 2 + 0.05,
-	y2: -0.03,
-	labelAt: { x: PLAN_BOUNDS.xMin, y: -0.14 }
+	y2: -0.03
 };
 
 export const EXISTING_STUD = {
@@ -147,11 +145,6 @@ export const POST_HOLES = STOLPAR.map((post) => ({
 	y: post.y - STOLPE_HOLE_SIZE / 2,
 	size: STOLPE_HOLE_SIZE
 }));
-
-export const SHED_LABEL_AT = {
-	x: PLAN_BOUNDS.xMin + (0 - PLAN_BOUNDS.xMin) / 2,
-	y: SKJUL_DEPTH / 2
-};
 
 export type Dimension =
 	| {

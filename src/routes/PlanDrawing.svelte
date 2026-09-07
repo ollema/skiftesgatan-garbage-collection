@@ -25,7 +25,6 @@
 		planY,
 		SHED,
 		SHED_FRONT_GUIDE,
-		SHED_LABEL_AT,
 		SHED_STUDS,
 		TILE_FIELDS,
 		type Dimension
@@ -96,12 +95,6 @@
 		height={ASPHALT.height * PLAN_SCALE}
 		fill="#e2e4e0"
 	/>
-	<text
-		class="label muted"
-		text-anchor="middle"
-		x={planX(ASPHALT.labelAt.x)}
-		y={planY(ASPHALT.labelAt.y)}>Asfalt</text
-	>
 
 	<!-- grus: marginalen mellan befintliga väggen och plattfältets nya, förskjutna kanter -->
 	<rect
@@ -185,9 +178,6 @@
 		y2={planY(SHED_FRONT_GUIDE.y2)}
 		class="wall-guide"
 	/>
-	<text class="label ink" text-anchor="middle" x={planX(SHED_LABEL_AT.x)} y={planY(SHED_LABEL_AT.y)}
-		>Cykelskjul</text
-	>
 
 	<!-- befintligt högt staket = skjulets bakvägg, fortsätter som inhägnadens bakre sida -->
 	<line
@@ -205,11 +195,6 @@
 		height={(EXISTING_STUD.y2 - EXISTING_STUD.y1) * PLAN_SCALE}
 		class="brown"
 	/>
-	<text
-		class="label-small brown"
-		x={planX(EXISTING_FENCE.labelAt.x)}
-		y={planY(EXISTING_FENCE.labelAt.y)}>Befintligt staket</text
-	>
 
 	<!-- kärl -->
 	{#each SOPKARL as bin (bin.x)}
@@ -220,17 +205,9 @@
 		{@const h = size.depth * PLAN_SCALE}
 		<g>
 			<rect {x} {y} width={w} height={h} rx="5" class="bin" />
-			<text class="bin-label" text-anchor="middle" x={x + w / 2} y={y + h / 2 - 4}
+			<text class="bin-label" text-anchor="middle" x={x + w / 2} y={y + h / 2 + 4}
 				>{size.label}</text
 			>
-			<text class="bin-name" text-anchor="middle" x={x + w / 2} y={y + h / 2 + 9}
-				>{bin.name[0]}</text
-			>
-			{#if bin.name[1]}
-				<text class="bin-name" text-anchor="middle" x={x + w / 2} y={y + h / 2 + 20}
-					>{bin.name[1]}</text
-				>
-			{/if}
 		</g>
 	{/each}
 
@@ -346,23 +323,8 @@
 		font-weight: 700;
 		fill: #174d36;
 	}
-	.bin-name {
-		font-size: 10.5px;
-		fill: #174d36;
-	}
-	.label {
-		font-size: 12px;
-		font-weight: 600;
-	}
-	.label-small {
-		font-size: 11px;
-		font-weight: 600;
-	}
 	.muted {
 		fill: #5f6a65;
-	}
-	.ink {
-		fill: #1e2a26;
 	}
 	.brown {
 		fill: #5a3e1e;
