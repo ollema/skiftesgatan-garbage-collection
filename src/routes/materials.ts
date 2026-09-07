@@ -1,15 +1,14 @@
 import {
 	ANSLUTNING_HALVPLATTOR,
 	BARLAGER_THICKNESS,
+	GANG_LENGTH_PLATTOR,
+	GANG_WIDTH,
+	GANG_WIDTH_PLATTOR,
 	INHAGNAD_DEPTH,
 	INHAGNAD_DEPTH_PLATTOR,
 	INHAGNAD_WIDTH,
 	INHAGNAD_WIDTH_PLATTOR,
 	PLATTA_PITCH,
-	REMSA_LENGTH,
-	REMSA_LENGTH_PLATTOR,
-	REMSA_WIDTH,
-	REMSA_WIDTH_PLATTOR,
 	SCHAKT_DEPTH,
 	STENMJOL_THICKNESS,
 	STOLPAR,
@@ -27,7 +26,6 @@ const PRICE = {
 	plattaHalf: 17.0,
 	fiberduk: 399,
 	fogsand: 199,
-	kantsten: 38.8,
 	markvibrator: 700,
 	schakt: 2000,
 	bergskross1000: 993.65,
@@ -71,7 +69,7 @@ function bomGroup(label: string, rows: BomRow[]): BomGroup {
 
 function computeQuantities() {
 	const stolpar = STOLPAR.length;
-	const run = INHAGNAD_DEPTH + STOLPE_WIDTH + (INHAGNAD_WIDTH - REMSA_WIDTH);
+	const run = INHAGNAD_DEPTH + STOLPE_WIDTH + (INHAGNAD_WIDTH - GANG_WIDTH);
 	const brador = Math.ceil((run / 0.13) * 1.05);
 	const trallLen = Math.ceil(brador / 3);
 	const stolpeCutLength = 4.8 / 3;
@@ -79,8 +77,8 @@ function computeQuantities() {
 	const stolpeRegelLen = Math.ceil(stolpeRegelLength / 4.8);
 
 	const inhagnadPlattor = INHAGNAD_WIDTH_PLATTOR * INHAGNAD_DEPTH_PLATTOR;
-	const remsaPlattor = REMSA_WIDTH_PLATTOR * REMSA_LENGTH_PLATTOR;
-	const plattor = inhagnadPlattor + remsaPlattor;
+	const gangPlattor = GANG_WIDTH_PLATTOR * GANG_LENGTH_PLATTOR;
+	const plattor = inhagnadPlattor + gangPlattor;
 	const reservPlattor = Math.ceil(plattor * 0.05);
 	const plattorToBuy = plattor + reservPlattor;
 	const reservHalvplattor = Math.ceil(ANSLUTNING_HALVPLATTOR * 0.05);
@@ -95,9 +93,6 @@ function computeQuantities() {
 
 	const pallar = BERGSKROSS_STORSACKAR + STENMJOL_STORSACKAR;
 
-	const KANTSTEN_LENGTH = 0.5;
-	const kantstenCount = Math.ceil((REMSA_LENGTH * 2) / KANTSTEN_LENGTH);
-
 	const bomGroups: BomGroup[] = [
 		bomGroup('Schaktning', [
 			bomRow(
@@ -108,7 +103,7 @@ function computeQuantities() {
 			)
 		]),
 		bomGroup(
-			`Plattläggning, ${formatNumber1(area)} m² (${inhagnadPlattor} plattor inhägnad + ${remsaPlattor} remsa + ${ANSLUTNING_HALVPLATTOR} halvplattor anslutning mot asfalt + ${reservPlattor} reserv)`,
+			`Plattläggning, ${formatNumber1(area)} m² (${inhagnadPlattor} plattor inhägnad + ${gangPlattor} gång + ${ANSLUTNING_HALVPLATTOR} halvplattor anslutning mot asfalt + ${reservPlattor} reserv)`,
 			[
 				bomRow(
 					'Markplatta Benders Siena 35×35×5 cm grå',
@@ -137,13 +132,6 @@ function computeQuantities() {
 					PRICE.fogsand,
 					false,
 					'https://www.hornbach.se/p/fogsand-benders-gra-ograshammande-20-kg/10598223/'
-				),
-				bomRow(
-					`Kantsten Benders grå 500×250×50 mm, längs gången (2 × ${formatNumber1(REMSA_LENGTH)} m)`,
-					kantstenCount,
-					PRICE.kantsten,
-					false,
-					'https://www.hornbach.se/p/kantsten-benders-gra-500x250x50mm/5148862/'
 				),
 				bomRow(
 					'Bergskross 0–32, storsäck 1 000 kg',
@@ -219,7 +207,7 @@ export const quantities = computeQuantities();
 export const FACTS: { term: string; description: string }[] = [
 	{
 		term: 'Total yta',
-		description: `${INHAGNAD_WIDTH_PLATTOR} × ${INHAGNAD_DEPTH_PLATTOR} + ${REMSA_WIDTH_PLATTOR} × ${REMSA_LENGTH_PLATTOR} = ${quantities.plattor} plattor + ${ANSLUTNING_HALVPLATTOR} halvplattor ≈ ${formatNumber1(quantities.area)} m²`
+		description: `${INHAGNAD_WIDTH_PLATTOR} × ${INHAGNAD_DEPTH_PLATTOR} + ${GANG_WIDTH_PLATTOR} × ${GANG_LENGTH_PLATTOR} = ${quantities.plattor} plattor + ${ANSLUTNING_HALVPLATTOR} halvplattor ≈ ${formatNumber1(quantities.area)} m²`
 	},
 	{
 		term: 'Schaktning',
@@ -239,6 +227,6 @@ export const FACTS: { term: string; description: string }[] = [
 	},
 	{
 		term: 'Öppning',
-		description: `${formatMeters(REMSA_WIDTH)} bred, ingen grind`
+		description: `${formatMeters(GANG_WIDTH)} bred, ingen grind`
 	}
 ];

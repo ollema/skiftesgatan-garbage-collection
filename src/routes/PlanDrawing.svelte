@@ -11,12 +11,11 @@
 	} from './dimensions';
 	import {
 		ASPHALT,
-		CONNECTOR_LABEL,
 		EXISTING_FENCE,
 		EXISTING_STUD,
 		FENCE_CLADDING,
-		GRAVEL_NORTH,
-		GRAVEL_WEST,
+		GRAVEL_ALONG_FENCE,
+		GRAVEL_ALONG_SHED,
 		NEW_FENCE,
 		PLAN_DIMENSIONS,
 		PLAN_SCALE,
@@ -104,17 +103,17 @@
 
 	<!-- grus: marginalen mellan befintliga väggen och plattfältets nya, förskjutna kanter -->
 	<rect
-		x={planX(GRAVEL_NORTH.x)}
-		y={planY(GRAVEL_NORTH.y)}
-		width={GRAVEL_NORTH.width * PLAN_SCALE}
-		height={GRAVEL_NORTH.height * PLAN_SCALE}
+		x={planX(GRAVEL_ALONG_FENCE.x)}
+		y={planY(GRAVEL_ALONG_FENCE.y)}
+		width={GRAVEL_ALONG_FENCE.width * PLAN_SCALE}
+		height={GRAVEL_ALONG_FENCE.height * PLAN_SCALE}
 		fill="url(#gravel)"
 	/>
 	<rect
-		x={planX(GRAVEL_WEST.x)}
-		y={planY(GRAVEL_WEST.y)}
-		width={GRAVEL_WEST.width * PLAN_SCALE}
-		height={GRAVEL_WEST.height * PLAN_SCALE}
+		x={planX(GRAVEL_ALONG_SHED.x)}
+		y={planY(GRAVEL_ALONG_SHED.y)}
+		width={GRAVEL_ALONG_SHED.width * PLAN_SCALE}
+		height={GRAVEL_ALONG_SHED.height * PLAN_SCALE}
 		fill="url(#gravel)"
 	/>
 	<!-- grävda stolphål, 170×170 mm - halva som hamnar under plattorna täcks av dem nedan -->
@@ -128,7 +127,7 @@
 		/>
 	{/each}
 
-	<!-- plattor: inhägnadens golv + remsa, ett sammanhängande rutnät -->
+	<!-- plattor: inhägnadens golv + gång, ett sammanhängande rutnät -->
 	<rect
 		x={planX(TILE_FIELDS.enclosure.x)}
 		y={planY(TILE_FIELDS.enclosure.y)}
@@ -138,14 +137,14 @@
 		class="tile-field"
 	/>
 	<rect
-		x={planX(TILE_FIELDS.strip.x)}
-		y={planY(TILE_FIELDS.strip.y)}
-		width={TILE_FIELDS.strip.width * PLAN_SCALE}
-		height={TILE_FIELDS.strip.height * PLAN_SCALE}
+		x={planX(TILE_FIELDS.path.x)}
+		y={planY(TILE_FIELDS.path.y)}
+		width={TILE_FIELDS.path.width * PLAN_SCALE}
+		height={TILE_FIELDS.path.height * PLAN_SCALE}
 		fill="url(#tile)"
 		class="tile-field"
 	/>
-	<!-- ny rad som viker av västerut och täcker glappet mot asfalten (spegelvänt L) -->
+	<!-- ny rad som viker av in mot skjulet och täcker glappet mot asfalten (spegelvänt L) -->
 	<rect
 		x={planX(TILE_FIELDS.connector.x)}
 		y={planY(TILE_FIELDS.connector.y)}
@@ -154,14 +153,6 @@
 		fill="url(#tile)"
 		class="tile-field"
 	/>
-	<text
-		class="label-small muted"
-		text-anchor="end"
-		x={planX(CONNECTOR_LABEL.x)}
-		y={planY(CONNECTOR_LABEL.y)}
-		transform="rotate(-90 {planX(CONNECTOR_LABEL.x)} {planY(CONNECTOR_LABEL.y)})"
-		>{CONNECTOR_LABEL.text}</text
-	>
 
 	<!-- cykelskjul: tak i ljus ton, väggar i mörkbrunt, öppen framsida -->
 	<rect
@@ -172,20 +163,20 @@
 		fill="#efe3d3"
 	/>
 	<line x1={planX(-0.03)} y1={planY(0)} x2={planX(-0.03)} y2={planY(SHED.depth)} class="wall" />
-	<!-- hörnstolpe, sydöstra hörnet av skjulet (mot öppna framsidan), sticker ut västerut ur väggen -->
+	<!-- hörnstolpe i skjulets framkant (mot öppna framsidan), sticker ut inåt skjulet ur väggen -->
 	<rect
-		x={planX(SHED_STUDS.se.x1)}
-		y={planY(SHED_STUDS.se.y1)}
-		width={(SHED_STUDS.se.x2 - SHED_STUDS.se.x1) * PLAN_SCALE}
-		height={(SHED_STUDS.se.y2 - SHED_STUDS.se.y1) * PLAN_SCALE}
+		x={planX(SHED_STUDS.front.x1)}
+		y={planY(SHED_STUDS.front.y1)}
+		width={(SHED_STUDS.front.x2 - SHED_STUDS.front.x1) * PLAN_SCALE}
+		height={(SHED_STUDS.front.y2 - SHED_STUDS.front.y1) * PLAN_SCALE}
 		class="brown"
 	/>
-	<!-- hörnstolpe, nordöstra hörnet av skjulet (mot befintliga staketet), sticker ut norrut ur väggen -->
+	<!-- hörnstolpe i skjulets bakkant (mot befintliga staketet), sticker ut förbi staketlinjen -->
 	<rect
-		x={planX(SHED_STUDS.ne.x1)}
-		y={planY(SHED_STUDS.ne.y1)}
-		width={(SHED_STUDS.ne.x2 - SHED_STUDS.ne.x1) * PLAN_SCALE}
-		height={(SHED_STUDS.ne.y2 - SHED_STUDS.ne.y1) * PLAN_SCALE}
+		x={planX(SHED_STUDS.rear.x1)}
+		y={planY(SHED_STUDS.rear.y1)}
+		width={(SHED_STUDS.rear.x2 - SHED_STUDS.rear.x1) * PLAN_SCALE}
+		height={(SHED_STUDS.rear.y2 - SHED_STUDS.rear.y1) * PLAN_SCALE}
 		class="brown"
 	/>
 	<line
@@ -199,7 +190,7 @@
 		>Cykelskjul</text
 	>
 
-	<!-- befintligt högt staket = skjulets bakvägg, fortsätter som inhägnadens norra sida -->
+	<!-- befintligt högt staket = skjulets bakvägg, fortsätter som inhägnadens bakre sida -->
 	<line
 		x1={planX(EXISTING_FENCE.x1)}
 		y1={planY(EXISTING_FENCE.y1)}
@@ -207,7 +198,7 @@
 		y2={planY(EXISTING_FENCE.y2)}
 		class="wall"
 	/>
-	<!-- befintlig stolpe, sticker ut norrut ur väggen - här fästs det nya staketets stolpe (se STAKET.anchor) -->
+	<!-- befintlig stolpe, sticker ut förbi staketlinjen - här fästs det nya staketets stolpe (se STAKET.anchor) -->
 	<rect
 		x={planX(EXISTING_STUD.x)}
 		y={planY(EXISTING_STUD.y1)}
@@ -246,34 +237,34 @@
 
 	<!-- nytt staket: regel/stolpe (95×95, mittlinje) + trallklädsel utanpå, öppning istället för grind -->
 	<line
-		x1={planX(NEW_FENCE.east.x)}
-		y1={planY(NEW_FENCE.east.y1)}
-		x2={planX(NEW_FENCE.east.x)}
-		y2={planY(NEW_FENCE.east.y2)}
+		x1={planX(NEW_FENCE.far.x)}
+		y1={planY(NEW_FENCE.far.y1)}
+		x2={planX(NEW_FENCE.far.x)}
+		y2={planY(NEW_FENCE.far.y2)}
 		stroke-width={postPx}
 		class="new-fence"
 	/>
 	<line
-		x1={planX(NEW_FENCE.south.x1)}
-		y1={planY(NEW_FENCE.south.y)}
-		x2={planX(NEW_FENCE.south.x2)}
-		y2={planY(NEW_FENCE.south.y)}
+		x1={planX(NEW_FENCE.front.x1)}
+		y1={planY(NEW_FENCE.front.y)}
+		x2={planX(NEW_FENCE.front.x2)}
+		y2={planY(NEW_FENCE.front.y)}
 		stroke-width={postPx}
 		class="new-fence"
 	/>
 	<!-- trall, 28 mm, spikad på utsidan av reglarna -->
 	<rect
-		x={planX(FENCE_CLADDING.east.x)}
-		y={planY(FENCE_CLADDING.east.y1)}
-		width={FENCE_CLADDING.east.width * PLAN_SCALE}
-		height={(FENCE_CLADDING.east.y2 - FENCE_CLADDING.east.y1) * PLAN_SCALE}
+		x={planX(FENCE_CLADDING.far.x)}
+		y={planY(FENCE_CLADDING.far.y1)}
+		width={FENCE_CLADDING.far.width * PLAN_SCALE}
+		height={(FENCE_CLADDING.far.y2 - FENCE_CLADDING.far.y1) * PLAN_SCALE}
 		class="cladding"
 	/>
 	<rect
-		x={planX(FENCE_CLADDING.south.x1)}
-		y={planY(FENCE_CLADDING.south.y)}
-		width={(FENCE_CLADDING.south.x2 - FENCE_CLADDING.south.x1) * PLAN_SCALE}
-		height={FENCE_CLADDING.south.height * PLAN_SCALE}
+		x={planX(FENCE_CLADDING.front.x1)}
+		y={planY(FENCE_CLADDING.front.y)}
+		width={(FENCE_CLADDING.front.x2 - FENCE_CLADDING.front.x1) * PLAN_SCALE}
+		height={FENCE_CLADDING.front.height * PLAN_SCALE}
 		class="cladding"
 	/>
 	{#each STOLPAR as post (post.x + ',' + post.y)}
@@ -292,18 +283,6 @@
 		height={postPx}
 		class="post"
 	/>
-	<text
-		class="label-fence"
-		text-anchor="end"
-		x={planX(NEW_FENCE.labelAt.x)}
-		y={planY(NEW_FENCE.labelAt.y)}>Nytt staket</text
-	>
-	<text
-		class="label-fence"
-		text-anchor="end"
-		x={planX(NEW_FENCE.labelAt.x)}
-		y={planY(NEW_FENCE.labelAt.y) + 16}>1,5 m högt</text
-	>
 
 	<!-- mått -->
 	{#each PLAN_DIMENSIONS as dim (dim.label)}
@@ -332,6 +311,7 @@
 <style>
 	svg {
 		width: 100%;
+		max-width: 100ch;
 		height: auto;
 		display: block;
 		margin-top: 12px;
@@ -382,11 +362,6 @@
 	.label-small {
 		font-size: 11px;
 		font-weight: 600;
-	}
-	.label-fence {
-		font-size: 12px;
-		font-weight: 600;
-		fill: #a86d12;
 	}
 	.muted {
 		fill: #5f6a65;

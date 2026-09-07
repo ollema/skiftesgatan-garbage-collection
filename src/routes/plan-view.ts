@@ -1,18 +1,17 @@
 import {
-	ANSLUTNING_HALVPLATTOR,
 	ANSLUTNING_LENGTH,
 	ANSLUTNING_WIDTH,
 	BEFINTLIG_STOLPE_DISTANCE,
+	GANG_LENGTH,
+	GANG_LENGTH_PLATTOR,
+	GANG_WIDTH,
+	GANG_WIDTH_PLATTOR,
 	INHAGNAD_DEPTH,
 	INHAGNAD_DEPTH_PLATTOR,
 	INHAGNAD_OFFSET_X,
 	INHAGNAD_OFFSET_Y,
 	INHAGNAD_WIDTH,
 	INHAGNAD_WIDTH_PLATTOR,
-	REMSA_LENGTH,
-	REMSA_LENGTH_PLATTOR,
-	REMSA_WIDTH,
-	REMSA_WIDTH_PLATTOR,
 	SKJUL_DEPTH,
 	STAKET,
 	STOLPAR,
@@ -24,13 +23,13 @@ import { formatMeters } from './format';
 
 export const PLAN_SCALE = 100;
 
-const STRIP_END_Y = INHAGNAD_OFFSET_Y + INHAGNAD_DEPTH + REMSA_LENGTH;
+const GANG_END_Y = INHAGNAD_OFFSET_Y + INHAGNAD_DEPTH + GANG_LENGTH;
 
 const PLAN_BOUNDS = {
 	xMin: -2.2,
 	xMax: INHAGNAD_OFFSET_X + INHAGNAD_WIDTH + 0.85,
 	yMin: -0.7,
-	yMax: STRIP_END_Y + 0.75
+	yMax: GANG_END_Y + 0.75
 };
 
 export const PLAN_VIEWBOX = {
@@ -60,15 +59,15 @@ export const TILE_FIELDS = {
 		width: INHAGNAD_WIDTH,
 		height: INHAGNAD_DEPTH
 	},
-	strip: {
+	path: {
 		x: INHAGNAD_OFFSET_X,
 		y: INHAGNAD_OFFSET_Y + INHAGNAD_DEPTH,
-		width: REMSA_WIDTH,
-		height: REMSA_LENGTH
+		width: GANG_WIDTH,
+		height: GANG_LENGTH
 	},
 	connector: {
 		x: INHAGNAD_OFFSET_X - ANSLUTNING_WIDTH,
-		y: INHAGNAD_OFFSET_Y + INHAGNAD_DEPTH + REMSA_LENGTH - ANSLUTNING_LENGTH,
+		y: INHAGNAD_OFFSET_Y + INHAGNAD_DEPTH + GANG_LENGTH - ANSLUTNING_LENGTH,
 		width: ANSLUTNING_WIDTH,
 		height: ANSLUTNING_LENGTH
 	}
@@ -98,49 +97,45 @@ export const EXISTING_STUD = {
 };
 
 export const SHED_STUDS = {
-	se: { x1: -STOLPE_WIDTH, x2: 0, y1: SKJUL_DEPTH - STOLPE_WIDTH, y2: SKJUL_DEPTH },
-	ne: { x1: -STOLPE_WIDTH, x2: 0, y1: -STOLPE_WIDTH, y2: 0 }
+	front: { x1: -STOLPE_WIDTH, x2: 0, y1: SKJUL_DEPTH - STOLPE_WIDTH, y2: SKJUL_DEPTH },
+	rear: { x1: -STOLPE_WIDTH, x2: 0, y1: -STOLPE_WIDTH, y2: 0 }
 };
 
 export const SHED_FRONT_GUIDE = { x1: PLAN_BOUNDS.xMin, y1: SKJUL_DEPTH, x2: 0, y2: SKJUL_DEPTH };
 
 export const NEW_FENCE = {
-	east: { x: STAKET.corner.x, y1: 0, y2: STAKET.corner.y },
-	south: {
-		x1: INHAGNAD_OFFSET_X + REMSA_WIDTH,
+	far: { x: STAKET.corner.x, y1: 0, y2: STAKET.corner.y },
+	front: {
+		x1: INHAGNAD_OFFSET_X + GANG_WIDTH,
 		x2: INHAGNAD_OFFSET_X + INHAGNAD_WIDTH + STOLPE_WIDTH,
 		y: STAKET.corner.y
-	},
-	labelAt: {
-		x: INHAGNAD_OFFSET_X + INHAGNAD_WIDTH - 0.12,
-		y: INHAGNAD_OFFSET_Y + INHAGNAD_DEPTH - 0.3
 	}
 };
 
 const CLADDING_OUTER_X = STAKET.corner.x + STOLPE_WIDTH / 2;
 const CLADDING_OUTER_Y = STAKET.corner.y + STOLPE_WIDTH / 2;
 export const FENCE_CLADDING = {
-	east: {
+	far: {
 		x: CLADDING_OUTER_X,
-		y1: NEW_FENCE.east.y1,
+		y1: NEW_FENCE.far.y1,
 		y2: CLADDING_OUTER_Y + TRALL_THICKNESS,
 		width: TRALL_THICKNESS
 	},
-	south: {
-		x1: NEW_FENCE.south.x1,
+	front: {
+		x1: NEW_FENCE.front.x1,
 		x2: CLADDING_OUTER_X + TRALL_THICKNESS,
 		y: CLADDING_OUTER_Y,
 		height: TRALL_THICKNESS
 	}
 };
 
-export const GRAVEL_NORTH = {
+export const GRAVEL_ALONG_FENCE = {
 	x: 0,
 	y: 0,
 	width: INHAGNAD_OFFSET_X + INHAGNAD_WIDTH,
 	height: INHAGNAD_OFFSET_Y
 };
-export const GRAVEL_WEST = {
+export const GRAVEL_ALONG_SHED = {
 	x: TILE_FIELDS.connector.x,
 	y: INHAGNAD_OFFSET_Y,
 	width: INHAGNAD_OFFSET_X - TILE_FIELDS.connector.x,
@@ -152,12 +147,6 @@ export const POST_HOLES = STOLPAR.map((post) => ({
 	y: post.y - STOLPE_HOLE_SIZE / 2,
 	size: STOLPE_HOLE_SIZE
 }));
-
-export const CONNECTOR_LABEL = {
-	x: TILE_FIELDS.connector.x - 0.16,
-	y: TILE_FIELDS.connector.y + ANSLUTNING_LENGTH / 2,
-	text: `${ANSLUTNING_HALVPLATTOR} halvplattor`
-};
 
 export const SHED_LABEL_AT = {
 	x: PLAN_BOUNDS.xMin + (0 - PLAN_BOUNDS.xMin) / 2,
@@ -224,9 +213,9 @@ export const PLAN_DIMENSIONS: Dimension[] = [
 	{
 		orientation: 'vertical',
 		from: INHAGNAD_OFFSET_Y + INHAGNAD_DEPTH,
-		to: STRIP_END_Y,
+		to: GANG_END_Y,
 		at: INHAGNAD_OFFSET_X + INHAGNAD_WIDTH + 0.32,
-		label: `${REMSA_LENGTH_PLATTOR} plattor = ${formatMeters(REMSA_LENGTH)}`
+		label: `${GANG_LENGTH_PLATTOR} plattor = ${formatMeters(GANG_LENGTH)}`
 	},
 	{
 		orientation: 'vertical',
@@ -239,9 +228,9 @@ export const PLAN_DIMENSIONS: Dimension[] = [
 	{
 		orientation: 'horizontal',
 		from: INHAGNAD_OFFSET_X,
-		to: INHAGNAD_OFFSET_X + REMSA_WIDTH,
-		at: STRIP_END_Y + 0.28,
-		label: `${REMSA_WIDTH_PLATTOR} plattor = ${formatMeters(REMSA_WIDTH)}`,
+		to: INHAGNAD_OFFSET_X + GANG_WIDTH,
+		at: GANG_END_Y + 0.28,
+		label: `${GANG_WIDTH_PLATTOR} plattor = ${formatMeters(GANG_WIDTH)}`,
 		below: true
 	}
 ];

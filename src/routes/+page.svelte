@@ -60,7 +60,7 @@
 
 		<h3>Styrelsens förslag</h3>
 		<p>
-			Styrelsen har tänkt bygga inhägnaden i innergården, öster om cykelskjulet. Dragvägen är redan
+			Styrelsen har tänkt bygga inhägnaden i innergården, höger om cykelskjulet. Dragvägen är redan
 			godkänd och vi kan utnyttja existerande cykelskjul och staket för att skapa två av inhägnadens
 			sidor.
 		</p>
