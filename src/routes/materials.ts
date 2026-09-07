@@ -4,7 +4,6 @@ import {
 	ENCLOSURE_DEPTH_TILES,
 	ENCLOSURE_WIDTH,
 	ENCLOSURE_WIDTH_TILES,
-	OPENING_WIDTH,
 	PATH_CONNECTOR_TILES,
 	POST_WIDTH,
 	POSTS,
@@ -12,6 +11,7 @@ import {
 	STENMJOL_THICKNESS,
 	STRIP_LENGTH,
 	STRIP_ROWS_TILES,
+	STRIP_WIDTH,
 	STRIP_WIDTH_TILES,
 	TILE_PITCH
 } from './dimensions';
@@ -40,7 +40,7 @@ const PRICE = {
 const BERGSKROSS_SACKS = 2;
 const STENMJOL_SACKS = 1;
 
-export interface BomRow {
+interface BomRow {
 	label: string;
 	quantity: number;
 	unitPrice: number;
@@ -49,7 +49,7 @@ export interface BomRow {
 	url?: string;
 }
 
-export interface BomGroup {
+interface BomGroup {
 	label: string;
 	rows: BomRow[];
 	sum: number;
@@ -71,7 +71,7 @@ function bomGroup(label: string, rows: BomRow[]): BomGroup {
 
 function computeQuantities() {
 	const posts = POSTS.length;
-	const run = ENCLOSURE_DEPTH + POST_WIDTH + (ENCLOSURE_WIDTH - OPENING_WIDTH);
+	const run = ENCLOSURE_DEPTH + POST_WIDTH + (ENCLOSURE_WIDTH - STRIP_WIDTH);
 	const boards = Math.ceil((run / 0.13) * 1.05);
 	const trallLen = Math.ceil(boards / 3);
 	const postCutLength = 4.8 / 3;
@@ -235,6 +235,6 @@ export const FACTS: { term: string; description: string }[] = [
 	},
 	{
 		term: 'Öppning',
-		description: `${formatMeters(OPENING_WIDTH)} bred, ingen grind`
+		description: `${formatMeters(STRIP_WIDTH)} bred, ingen grind`
 	}
 ];
