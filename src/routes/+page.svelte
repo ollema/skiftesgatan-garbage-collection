@@ -1,6 +1,6 @@
 <script lang="ts">
 	import PlanDrawing from './PlanDrawing.svelte';
-	import { formatKr, formatNumber1 } from './format';
+	import { formatKr } from './format';
 	import { FACTS, quantities } from './materials';
 
 	const SECTIONS = [
@@ -32,9 +32,8 @@
 		<p>
 			Göteborgs nya krav på förpackningssortering för flerbostadshus träder i kraft 2027‑01‑01.
 			Föreningen sorterar i dag bara restavfall och matavfall och behöver införa fastighetsnära
-			insamling för plast, papper, metall och glas. För oss innebär fastighetsnära insamling (FNI) 5
-			nya kärl: 370 l för papper och 370 l för plast, samt 140 l vardera för färgat glas, ofärgat
-			glas och metall.
+			insamling (FNI) för plast, papper, metall och glas. För oss innebär FNI fem nya kärl: 370 l
+			för papper och 370 l för plast, samt 140 l vardera för färgat glas, ofärgat glas och metall.
 		</p>
 
 		<h3>Krav och rekommendationer från Göteborgs stad</h3>
@@ -140,50 +139,51 @@
 				<strong>Beställ material och boka maskiner. </strong>
 			</li>
 			<li>
-				<strong>Märk ut.</strong> Märk ut inhägnaden TODO: calculate what we need to dig out. basically
-				everywhere where there is gravel now, where there is plattor where there is a betongplint.
+				<strong>Märk ut.</strong> Använd t.ex. sprayfärg för att märka upp var vi ska gräva, var plintarna
+				ska stå och var markplattorna ska läggas. Använd den stolpen i det existerande staketet och hörnet
+				på cykelskjulet som referens men kontrollera även att allt ser rimligt ut genom att lägga ut några
+				plattor på gräset.
 			</li>
 			<li>
-				<strong>Gräv.</strong> Ta bort gräs och gräv ner till ett djup på 18 cm. Räkna med ca {formatNumber1(
-					quantities.digM3
-				)} m³ som ska schaktas bort. TODO: dig deeper for betongplintar.
+				<strong>Gräv.</strong> Gräv ner till ett djup på 18 cm där det ska läggas plattor. Gräv ner till
+				ett djup på 70 cm där det ska stå betongplintar.
 			</li>
 			<li>
-				<strong>Plintar.</strong> Gräv ner 4 betongplintar med överkanten i nivå med färdig plattyta:
-				en mitt på högra sidan, en i nedre högra hörnet, en mitt på nedre sidan och en vid öppningen.
-				Alla plintar står precis utanför plattornas kant, så ingen platta behöver kapas. Övre änden av
-				högra sidan, mot befintliga staketet, har ingen egen plint utan den stolpen monteras på befintliga
-				staketets stolpe istället. Packa väl runt plintarna och sätt dem innan plattorna.
+				<strong>Placera plintar.</strong> Placera de fyra plintarna enligt ritningen. De ska stå med överkanten
+				i nivå med existerande mark och färdig plattyta. Använd en stolpe för att rikta in plintarna korrekt.
+				Viktigt att den högra väggen är i linje med stolpe i existerande staket. Alla plintar ska stå
+				precis utanför den tilltänkta kanten på plattorna så att ingen platta behöver kapas. Packa väl
+				runt plintarna.
 			</li>
 			<li>
-				<strong>Fiberduk.</strong> Lägg en tunn fiberduk mellan jorden och bärlagret.
+				<strong>Lägg ut fiberduk.</strong> Lägg en tunn fiberduk mellan jorden och bärlagret.
 			</li>
 			<li>
-				<strong>Bärlager.</strong> Krossad sten i blandade storlekar, upp till 32 mm ("0–32"). Lägg det
-				i två omgångar som vardera packas med markvibrator. Vibrationen låser bitarna i varandra och blir
-				ett hårt, dränerande underlag som fördelar lasten. Det är det här lagret som gör att plattorna
-				inte sätter sig.
+				<strong>Fyll på med bärlager.</strong> Krossad sten i blandade storlekar, upp till 32 mm ("0–32").
+				Lägg det i två omgångar som vardera packas med markvibrator. Vibrationen låser bitarna i varandra
+				och blir ett hårt, dränerande underlag som fördelar lasten. Det är det här lagret som gör att
+				plattorna inte sätter sig.
 			</li>
 			<li>
-				<strong>Stenmjöl.</strong> Krossad sten i finare storlekar, upp till 8 mm ("0-8"). Ungefär som
-				grov sand. Plana 3 cm tjockt jämnt ovanpå bärlagret med en rak bräda. Det är stenmjölet som gör
-				ytan plan, plattorna knackas sen ner i det.
+				<strong>Fyll på med stenmjöl.</strong> Krossad sten i finare storlekar, upp till 8 mm ("0-8").
+				Ungefär som grov sand. Plana 3 cm tjockt jämnt ovanpå bärlagret med en rak bräda. Det är stenmjölet
+				som gör ytan plan, plattorna knackas sen ner i det.
 			</li>
 			<li>
-				<strong>Plattor och fogsand.</strong> Betongplattor 35 × 35 × 5 cm med 3 mm fog. Sopa till sist
+				<strong>Plattor och fogsand.</strong> Knacka ner (med hjälp av särskild hammare) betongplattor
+				35 × 35 × 5 cm med 3 mm fog, alternativt 17.5 x 35 x 5 cm vid gången mot asfalten. Sopa till sist
 				ner fogsand i mellanrummen som låser fast plattorna.
 			</li>
 			<li>
-				<strong>Stolpar.</strong> Stolpar 95 × 95 mm skruvas i plintarna. Vid övre änden av högra sidan,
-				som förankras på befintliga staketet: skruva en regel 95 × 95 mm stående på staketets stolpe (genomgående
-				bult eller franska träskruvar, inte bara i brädorna) som fästpunkt för de tre reglarna på den
-				sidan.
+				<strong>Förankra stolpar.</strong> Stolpar 95 × 95 mm skruvas i plintarna. Vid övre änden av högra
+				sidan, som förankras på befintliga staketet så skruvas stolpen istället fast på existerande staketets
+				stolpe.
 			</li>
 			<li>
-				<strong>Reglar och trall.</strong> Tre reglar 95 × 95 mm per fack, samma dimension som stolparna
-				för att matcha det befintliga staketet, stående trall 28 × 120 mm med 10 mm mellanrum, rostfri
-				trallskruv. Nedersta brädan 3–5 cm ovanför plattorna. Såga av toppen med vinkel för att förhindra
-				vattenansamling.
+				<strong>Skruva på reglar och trall.</strong> Tre reglar 95 × 95 mm per fack, samma dimension som
+				stolparna för att matcha det befintliga staketet, stående trall 28 × 120 mm med 10 mm mellanrum,
+				rostfri trallskruv. Nedersta brädan 3–5 cm ovanför plattorna. Såga av toppen med vinkel för att
+				förhindra vattenansamling.
 			</li>
 		</ol>
 	</section>
